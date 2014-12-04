@@ -48,6 +48,8 @@ class Login : public wxDialog
 		virtual ~Login();
 		void btnloginClick(wxCommandEvent& event);
 		void txtserverUpdated(wxCommandEvent& event);
+		void cmblingua_SelectionChange(wxCommandEvent& event);
+
 		/*void getServerAddress();
 		void getServerAddress();*/
 	
@@ -56,16 +58,17 @@ class Login : public wxDialog
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
-		wxRadioButton *radbing;
-		wxRadioButton *radgoogle;
-		wxStaticText *lbltrad;
-		wxComboBox *cmblingua;
-		wxStaticText *lbllingua;
-		wxButton *btnlogin;
-		wxTextCtrl *txtnick;
-		wxStaticText *lblnick;
-		wxTextCtrl *txtserver;
-		wxStaticText *lblserver;
+		wxStaticBitmap* m_bitmap1;
+		wxStaticText* lblNameHost;
+		wxTextCtrl* txtNameHost;
+		wxStaticText* lblNickName;
+		wxTextCtrl* txtNickName;
+		wxStaticText* lblLanguage;
+		wxComboBox* cmbLingua;
+		wxStaticText* lblService;
+		wxRadioButton* radGoogle;
+		wxRadioButton* radBing;
+		wxButton* cmdConfirm;
 		////GUI Control Declaration End
 		/*char *SERVER_ADDRESS;
 		char *CURRENT_NICK;*/
@@ -95,6 +98,7 @@ class Login : public wxDialog
 	private:
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
+		void ReadConfig();
 };
 
 #endif

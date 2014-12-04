@@ -13,6 +13,8 @@
 #include "AudioWizard.h"
 #include <malloc.h>
 #include "utility.h"
+#include "../res/connect.xpm"
+
 FILE*config;
 char StringLoginServer[20];
 char StringLoginNick[50];
@@ -67,13 +69,130 @@ END_EVENT_TABLE()
 Login::Login(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
-	CreateGUIControls();
+	/*
+	*	CREATE GUI
+	*/
+
+	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
+	this->Centre(wxBOTH);
+	
+	this->SetSize(wxSize(600, 400));
+
+	wxBoxSizer* bSizer2;
+	bSizer2 = new wxBoxSizer(wxVERTICAL);
+
+	wxBoxSizer* bSizer5;
+	bSizer5 = new wxBoxSizer(wxHORIZONTAL);
+
+	bSizer5->Add(0, 0, 1, wxEXPAND, 5);
+
+	m_bitmap1 = new wxStaticBitmap(this, wxID_ANY, wxBitmap( connect_xpm ), wxDefaultPosition, wxSize(75, 75), 0);
+	bSizer5->Add(m_bitmap1, 0, wxALL, 5);
+
+
+	bSizer2->Add(bSizer5, 1, wxEXPAND, 5);
+
+	wxBoxSizer* bSizer3;
+	bSizer3 = new wxBoxSizer(wxHORIZONTAL);
+
+	lblNameHost = new wxStaticText(this, wxID_ANY, wxT("Name/Host server:"), wxDefaultPosition, wxSize(150, -1), 0);
+	lblNameHost->Wrap(-1);
+	bSizer3->Add(lblNameHost, 0, wxALIGN_CENTER | wxALL, 5);
+
+	txtNameHost = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+	bSizer3->Add(txtNameHost, 1, wxALL, 5);
+
+
+	bSizer2->Add(bSizer3, 0, wxALIGN_CENTER | wxEXPAND, 5);
+
+	wxBoxSizer* bSizer31;
+	bSizer31 = new wxBoxSizer(wxHORIZONTAL);
+
+	lblNickName = new wxStaticText(this, wxID_ANY, wxT("Nickname:"), wxDefaultPosition, wxSize(150, -1), 0);
+	lblNickName->Wrap(-1);
+	bSizer31->Add(lblNickName, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+
+	txtNickName = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+	bSizer31->Add(txtNickName, 1, wxALL, 5);
+
+
+	bSizer2->Add(bSizer31, 0, wxEXPAND, 5);
+
+	wxBoxSizer* bSizer311;
+	bSizer311 = new wxBoxSizer(wxHORIZONTAL);
+
+	lblLanguage = new wxStaticText(this, wxID_ANY, wxT("Language:"), wxDefaultPosition, wxSize(150, -1), 0);
+	lblLanguage->Wrap(-1);
+	bSizer311->Add(lblLanguage, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+
+	cmbLingua = new wxComboBox(this, wxID_ANY, wxT("<Select language>"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
+	cmbLingua->Append(wxT("English"));
+	cmbLingua->Append(wxT("Italian"));
+	cmbLingua->Append(wxT("Portuguese"));
+	cmbLingua->Append(wxEmptyString);
+	bSizer311->Add(cmbLingua, 1, wxALL, 5);
+
+
+	bSizer2->Add(bSizer311, 0, wxEXPAND, 5);
+
+
+	bSizer2->Add(20, 20, 0, wxEXPAND, 5);
+
+	lblService = new wxStaticText(this, wxID_ANY, wxT("Service:"), wxDefaultPosition, wxDefaultSize, 0);
+	lblService->Wrap(-1);
+	bSizer2->Add(lblService, 0, wxALL, 5);
+
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer(wxVERTICAL);
+
+	radGoogle = new wxRadioButton(this, wxID_ANY, wxT("Google Translate"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer7->Add(radGoogle, 0, wxALL, 5);
+
+	radBing = new wxRadioButton(this, wxID_ANY, wxT("Bing Translate"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer7->Add(radBing, 0, wxALL, 5);
+
+	bSizer2->Add(bSizer7, 0, wxEXPAND, 5);
+
+	wxBoxSizer* bSizer6;
+	bSizer6 = new wxBoxSizer(wxHORIZONTAL);
+
+
+	bSizer6->Add(0, 0, 1, wxEXPAND, 5);
+
+	cmdConfirm = new wxButton(this, wxID_ANY, wxT("Confirm"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer6->Add(cmdConfirm, 0, wxALL, 5);
+
+
+	bSizer2->Add(bSizer6, 0, wxEXPAND, 5);
+
+
+	this->SetSizer(bSizer2);
+	this->Layout();
+
+	// Connect Events
+	cmbLingua->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(Login::cmblingua_SelectionChange), NULL, this);
+	cmdConfirm->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Login::btnloginClick), NULL, this);
+
+	ReadConfig();
+
+	//CreateGUIControls();
 }
+
+
 
 Login::~Login()
 {
+	// Disconnect Events
+	cmbLingua->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(Login::cmblingua_SelectionChange), NULL, this);
+	cmdConfirm->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Login::btnloginClick), NULL, this);
 } 
 
+void Login::OnClose(wxCloseEvent& /*event*/)
+{
+	Destroy();
+}
+
+/*
 void Login::CreateGUIControls()
 {
 	//Do not add custom code between
@@ -146,10 +265,53 @@ void Login::CreateGUIControls()
     cmblingua->SetSelection(cmbelement);
 	
 }
+*/
 
-void Login::OnClose(wxCloseEvent& /*event*/)
+void Login::ReadConfig()
 {
-	Destroy();
+	if (config = fopen("..\\conf\\config.txt", "r"))
+	{
+
+		fscanf(config, "%s", &StringLoginServer);
+		txtNameHost->SetValue(StringLoginServer);
+
+		fscanf(config, "%s", &StringLoginNick);
+		txtNickName->SetValue(StringLoginNick);
+
+		fscanf(config, "%d", &cmbelement);
+		cmbLingua->SetSelection(cmbelement);
+
+		fscanf(config, "%s", &StringLoginLingua);
+		cmbLingua->SetValue(StringLoginLingua);
+
+		fscanf(config, "%s", &StringLoginServizio);
+		if (StringLoginServizio == "google")
+		{
+			radGoogle->SetValue(true);
+			radBing->SetValue(false);
+		}
+		if (StringLoginServizio == "bing")
+		{
+			radGoogle->SetValue(false);
+			radBing->SetValue(true);
+		}
+
+		fclose(config);
+	}
+	cmbLingua->SetSelection(cmbelement);
+}
+
+/*	
+ * EVENTI 
+*/
+
+/*
+*	cmbSelectionChange
+*/
+
+void Login::cmblingua_SelectionChange(wxCommandEvent& event)
+{
+	wxMessageBox("Ciao mondo");
 }
 
 /*
@@ -160,21 +322,21 @@ void Login::btnloginClick(wxCommandEvent& event)
 	// insert your code here
 	//wxMessageBox(ip);
 	
-    strncpy(StringLoginServer, (const char*)txtserver->GetValue().mb_str(wxConvUTF8), 20);
-    strncpy(StringLoginNick, (const char*)txtnick->GetValue().mb_str(wxConvUTF8), 50);
-    strncpy(StringLoginLingua, (const char*)cmblingua->GetStringSelection().mb_str(wxConvUTF8), 20);    
+    strncpy(StringLoginServer, (const char*)txtNameHost->GetValue().mb_str(wxConvUTF8), 20);
+    strncpy(StringLoginNick, (const char*)txtNickName->GetValue().mb_str(wxConvUTF8), 50);
+    strncpy(StringLoginLingua, (const char*)cmbLingua->GetStringSelection().mb_str(wxConvUTF8), 20);    
     
     char ip[100];
 	hostname_to_ip(StringLoginServer , ip);
 	
 	
         config=fopen("..\\conf\\config.txt","w");
-    	fprintf(config,"%s\n",ip);
+		fprintf(config, "%s\n", ip); 
     	fprintf(config,"%s\n",StringLoginNick);
-    	fprintf(config,"%d\n",cmblingua->GetSelection());
+    	fprintf(config,"%d\n",cmbLingua->GetSelection());
     	fprintf(config,"%s\n",StringLoginLingua);
-    	if(radgoogle->GetValue()==true) fprintf(config,"%s","google");
-    	if(radbing->GetValue()==true)   fprintf(config,"%s","bing");
+    	if(radGoogle->GetValue()==true) fprintf(config,"%s","google");
+    	if(radBing->GetValue()==true)   fprintf(config,"%s","bing");
     	fflush(config);
     	fclose(config);
     

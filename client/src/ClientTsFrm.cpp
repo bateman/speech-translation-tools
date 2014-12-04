@@ -2017,7 +2017,9 @@ void ClientTsFrm::RefreshChat()
 				/*gridclient->SetCellTextColour(wxColour(colors[i].red, colors[i].green, colors[i].blue), i, 0);
 				gridclient->SetCellValue(i, 0, person[i].name);*/
 				txtclient->WriteText(person[i].name + "\t");
-				if (person[i].lang == "Italian") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/italy.bmp"));*/ txtclient->WriteImage(wxBitmap(italy_xpm)); }
+				if (person[i].lang == "Italian") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/italy.bmp"));*/ 
+					txtclient->WriteImage(wxBitmap(italy_xpm)); }
+			
 				if (person[i].lang == "English")  { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/usa.bmp"));*/ txtclient->WriteImage(wxBitmap(usa_xpm)); }
 				if (person[i].lang == "Portuguese") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/brasil.bmp"));*/ txtclient->WriteImage(wxBitmap(brasil_xpm)); }
 				txtclient->WriteText("\t");
@@ -2029,7 +2031,7 @@ void ClientTsFrm::RefreshChat()
 				/*gridclient->SetCellTextColour(wxColour(colors[i].red, colors[i].green, colors[i].blue), i, 0);
 				gridclient->SetCellValue(i, 0, person[i].name);*/
 				txtclient->WriteText(person[i].name + "\t");
-				if (person[i].lang == "Italian") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/italy.bmp"));*/ txtclient->WriteImage(wxBitmap(italy_xpm)); }
+				if (person[i].lang == "Italian") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/.bmp"));*/ txtclient->WriteImage(wxBitmap(italy_xpm)); }
 				if (person[i].lang == "English") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/usa.bmp")); */txtclient->WriteImage(wxBitmap(usa_xpm));}
 				if (person[i].lang == "Portuguese") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/brasil.bmp"));*/ txtclient->WriteImage(wxBitmap(brasil_xpm)); }
 				if (person[i].write == 1)

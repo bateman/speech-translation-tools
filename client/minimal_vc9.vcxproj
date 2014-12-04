@@ -123,6 +123,7 @@
     <IntDir>bin\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <GenerateManifest>true</GenerateManifest>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);D:\Progetti\VisualStudio2013\teamtranslate1\client\lib\wx\</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>bin\</OutDir>
@@ -509,6 +510,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="res\resource.h" />
     <ClInclude Include="src\AudioWizard.h" />
     <ClInclude Include="src\ClientTsFrm.h" />
     <ClInclude Include="src\GlobalVariables.h" />
@@ -516,9 +519,7 @@
     <ClInclude Include="src\utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\sample.rc" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="res\connect.xpm" />
     <None Include="res\brasil.xpm" />
     <None Include="res\italy.xpm" />
     <None Include="res\keyboard.xpm" />
@@ -527,6 +528,12 @@
     <None Include="res\microphone.xpm" />
     <None Include="res\sample.xpm" />
     <None Include="res\usa.xpm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\sample.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TeamTranslate.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
