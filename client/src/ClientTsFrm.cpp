@@ -10,7 +10,6 @@
 
 #include "GlobalVariables.h"
 
-
 /*
 This procedure allows the use of TextToSpeech offered by Microsoft
 it has two parameters: the language of message and body of message
@@ -315,6 +314,7 @@ void parseGoogle(char *str)
 
 char * richiestaBing(wxString StringSource, char * lang)
 {
+
     if(strcmp(lang,CURRENT_LANG)==0) return (char*)StringSource.mb_str().data();	//If the message is written in client's language then return
     
     CURL *curl2;
@@ -454,6 +454,11 @@ char * richiestaBing(wxString StringSource, char * lang)
   return p.ptr;
 }
 
+wxString traduzioneLabel(wxString language){
+	strcpy(CURRENT_LANG, language);
+	parseBing(richiestaBing("Name,Language,Service,Confirm,Message,Send","English"));
+	return StringTranslate;
+}
 
 char* richiestaGoogle(wxString StringSource, char * lang)
 {

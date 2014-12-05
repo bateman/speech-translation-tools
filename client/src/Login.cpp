@@ -9,11 +9,19 @@
 ///------------------------------------------------------------------
 
 #include "Login.h"
-#include "ClientTsFrm.h"
+
 #include "AudioWizard.h"
 #include <malloc.h>
 #include "utility.h"
 #include "../res/connect.xpm"
+
+#include <iostream>
+#include <fstream>
+#include "tinyxml2.h"
+
+#include <string.h>
+using namespace tinyxml2;
+using namespace std;
 
 FILE*config;
 char StringLoginServer[20];
@@ -21,6 +29,15 @@ char StringLoginNick[50];
 char StringLoginLingua[20];
 char StringLoginServizio[20];
 int  cmbelement=0;
+
+struct labels{
+	char* nameHostServer;
+	char* language;
+	char* service;
+	char* login;
+	char* gridMessage;
+	char* send;
+} ;
 
 int hostname_to_ip(char * hostname , char* ip)
 {
@@ -63,6 +80,7 @@ BEGIN_EVENT_TABLE(Login,wxDialog)
 	
 	EVT_CLOSE(Login::OnClose)
 	EVT_BUTTON(ID_WXBUTTON1,Login::btnloginClick)
+	EVT_COMBOBOX(ID_WXCOMBOBOX1, Login::cmblingua_SelectionChange)
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -311,7 +329,27 @@ void Login::ReadConfig()
 
 void Login::cmblingua_SelectionChange(wxCommandEvent& event)
 {
-	wxMessageBox("Ciao mondo");
+	char lang[20] = { "" };
+	strcpy(lang, (char*)cmbLingua->GetStringSelection().mb_str(wxConvUTF8).data());
+	wxString trad = traduzioneLabel(lang);
+
+	struct labels labels;
+	labels.nameHostServer = strtok((char *)trad.mb_str(wxConvUTF8).data(), ",");
+	labels.language = strtok(NULL, ",");
+	labels.service = strtok(NULL, ",");
+	labels.login = strtok(NULL, ",");
+	labels.gridMessage = strtok(NULL, ",");
+	labels.send = strtok(NULL, ",");
+	
+	char filename[20] = { "" };
+	strcpy(filename, strcat(lang, ".xml"));
+	ifstream file(filename,ios::in);
+	if (!file.is_open())
+		writeXmlLangDoc(labels, filename);
+	else 
+		readXmlLangDoc(filename);
+	file.close();
+
 }
 
 /*
@@ -343,4 +381,72 @@ void Login::btnloginClick(wxCommandEvent& event)
 	ClientTsFrm* frame = new ClientTsFrm(NULL);
     frame->Show();
 	this->Close();
+}
+void Login::readXmlLangDoc(char* filename){
+
+	char *lblNameHost, *lblNickName, *lblLanguage, *lblService, *btnlogin, *lblmessage, *btnsend; //variabili per l'allocazione delle label
+	tinyxml2::XMLDocument xmlDoc;//creazione document per la lettura
+	tinyxml2::XMLError eResult = xmlDoc.LoadFile(filename); //caricamento del file xml
+	tinyxml2::XMLNode * pRoot = xmlDoc.FirstChild();//lettura del padre language
+	tinyxml2::XMLElement * pElement = pRoot->FirstChildElement("lblNameHost"); //lettura figlio
+	lblNameHost = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	/*
+	pElement = pRoot->FirstChildElement("lblNickName");//lettura figlio
+	lblNickName = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	*/
+	pElement = pRoot->FirstChildElement("lblLanguage");//lettura figlio
+	lblLanguage = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	pElement = pRoot->FirstChildElement("lblService");//lettura figlio
+	lblService = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	pElement = pRoot->FirstChildElement("btnlogin");//lettura figlio
+	btnlogin = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	pElement = pRoot->FirstChildElement("lblmessage");//lettura figlio
+	lblmessage = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	pElement = pRoot->FirstChildElement("btnsend");//lettura figlio
+	btnsend = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+
+
+
+}
+
+//creazione traduzione scrittura e lettura xml per interfaccia
+void Login::writeXmlLangDoc(struct labels& labels, char* filename)
+{
+	tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument(); //creazione documento
+	tinyxml2::XMLNode* element = doc->InsertEndChild(doc->NewElement("language")); //creazione nodo radice //
+	tinyxml2::XMLElement* sub[7] = { doc->NewElement("lblNameHost"), doc->NewElement("lblLanguage"), doc->NewElement("lblService"), doc->NewElement("btnlogin"), doc->NewElement("lblmessage"), doc->NewElement("btnsend") }; //creazione figli con inserimento tag
+
+	//assegnazione dei valori nei tag
+	sub[0]->InsertFirstChild(doc->NewText(labels.nameHostServer));
+	element->InsertEndChild(sub[0]);
+	sub[1]->InsertFirstChild(doc->NewText(labels.language));
+	element->InsertEndChild(sub[1]);
+	sub[2]->InsertFirstChild(doc->NewText(labels.service));
+	element->InsertEndChild(sub[2]);
+	sub[3]->InsertFirstChild(doc->NewText(labels.login));
+	element->InsertEndChild(sub[3]);
+	sub[4]->InsertFirstChild(doc->NewText(labels.gridMessage));
+	element->InsertEndChild(sub[4]);
+	sub[5]->InsertFirstChild(doc->NewText(labels.send));
+	element->InsertEndChild(sub[5]);
+
+	doc->Print(); //stampa nella console
+
+	//int value = 10;
+	//int result = doc->FirstChildElement()->LastChildElement()->QueryIntAttribute("attrib", &value);
+
+	//stampa sul file
+	{
+		XMLPrinter streamer;
+		doc->Print(&streamer);
+		printf("%s", streamer.CStr());
+	}
+		{
+			XMLPrinter streamer(0, true);
+			doc->Print(&streamer);
+		}
+	doc->SaveFile(filename);
+	//doc->SaveFile("compact.xml", true);
+	delete doc;
+
 }

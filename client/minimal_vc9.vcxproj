@@ -508,6 +508,7 @@
     <ClCompile Include="src\ClientTsFrm.cpp" />
     <ClCompile Include="src\Login.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -516,6 +517,7 @@
     <ClInclude Include="src\ClientTsFrm.h" />
     <ClInclude Include="src\GlobalVariables.h" />
     <ClInclude Include="src\Login.h" />
+    <ClInclude Include="src\tinyxml2.h" />
     <ClInclude Include="src\utility.h" />
   </ItemGroup>
   <ItemGroup>
@@ -531,9 +533,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\sample.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="TeamTranslate.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

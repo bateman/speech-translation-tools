@@ -21,7 +21,7 @@
 #else
 	#include <wx/wxprec.h>
 #endif
-
+#include "GlobalVariables.h"
 //Do not add custom headers between 
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
@@ -49,7 +49,8 @@ class Login : public wxDialog
 		void btnloginClick(wxCommandEvent& event);
 		void txtserverUpdated(wxCommandEvent& event);
 		void cmblingua_SelectionChange(wxCommandEvent& event);
-
+		void writeXmlLangDoc(struct labels& labels, char* filename);
+		void readXmlLangDoc(char* filename);
 		/*void getServerAddress();
 		void getServerAddress();*/
 	

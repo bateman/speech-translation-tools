@@ -24,6 +24,7 @@
 #include <wx/sizer.h>
 #include <wx/wx.h>
 #include <wx/timer.h>
+
 //Do not add custom headers between 
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
@@ -34,6 +35,8 @@
 #include <wx/textctrl.h>
 #include <wx/button.h>
 #include <wx/grid.h>
+
+#include "GlobalVariables.h"
 ////Header Include End
 
 ////Dialog Style Start
@@ -70,7 +73,7 @@ class ClientTsFrm : public wxFrame
 		void Debug(wxCommandEvent& event);
 		void Wizard(wxCommandEvent& event);
 		void WxBitmapButton1Click(wxCommandEvent& event);
-		
+		friend wxString traduzioneLabel(wxString language);
 	private:
 		//Do not add custom control declarations between
 		//GUI Control Declaration Start and GUI Control Declaration End.
