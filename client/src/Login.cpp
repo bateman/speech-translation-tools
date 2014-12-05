@@ -335,7 +335,7 @@ void Login::cmblingua_SelectionChange(wxCommandEvent& event)
 
 	strcpy(lang, (char*)cmbLingua->GetStringSelection().mb_str(wxConvUTF8).data());
 	wxString trad = traduzioneLabel(lang);
-	labels.nameHostServer = strtok((char *)trad.mb_str(wxConvUTF8).data(), ", ");
+	labels.nameHostServer = strtok((char *)trad.mb_str().data(), ", ");
 	labels.language = strtok(NULL, ", ");
 	labels.service = strtok(NULL, ", ");
 	labels.login = strtok(NULL, ", ");
