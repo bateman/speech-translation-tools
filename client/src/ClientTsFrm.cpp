@@ -455,11 +455,15 @@ char * richiestaBing(wxString StringSource, char * lang)
 }
 
 wxString traduzioneLabel(wxString language){
+	wxString labelDefault= "Name,Language,Service,Confirm,Message,Send" ;
 	strcpy(CURRENT_LANG, language);
-	parseBing(richiestaBing("Name,Language,Service,Confirm,Message,Send","English"));
+	if (strcmp(CURRENT_LANG, "English") == 0)
+		return labelDefault;
+	else
+	parseBing(richiestaBing(labelDefault,"English"));
 	return StringTranslate;
 }
-
+	
 char* richiestaGoogle(wxString StringSource, char * lang)
 {
   

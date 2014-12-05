@@ -164,7 +164,7 @@ static wxString strSpeak = "";
 
 static char SERVER_ADDRESS[20];
 static char NICK[50];
-static char CURRENT_LANG[20] = { "Portuguese" };
+static char CURRENT_LANG[20] = { "English" };
 static char SERVICE[20];
 static char LANG_MSG_SRC[20] = { "" };
 static char MSG_SRC[50] = { "" };

@@ -330,18 +330,19 @@ void Login::ReadConfig()
 void Login::cmblingua_SelectionChange(wxCommandEvent& event)
 {
 	char lang[20] = { "" };
+	struct labels labels;
+	char filename[20] = { "" };
+
 	strcpy(lang, (char*)cmbLingua->GetStringSelection().mb_str(wxConvUTF8).data());
 	wxString trad = traduzioneLabel(lang);
-
-	struct labels labels;
-	labels.nameHostServer = strtok((char *)trad.mb_str(wxConvUTF8).data(), ",");
-	labels.language = strtok(NULL, ",");
-	labels.service = strtok(NULL, ",");
-	labels.login = strtok(NULL, ",");
-	labels.gridMessage = strtok(NULL, ",");
-	labels.send = strtok(NULL, ",");
+	labels.nameHostServer = strtok((char *)trad.mb_str(wxConvUTF8).data(), ", ");
+	labels.language = strtok(NULL, ", ");
+	labels.service = strtok(NULL, ", ");
+	labels.login = strtok(NULL, ", ");
+	labels.gridMessage = strtok(NULL, ", ");
+	labels.send = strtok(NULL, ", ");
 	
-	char filename[20] = { "" };
+	
 	strcpy(filename, strcat(lang, ".xml"));
 	ifstream file(filename,ios::in);
 	if (!file.is_open())
@@ -448,5 +449,10 @@ void Login::writeXmlLangDoc(struct labels& labels, char* filename)
 	doc->SaveFile(filename);
 	//doc->SaveFile("compact.xml", true);
 	delete doc;
-
+	labels.nameHostServer = "";
+	labels.language = "";
+	labels.service = "";
+	labels.login = "";
+	labels.gridMessage = "";
+	labels.send = "";
 }
