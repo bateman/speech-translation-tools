@@ -145,6 +145,15 @@ struct WriteThis {
 	long sizeleft;
 };
 
+struct labels{
+	char* nameHostServer;
+	char* language;
+	char* service;
+	char* login;
+	char* gridMessage;
+	char* send;
+};
+
 static DWORD myThreadID;
 static DWORD myThreadID2;
 static DWORD myThreadID3;
@@ -173,6 +182,7 @@ static char url[256] = { "" };
 static char MSG_PARSE[1024] = { "" };
 static char translate_jar[512] = { "" };
 
+static struct labels labels;
 
 static unsigned short PORT = 9987;	//Number port of server
 static int cmbel = 0;				//Index of comboBox choose

@@ -10,6 +10,7 @@
 
 #include "GlobalVariables.h"
 
+
 /*
 This procedure allows the use of TextToSpeech offered by Microsoft
 it has two parameters: the language of message and body of message
@@ -454,13 +455,13 @@ char * richiestaBing(wxString StringSource, char * lang)
   return p.ptr;
 }
 
-wxString traduzioneLabel(wxString language){
+wxString traduzioneLabel(char* language){
 	wxString labelDefault= "Name,Language,Service,Confirm,Message,Send" ;
 	strcpy(CURRENT_LANG, language);
 	if (strcmp(CURRENT_LANG, "English") == 0)
 		return labelDefault;
 	else
-	parseBing(richiestaBing(labelDefault,"English"));
+		parseBing(richiestaBing(labelDefault,"English"));
 	return StringTranslate;
 }
 	
@@ -1805,7 +1806,7 @@ DWORD WINAPI CTRL_STT(LPVOID lpParameter)
 	END_EVENT_TABLE()
 
 
-ClientTsFrm::ClientTsFrm(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
+	ClientTsFrm::ClientTsFrm(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxFrame(parent, id, title, position, size, style)
 {
 	CreateGUIControls();
@@ -1854,7 +1855,7 @@ void ClientTsFrm::CreateGUIControls()
 
 	gridchat->CreateGrid(0, 2, wxGrid::wxGridSelectCells);
 
-	gridchat->SetColLabelValue(0, "Message");
+	gridchat->SetColLabelValue(0, wxString::FromUTF8(labels.gridMessage));
 	gridchat->SetColLabelValue(1, "Play");
 	
 	gridchat->SetRowSize(curRow+1, 40);
@@ -1890,7 +1891,7 @@ void ClientTsFrm::CreateGUIControls()
 
 	
 
-	btnsend = new wxButton(this, ID_WXBUTTON2, _("Invia"), wxPoint(830, 450), wxSize(103, 48), 0, wxDefaultValidator, _("btnsend"));
+	btnsend = new wxButton(this, ID_WXBUTTON2, _(wxString::FromUTF8(labels.send)), wxPoint(830, 450), wxSize(103, 48), 0, wxDefaultValidator, _("btnsend"));
 	btnsend->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
 	txtmsg = new wxTextCtrl(this, ID_WXEDIT3, _(""), wxPoint(211, 450), wxSize(570, 45), wxTE_PROCESS_ENTER, wxDefaultValidator, _("txtmsg"));

@@ -73,7 +73,7 @@ class ClientTsFrm : public wxFrame
 		void Debug(wxCommandEvent& event);
 		void Wizard(wxCommandEvent& event);
 		void WxBitmapButton1Click(wxCommandEvent& event);
-		friend wxString traduzioneLabel(wxString language);
+		friend wxString traduzioneLabel(char* language);
 	private:
 		//Do not add custom control declarations between
 		//GUI Control Declaration Start and GUI Control Declaration End.
