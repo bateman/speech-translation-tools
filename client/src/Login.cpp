@@ -406,15 +406,15 @@ void Login::readXmlLangDoc(char* filename){
 	lblNickName = const_cast<char *>(pElement->GetText());//lettura valore del figlio
 	*/
 	pElement = pRoot->FirstChildElement("lblLanguage");//lettura figlio
-	labels.language = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	strcpy(labels.language, const_cast<char *>(pElement->GetText()));//lettura valore del figlio
 	pElement = pRoot->FirstChildElement("lblService");//lettura figlio
-	labels.service = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	strcpy(labels.service, const_cast<char *>(pElement->GetText()));//lettura valore del figlio
 	pElement = pRoot->FirstChildElement("btnlogin");//lettura figlio
-	labels.login = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	strcpy(labels.login, const_cast<char *>(pElement->GetText()));//lettura valore del figlio
 	pElement = pRoot->FirstChildElement("lblmessage");//lettura figlio
-	labels.gridMessage = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	strcpy(labels.gridMessage, const_cast<char *>(pElement->GetText()));//lettura valore del figlio
 	pElement = pRoot->FirstChildElement("btnsend");//lettura figlio
-	labels.send = const_cast<char *>(pElement->GetText());//lettura valore del figlio
+	strcpy(labels.send, const_cast<char *>(pElement->GetText()));//lettura valore del figlio
 
 }
 

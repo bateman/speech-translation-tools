@@ -11,6 +11,8 @@
 #include "GlobalVariables.h"
 
 
+struct labels labels;
+
 /*
 This procedure allows the use of TextToSpeech offered by Microsoft
 it has two parameters: the language of message and body of message
@@ -1851,9 +1853,9 @@ void ClientTsFrm::CreateGUIControls()
 	gridclient->SetColSize(0, 75);
 	gridclient->SetColSize(1, 60);
 	gridclient->SetColSize(2, 60);*/
-	
 
 	gridchat->CreateGrid(0, 2, wxGrid::wxGridSelectCells);
+
 
 	gridchat->SetColLabelValue(0, wxString::FromUTF8(labels.gridMessage));
 	gridchat->SetColLabelValue(1, "Play");
