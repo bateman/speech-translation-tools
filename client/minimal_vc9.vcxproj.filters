@@ -32,11 +32,11 @@
     <ClCompile Include="src\tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="translateController.cpp">
-      <Filter>Source Files\translateController</Filter>
-    </ClCompile>
     <ClCompile Include="src\connectionController\connectionController.cpp">
       <Filter>Source Files\connectionController</Filter>
+    </ClCompile>
+    <ClCompile Include="src\translateController\translateController.cpp">
+      <Filter>Source Files\translateController</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

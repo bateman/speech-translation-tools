@@ -1,14 +1,14 @@
 #include "translateController.h"
 #include "translateVariable.h"
-#include "connectionController.h"
-#include "src/GlobalVariables.h"
+#include "../connectionController/connectionController.h"
+#include "../GlobalVariables.h"
 
 #include <sstream>
 #include <cstring>
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "src\tinyxml2.h"
+#include "../tinyxml2.h"
 #include <curl/curl.h>
 
 using namespace tinyxml2;

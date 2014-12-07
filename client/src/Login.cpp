@@ -187,6 +187,8 @@ Login::Login(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoi
 
 	ReadConfig();
 
+	Login::SetLabel();
+
 	//CreateGUIControls();
 }
 
@@ -204,36 +206,49 @@ void Login::OnClose(wxCloseEvent& /*event*/)
 
 void Login::ReadConfig()
 {
-	if (config = fopen("..\\conf\\config.txt", "r"))
-	{
+	char filename[20] = { "" };
+	strcpy(filename, "..\\conf\\config.txt");
 
-		fscanf(config, "%s", &StringLoginServer);
-		txtNameHost->SetValue(StringLoginServer);
-
-		fscanf(config, "%s", &StringLoginNick);
-		txtNickName->SetValue(StringLoginNick);
-
-		fscanf(config, "%d", &cmbelement);
-		cmbLingua->SetSelection(cmbelement);
-
-		fscanf(config, "%s", &StringLoginLingua);
-		cmbLingua->SetValue(StringLoginLingua);
-
-		fscanf(config, "%s", &StringLoginServizio);
-		if (StringLoginServizio == "google")
+	ifstream file(filename, ios::in);
+	if (file.is_open()){
+		if (config = fopen("..\\conf\\config.txt", "r"))
 		{
-			radGoogle->SetValue(true);
-			radBing->SetValue(false);
-		}
-		if (StringLoginServizio == "bing")
-		{
-			radGoogle->SetValue(false);
-			radBing->SetValue(true);
-		}
 
-		fclose(config);
+			fscanf(config, "%s", &StringLoginServer);
+			txtNameHost->SetValue(StringLoginServer);
+
+			fscanf(config, "%s", &StringLoginNick);
+			txtNickName->SetValue(StringLoginNick);
+
+			fscanf(config, "%d", &cmbelement);
+			cmbLingua->SetSelection(cmbelement);
+
+			fscanf(config, "%s", &StringLoginLingua);
+			cmbLingua->SetValue(StringLoginLingua);
+
+			fscanf(config, "%s", &StringLoginServizio);
+			if (StringLoginServizio == "google")
+			{
+				radGoogle->SetValue(true);
+				radBing->SetValue(false);
+			}
+			if (StringLoginServizio == "bing")
+			{
+				radGoogle->SetValue(false);
+				radBing->SetValue(true);
+			}
+
+			TranslateController::InitLanguageVariable(StringLoginLingua);
+			cmbLingua->SetSelection(cmbelement);
+
+			fclose(config);
+		}
 	}
-	cmbLingua->SetSelection(cmbelement);
+	else{
+		cmbLingua->SetSelection(0);
+		TranslateController::InitLanguageVariable((char *)cmbLingua->GetString(cmbLingua->GetSelection()).mb_str(wxConvUTF8).data());
+	}
+	
 }
 
 /*	
@@ -253,11 +268,15 @@ void Login::cmblingua_SelectionChange(wxCommandEvent& event)
 
 	TranslateController::InitLanguageVariable(lang);
 
+	Login::SetLabel();
+}
+
+void Login::SetLabel(){
 	lblNameHost->SetLabel(wxString::FromUTF8(labels.nameHostServer.c_str()));
 	//lblNickName->SetLabel(labelsnickname);
 	lblLanguage->SetLabel(wxString::FromUTF8(labels.language.c_str()));
-	lblService->SetLabel( wxString::FromUTF8(labels.service.c_str()));
-	cmdConfirm->SetLabel( wxString::FromUTF8(labels.login.c_str()));
+	lblService->SetLabel(wxString::FromUTF8(labels.service.c_str()));
+	cmdConfirm->SetLabel(wxString::FromUTF8(labels.login.c_str()));
 }
 
 /*
@@ -285,6 +304,8 @@ void Login::btnloginClick(wxCommandEvent& event)
     	if(radBing->GetValue()==true)   fprintf(config,"%s","bing");
     	fflush(config);
     	fclose(config);
+
+		TranslateController::InitLanguageVariable(StringLoginLingua);
     
 	ClientTsFrm* frame = new ClientTsFrm(NULL);
     frame->Show();

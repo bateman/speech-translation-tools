@@ -519,7 +519,7 @@
     <ClCompile Include="src\Login.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\tinyxml2.cpp" />
-    <ClCompile Include="translateController.cpp" />
+    <ClCompile Include="src\translateController\translateController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
