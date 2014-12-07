@@ -58,10 +58,10 @@ wxString TranslateController::TraduzioneLabel(char* language)
 {
 	wxString labelDefault = "nome,linguaggio,servizio,conferma,messaggio,invia,esci,opzioni,audio,abilita,disabilita,regola la sensibilità del microfono,il valore minimo cattura tutti i suoni dal mic senza filtri,mentre il valore massimo non cattura nessun suono";
 	strcpy(CURRENT_LANG, language);
-	if (strcmp(CURRENT_LANG, "Italian") == 0)				//Non traduco l'inglese
+	if (strcmp(CURRENT_LANG, "Italian") == 0)				//Non traduco l'italiano
 		return labelDefault;
 	else
-		parseBing(richiestaBing(labelDefault, "Italian"));	//traduco dall'inglese nella nuova lingua
+		parseBing(richiestaBing(labelDefault, "Italian"));	//traduco dall'italiano nella nuova lingua
 	return StringTranslate;
 }
 

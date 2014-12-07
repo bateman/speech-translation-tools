@@ -693,8 +693,6 @@ void onTextMessageEvent(uint64 serverConnectionHandlerID,  anyID targetMode,  an
      printf("Error querying client nickname: %d\n", error);
      return;
         }
-        
-		
        
 		strtok((char*)name, "$");	//Extract from entire message the name value example: $Adam -> Adam
 		strNick = wxString::FromAscii(strtok(NULL, "$"));
@@ -1482,7 +1480,7 @@ void ClientTsFrm::CreateGUIControls()
 	gridchat->CreateGrid(0, 2, wxGrid::wxGridSelectCells);
 
 	//gridchat->SetColLabelValue(0, wxString::FromUTF8(labels.gridMessage));
-	gridchat->SetColLabelValue(0, labels.gridMessage );
+	gridchat->SetColLabelValue(0, wxString::FromUTF8(labels.gridMessage.c_str()));
 	gridchat->SetColLabelValue(1, "Play");
 	
 	gridchat->SetRowSize(curRow+1, 40);
