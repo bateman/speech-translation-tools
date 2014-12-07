@@ -120,7 +120,7 @@ Login::Login(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoi
 	wxBoxSizer* bSizer31;
 	bSizer31 = new wxBoxSizer(wxHORIZONTAL);
 
-	lblNickName = new wxStaticText(this, wxID_ANY, wxT("Nickname:"), wxDefaultPosition, wxSize(150, -1), 0);
+	lblNickName = new wxStaticText(this, wxID_ANY, wxT("nickname"), wxDefaultPosition, wxSize(150, -1), 0);
 	lblNickName->Wrap(-1);
 	bSizer31->Add(lblNickName, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
@@ -272,7 +272,7 @@ void Login::cmblingua_SelectionChange(wxCommandEvent& event)
 }
 
 void Login::SetLabel(){
-	lblNameHost->SetLabel(wxString::FromUTF8(labels.nameHostServer.c_str()));
+	lblNameHost->SetLabel(wxString::FromUTF8(labels.nameHostServer.append("/host server").c_str()));
 	//lblNickName->SetLabel(labelsnickname);
 	lblLanguage->SetLabel(wxString::FromUTF8(labels.language.c_str()));
 	lblService->SetLabel(wxString::FromUTF8(labels.service.c_str()));

@@ -1507,10 +1507,10 @@ void ClientTsFrm::CreateGUIControls()
 	txtlingua = new wxTextCtrl(this, ID_WXEDIT2, _(""), wxPoint(367, 20), wxSize(103, 20), wxTE_READONLY, wxDefaultValidator, _("txtlingua"));
 	txtlingua->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
-	lbllingua = new wxStaticText(this, ID_WXSTATICTEXT2, _("Language:"), wxPoint(299, 20), wxDefaultSize, 0, _("lbllingua"));
+	lbllingua = new wxStaticText(this, ID_WXSTATICTEXT2, _(wxString::FromUTF8(labels.language.c_str())), wxPoint(299, 20), wxDefaultSize, 0, _("lbllingua"));
 	lbllingua->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
-	lblnick = new wxStaticText(this, ID_WXSTATICTEXT1, _("Nickname:"), wxPoint(14, 20), wxDefaultSize, 0, _("lblnick"));
+	lblnick = new wxStaticText(this, ID_WXSTATICTEXT1, _("nickname"), wxPoint(14, 20), wxDefaultSize, 0, _("lblnick"));
 	lblnick->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
 	txtnick = new wxTextCtrl(this, ID_WXEDIT1, _(""), wxPoint(91, 20), wxSize(102, 20), wxTE_READONLY, wxDefaultValidator, _("txtnick"));
@@ -1519,7 +1519,7 @@ void ClientTsFrm::CreateGUIControls()
 	
 
 	//btnsend = new wxButton(this, ID_WXBUTTON2, _( wxString::FromUTF8(labels.send)), wxPoint(830, 450), wxSize(103, 48), 0, wxDefaultValidator, _("btnsend"));
-	btnsend = new wxButton(this, ID_WXBUTTON2, _( labels.send ), wxPoint(830, 450), wxSize(103, 48), 0, wxDefaultValidator, _("btnsend"));
+	btnsend = new wxButton(this, ID_WXBUTTON2, _(wxString::FromUTF8(labels.send.c_str())), wxPoint(830, 450), wxSize(103, 48), 0, wxDefaultValidator, _("btnsend"));
 	btnsend->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
 	txtmsg = new wxTextCtrl(this, ID_WXEDIT3, _(""), wxPoint(211, 450), wxSize(570, 45), wxTE_PROCESS_ENTER, wxDefaultValidator, _("txtmsg"));
@@ -1528,7 +1528,10 @@ void ClientTsFrm::CreateGUIControls()
 
 	wxBitmap WxBitmapButton1_BITMAP(NULL);
 	WxBitmapButton1 = new wxBitmapButton(this, ID_WXBITMAPBUTTON1, WxBitmapButton1_BITMAP, wxPoint(211+570, 450), wxSize(50, 45), wxBU_AUTODRAW, wxDefaultValidator, _("WxBitmapButton1"));
-	WxBitmapButton1->SetToolTip(_("Abilita SpeechToText Service"));
+	string enableSTTService = "";
+	enableSTTService.append(labels.enable);
+	enableSTTService.append(" SpeechToText Service");
+	WxBitmapButton1->SetToolTip(_(enableSTTService));
 
 	/*btnspeech = new wxButton(this, ID_WXBUTTON3, _("Speech to text disabilitato"), wxPoint(10, 450), wxSize(180, 31), 0, wxDefaultValidator, _("WxButton1"));
 	btnspeech->Show(true);
@@ -1536,13 +1539,14 @@ void ClientTsFrm::CreateGUIControls()
 
 	WxMenuBar1 = new wxMenuBar();
 	ID_MNU_FILE_1001_Mnu_Obj = new wxMenu();
-	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_ESCI_1003, _("Esci"), _(""), wxITEM_NORMAL);
-	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, _("File"));
+	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_ESCI_1003, _(wxString::FromUTF8(labels.exit.c_str())), _(""), wxITEM_NORMAL);
+	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, _("file"));
 
 	ID_MNU_OPZIONI_1004_Mnu_Obj = new wxMenu();
-	ID_MNU_OPZIONI_1004_Mnu_Obj->Append(ID_MNU_AUDIO_1005, _("Audio"), _(""), wxITEM_NORMAL);
-	ID_MNU_OPZIONI_1004_Mnu_Obj->AppendCheckItem(ID_MNU_SPEECH_1006, _("Abilita SpeechToText Service"), _(""));
-	WxMenuBar1->Append(ID_MNU_OPZIONI_1004_Mnu_Obj, _("Opzioni"));
+	ID_MNU_OPZIONI_1004_Mnu_Obj->Append(ID_MNU_AUDIO_1005, _(wxString::FromUTF8(labels.sound.c_str())), _(""), wxITEM_NORMAL);
+	
+	ID_MNU_OPZIONI_1004_Mnu_Obj->AppendCheckItem(ID_MNU_SPEECH_1006, _(enableSTTService), _(""));
+	WxMenuBar1->Append(ID_MNU_OPZIONI_1004_Mnu_Obj, _(wxString::FromUTF8(labels.options.c_str())));
 	SetMenuBar(WxMenuBar1);
 
 	SetTitle(_("TeamTranslate"));
@@ -1782,13 +1786,19 @@ void ClientTsFrm::btnspeechClick(wxCommandEvent& event)
 	automatic_stt_flag = !automatic_stt_flag;
 	if (automatic_stt_flag == false)
 	{
-		ID_MNU_OPZIONI_1004_Mnu_Obj->SetLabel(ID_MNU_SPEECH_1006, "Speech to text disabilitato");
+		string stdisabled = "";
+		stdisabled.append(labels.enable);
+		stdisabled.append(" Speech to text");
+		ID_MNU_OPZIONI_1004_Mnu_Obj->SetLabel(ID_MNU_SPEECH_1006, wxString::FromUTF8(stdisabled.c_str()));
 		ID_MNU_OPZIONI_1004_Mnu_Obj->Check(ID_MNU_SPEECH_1006, false);
 		WxBitmapButton1->Enable(true);
 	}
 	else
 	{
-		ID_MNU_OPZIONI_1004_Mnu_Obj->SetLabel(ID_MNU_SPEECH_1006, "Speech to text abilitato");
+		string stenabled = "";
+		stenabled.append(labels.disable);
+		stenabled.append(" Speech to text");
+		ID_MNU_OPZIONI_1004_Mnu_Obj->SetLabel(ID_MNU_SPEECH_1006, wxString::FromUTF8(stenabled.c_str()));
 		ID_MNU_OPZIONI_1004_Mnu_Obj->Check(ID_MNU_SPEECH_1006, true);
 		WxBitmapButton1->Enable(false);
 	}

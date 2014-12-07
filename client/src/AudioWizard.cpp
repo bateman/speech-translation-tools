@@ -15,6 +15,8 @@
 ////Header Include Start
 #include "../res/ledrosso.xpm"
 #include "../res/ledverde.xpm"
+
+#include "translateController/translateVariable.h"
 ////Header Include End
 
 char immagine[50];
@@ -57,9 +59,15 @@ void AudioWizard::CreateGUIControls()
 
 	wxInitAllImageHandlers();   //Initialize graphic format handlers
 
-	btnconferma = new wxButton(this, ID_WXBUTTON1, _("Conferma"), wxPoint(344, 368), wxSize(75, 25), 0, wxDefaultValidator, _("btnconferma"));
+	btnconferma = new wxButton(this, ID_WXBUTTON1, _(wxString::FromUTF8(labels.login.c_str())), wxPoint(344, 368), wxSize(75, 25), 0, wxDefaultValidator, _("btnconferma"));
 
-	lblhelp = new wxStaticText(this, ID_WXSTATICTEXT1, _("Regola la sensibilità del microfono\n\nIl valore minimo cattura tutti i suoni dal mic senza filtri\n\nMentre il valore massimo non cattura nessun suono"), wxPoint(20, 32), wxDefaultSize, 0, _("lblhelp"));
+	string audiotext = "";
+	audiotext.append(labels.microphone);
+	audiotext.append("\n\n");
+	audiotext.append(labels.min);
+	audiotext.append("\n\n");
+	audiotext.append(labels.max);
+	lblhelp = new wxStaticText(this, ID_WXSTATICTEXT1, _(wxString::FromUTF8(audiotext.c_str())), wxPoint(20, 32), wxDefaultSize, 0, _("lblhelp"));
 	
 	WxTimer1 = new wxTimer();
 	WxTimer1->SetOwner(this, ID_WXTIMER1);

@@ -35,6 +35,14 @@ void TranslateController::InitLanguageVariable(char* lang)
 		labels.login = strtok(NULL, ", ");
 		labels.gridMessage = strtok(NULL, ", ");
 		labels.send = strtok(NULL, ", ");
+		labels.exit = strtok(NULL, ", ");
+		labels.options = strtok(NULL, ", ");
+		labels.sound = strtok(NULL, ", ");
+		labels.enable = strtok(NULL, ", ");
+		labels.disable = strtok(NULL, ",");
+		labels.microphone = strtok(NULL, ",");
+		labels.min = strtok(NULL, ",");
+		labels.max = strtok(NULL, ",");
 
 		writeXmlLangDoc(filename);
 
@@ -48,12 +56,12 @@ void TranslateController::InitLanguageVariable(char* lang)
 
 wxString TranslateController::TraduzioneLabel(char* language)
 {
-	wxString labelDefault = "Name,Language,Service,Confirm,Message,Send";
+	wxString labelDefault = "nome,linguaggio,servizio,conferma,messaggio,invia,esci,opzioni,audio,abilita,disabilita,regola la sensibilità del microfono,il valore minimo cattura tutti i suoni dal mic senza filtri,mentre il valore massimo non cattura nessun suono";
 	strcpy(CURRENT_LANG, language);
-	if (strcmp(CURRENT_LANG, "English") == 0)				//Non traduco l'inglese
+	if (strcmp(CURRENT_LANG, "Italian") == 0)				//Non traduco l'inglese
 		return labelDefault;
 	else
-		parseBing(richiestaBing(labelDefault, "English"));	//traduco dall'inglese nella nuova lingua
+		parseBing(richiestaBing(labelDefault, "Italian"));	//traduco dall'inglese nella nuova lingua
 	return StringTranslate;
 }
 
@@ -64,7 +72,10 @@ void TranslateController::writeXmlLangDoc(char* filename)
 {
 	tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument(); //creazione documento
 	tinyxml2::XMLNode* element = doc->InsertEndChild(doc->NewElement("language")); //creazione nodo radice //
-	tinyxml2::XMLElement* sub[7] = { doc->NewElement("lblNameHost"), doc->NewElement("lblLanguage"), doc->NewElement("lblService"), doc->NewElement("btnlogin"), doc->NewElement("lblmessage"), doc->NewElement("btnsend") }; //creazione figli con inserimento tag
+	tinyxml2::XMLElement* sub[14] = { doc->NewElement("lblNameHost"), doc->NewElement("lblLanguage"), doc->NewElement("lblService"), 
+									  doc->NewElement("btnlogin"), doc->NewElement("lblmessage"), doc->NewElement("btnsend"), doc->NewElement("lblexit"),
+									  doc->NewElement("lbloptions"), doc->NewElement("lblsound"), doc->NewElement("lblenable"), doc->NewElement("lbldisable"),
+									  doc->NewElement("lblmicrophone"), doc->NewElement("lblmin"), doc->NewElement("lblmax") }; //creazione figli con inserimento tag
 
 	//assegnazione dei valori nei tag
 	sub[0]->InsertFirstChild(doc->NewText(labels.nameHostServer.c_str() ));
@@ -79,6 +90,22 @@ void TranslateController::writeXmlLangDoc(char* filename)
 	element->InsertEndChild(sub[4]);
 	sub[5]->InsertFirstChild(doc->NewText(labels.send.c_str()));
 	element->InsertEndChild(sub[5]);
+	sub[6]->InsertFirstChild(doc->NewText(labels.exit.c_str()));
+	element->InsertEndChild(sub[6]);
+	sub[7]->InsertFirstChild(doc->NewText(labels.options.c_str()));
+	element->InsertEndChild(sub[7]);
+	sub[8]->InsertFirstChild(doc->NewText(labels.sound.c_str()));
+	element->InsertEndChild(sub[8]);
+	sub[9]->InsertFirstChild(doc->NewText(labels.enable.c_str()));
+	element->InsertEndChild(sub[9]);
+	sub[10]->InsertFirstChild(doc->NewText(labels.disable.c_str()));
+	element->InsertEndChild(sub[10]);
+	sub[11]->InsertFirstChild(doc->NewText(labels.microphone.c_str()));
+	element->InsertEndChild(sub[11]);
+	sub[12]->InsertFirstChild(doc->NewText(labels.min.c_str()));
+	element->InsertEndChild(sub[12]);
+	sub[13]->InsertFirstChild(doc->NewText(labels.max.c_str()));
+	element->InsertEndChild(sub[13]);
 
 	doc->Print(); //stampa nella console
 
@@ -126,6 +153,14 @@ void TranslateController::readXmlLangDoc(char* filename){
 		if (strcmp(etichetta, "btnlogin") == 0) labels.login = valFiglio;
 		if (strcmp(etichetta, "lblmessage") == 0) labels.gridMessage = valFiglio;
 		if (strcmp(etichetta, "btnsend") == 0) labels.send = valFiglio;
+		if (strcmp(etichetta, "lblexit") == 0) labels.exit = valFiglio;
+		if (strcmp(etichetta, "lbloptions") == 0) labels.options = valFiglio;
+		if (strcmp(etichetta, "lblsound") == 0) labels.sound = valFiglio;
+		if (strcmp(etichetta, "lblenable") == 0) labels.enable = valFiglio;
+		if (strcmp(etichetta, "lbldisable") == 0) labels.disable = valFiglio;
+		if (strcmp(etichetta, "lblmicrophone") == 0) labels.microphone = valFiglio;
+		if (strcmp(etichetta, "lblmin") == 0) labels.min = valFiglio;
+		if (strcmp(etichetta, "lblmax") == 0) labels.max = valFiglio;
 
 		pFratello = pFratello->NextSibling();
 	

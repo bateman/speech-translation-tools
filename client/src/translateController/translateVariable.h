@@ -13,6 +13,15 @@ typedef struct Labels{
 	string login = "";
 	string gridMessage = "";
 	string send = "";
+	string exit = "";
+	string options = "";
+	string sound = "";
+	string enable = "";
+	string disable = "";
+	string microphone = "";
+	string min = "";
+	string max = "";
+
 };
 
 extern Labels labels;
