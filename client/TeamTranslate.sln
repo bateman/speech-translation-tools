@@ -46,6 +46,7 @@ Global
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.DLL Universal Release|x64.ActiveCfg = DLL Universal Release|Win32
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.Release|Win32.ActiveCfg = Release|Win32
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.Release|Win32.Build.0 = Release|Win32
+		{853D1FD7-20AB-586C-9699-9680F84AC985}.Release|Win32.Deploy.0 = Release|Win32
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.Release|x64.ActiveCfg = Release|Win32
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.Universal Debug|Win32.ActiveCfg = Universal Debug|Win32
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.Universal Debug|Win32.Build.0 = Universal Debug|Win32

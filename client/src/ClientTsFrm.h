@@ -55,7 +55,10 @@ class ClientTsFrm : public wxFrame
 		double conta;
 		
 	public:
-		ClientTsFrm(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("TeamTranslate"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = ClientTsFrm_STYLE);
+		
+		ClientTsFrm(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("TeamTranslate"), 
+					const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = ClientTsFrm_STYLE);
+
 		virtual ~ClientTsFrm();
 		void WxButton1Click(wxCommandEvent& event);
 		void btnsendClick(wxCommandEvent& event);
@@ -73,7 +76,6 @@ class ClientTsFrm : public wxFrame
 		void Debug(wxCommandEvent& event);
 		void Wizard(wxCommandEvent& event);
 		void WxBitmapButton1Click(wxCommandEvent& event);
-		friend wxString traduzioneLabel(char* language);
 	private:
 		//Do not add custom control declarations between
 		//GUI Control Declaration Start and GUI Control Declaration End.

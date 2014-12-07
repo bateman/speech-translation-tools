@@ -1,10 +1,9 @@
 #ifndef _GLOBALVARIABLES_H_
 #define _GLOBALVARIABLES_H_
 
-
-#include "ClientTsFrm.h"
-#include "AudioWizard.h"
-#include "Login.h"
+//#include "ClientTsFrm.h"
+//#include "AudioWizard.h"
+//#include "Login.h"
 
 #include "utility.h"
 #include <windows.h>
@@ -26,6 +25,7 @@
 #include <clientlib_publicdefinitions.h>
 #include <clientlib.h>
 #include <curl/curl.h>
+#include <wx/generic/grid.h>
 #include <wx/msgdlg.h>
 #include <wx/sstream.h>
 #include <wx/protocol/http.h>
@@ -48,6 +48,8 @@
 #include "../res/usa.xpm"
 #include "../res/brasil.xpm"
 
+#include "translateController/translateVariable.h"
+#include "translateController/Labels.h"
 
 #define MAX 30
 
@@ -108,12 +110,12 @@ struct user
 	wxString lang;
 };
 
-struct stringa {
+typedef struct stringa {
 	char *ptr;
 	size_t len;
 };
 
- typedef struct message
+typedef struct message
 {
 	wxString nick;
 	wxString msgnew;
@@ -145,14 +147,7 @@ struct WriteThis {
 	long sizeleft;
 };
 
-struct labels{
-	char* nameHostServer;
-	char* language;
-	char* service;
-	char* login;
-	char* gridMessage;
-	char* send;
-};
+
 
 static DWORD myThreadID;
 static DWORD myThreadID2;
@@ -166,14 +161,12 @@ static wxString strGlobale = "";
 static wxString oldstrGlobale = "";
 static wxString strNick = "";
 static wxString strMessage = "";
-static wxString StringTranslate = "";
 static wxString oldStringTranslate = "";
 static wxString StringOriginal = "";
 static wxString strSpeak = "";
 
 static char SERVER_ADDRESS[20];
 static char NICK[50];
-static char CURRENT_LANG[20] = { "English" };
 static char SERVICE[20];
 static char LANG_MSG_SRC[20] = { "" };
 static char MSG_SRC[50] = { "" };
@@ -181,8 +174,6 @@ static char GOOGLE_API_KEY[50] = { "" };
 static char url[256] = { "" };
 static char MSG_PARSE[1024] = { "" };
 static char translate_jar[512] = { "" };
-
-extern struct labels labels;
 
 static unsigned short PORT = 9987;	//Number port of server
 static int cmbel = 0;				//Index of comboBox choose
@@ -206,4 +197,4 @@ static unsigned int curCol = 0;			//Initialize Column index
 static MESSAGE diary[1024];				//Structure to record log chatptr
 static wxGrid *gridptr;					//Pointer to edit the chatptr grid
 
-#endif
+#endif /* _GLOBALVARIABLES_H_ */

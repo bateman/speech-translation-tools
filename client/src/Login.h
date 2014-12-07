@@ -49,8 +49,7 @@ class Login : public wxDialog
 		void btnloginClick(wxCommandEvent& event);
 		void txtserverUpdated(wxCommandEvent& event);
 		void cmblingua_SelectionChange(wxCommandEvent& event);
-		static void writeXmlLangDoc(char* filename);
-		static void readXmlLangDoc(char* filename);
+		
 		/*void getServerAddress();
 		void getServerAddress();*/
 	
