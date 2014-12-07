@@ -533,8 +533,8 @@
     <ClInclude Include="src\Login.h" />
     <ClInclude Include="src\tinyxml2.h" />
     <ClInclude Include="src\translateController\translateController.h" />
+    <ClInclude Include="src\translateController\translateVariable.h" />
     <ClInclude Include="src\utility.h" />
-    <ClInclude Include="translateVariable.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\connect.xpm" />
