@@ -49,7 +49,6 @@
 #include "../res/brasil.xpm"
 
 #include "translateController/translateVariable.h"
-#include "translateController/Labels.h"
 
 #define MAX 30
 

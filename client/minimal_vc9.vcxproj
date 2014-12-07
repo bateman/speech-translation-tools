@@ -513,7 +513,6 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Labels.cpp" />
     <ClCompile Include="src\AudioWizard.cpp" />
     <ClCompile Include="src\ClientTsFrm.cpp" />
     <ClCompile Include="src\connectionController\connectionController.cpp" />
@@ -523,7 +522,6 @@
     <ClCompile Include="translateController.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Labels.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="res\resource.h" />
     <ClInclude Include="src\AudioWizard.h" />

@@ -1445,6 +1445,7 @@ ClientTsFrm::~ClientTsFrm()
 
 void ClientTsFrm::CreateGUIControls()
 {
+	//TODO Completare la traduzione di ClientTsFrm usando le variabile statica labels
 
 	FILE * record;
 	FILE * translate;

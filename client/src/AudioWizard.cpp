@@ -47,6 +47,8 @@ AudioWizard::~AudioWizard()
 
 void AudioWizard::CreateGUIControls()
 {
+	//TODO Completare la traduzione di AudioWizard usando le variabile statica labels
+
 	//Do not add custom code between
 	//GUI Items Creation Start and GUI Items Creation End.
 	//wxDev-C++ designer will remove them.
