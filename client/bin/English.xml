@@ -1,0 +1,16 @@
+<language>
+    <lblNameHost>Name/Host Server:</lblNameHost>
+    <lblLanguage>Language:</lblLanguage>
+    <lblService>Service:</lblService>
+    <btnlogin>Confirm</btnlogin>
+    <lblmessage>Message</lblmessage>
+    <btnsend>Send</btnsend>
+    <lblexit>Exit</lblexit>
+    <lbloptions>Options</lbloptions>
+    <lblsound>Audio</lblsound>
+    <lblenable>Enable</lblenable>
+    <lbldisable>Disable</lbldisable>
+    <lblmicrophone>Adjust the sensitivity of the microphone</lblmicrophone>
+    <lblmin>the lowest captures all the sounds from the mic without filters</lblmin>
+    <lblmax>while the maximum value does not capture any sound</lblmax>
+</language>
