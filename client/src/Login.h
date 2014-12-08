@@ -21,7 +21,7 @@
 #else
 	#include <wx/wxprec.h>
 #endif
-#include "GlobalVariables.h"
+
 //Do not add custom headers between 
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
@@ -48,9 +48,10 @@ class Login : public wxDialog
 		virtual ~Login();
 		void btnloginClick(wxCommandEvent& event);
 		void txtserverUpdated(wxCommandEvent& event);
+		void writeXmlLangDoc(char* filename);
+		void readXmlLangDoc(char* filename);
 		void cmblingua_SelectionChange(wxCommandEvent& event);
-		void SetLabel();
-		
+		void Login::writeAndReadLabels();
 		/*void getServerAddress();
 		void getServerAddress();*/
 	
@@ -59,17 +60,16 @@ class Login : public wxDialog
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
-		wxStaticBitmap* m_bitmap1;
-		wxStaticText* lblNameHost;
-		wxTextCtrl* txtNameHost;
-		wxStaticText* lblNickName;
-		wxTextCtrl* txtNickName;
-		wxStaticText* lblLanguage;
-		wxComboBox* cmbLingua;
-		wxStaticText* lblService;
-		wxRadioButton* radGoogle;
-		wxRadioButton* radBing;
-		wxButton* cmdConfirm;
+		wxRadioButton *radbing;
+		wxRadioButton *radgoogle;
+		wxStaticText *lbltrad;
+		wxComboBox *cmblingua;
+		wxStaticText *lbllingua;
+		wxButton *btnlogin;
+		wxTextCtrl *txtnick;
+		wxStaticText *lblnick;
+		wxTextCtrl *txtserver;
+		wxStaticText *lblserver;
 		////GUI Control Declaration End
 		/*char *SERVER_ADDRESS;
 		char *CURRENT_NICK;*/
@@ -99,7 +99,6 @@ class Login : public wxDialog
 	private:
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
-		void ReadConfig();
 };
 
 #endif

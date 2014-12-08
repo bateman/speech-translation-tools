@@ -9,10 +9,7 @@
 ///------------------------------------------------------------------
 
 #include "GlobalVariables.h"
-#include "translateController/translateController.h"
-#include "translateController/translateVariable.h"
-#include "ClientTsFrm.h"
-#include "AudioWizard.h"
+#include "tinyxml2.h"
 
 /*
 This procedure allows the use of TextToSpeech offered by Microsoft
@@ -132,7 +129,71 @@ it has two parameters: the language of message and body of message
 	}
 
 
+	/*
+	This function save into the file the access_key value for the bing
+	translation transitions
+	*/
+int JSON()
+{
+    const char json[2048*2]={""};
+	/*
+	Load json string to parse
+	*/
+	FILE * jfile;
+	if (jfile = fopen("..\\conf\\pagina.htm", "r"))
+	{
+		fscanf(jfile, "%s", &json);
+		fflush(jfile);
+		fclose(jfile);
+	}
+	Document document;	// Default template parameter uses UTF8 and MemoryPoolAllocator.
+
+#if 0
+	// "normal" parsing, decode strings to new buffers. Can use other input stream via ParseStream().
+	if (document.Parse<0>(json).HasParseError())
+		return 1;
+#else
+	// In-situ parsing, decode strings directly in the source string. Source must be string.
+	char buffer[sizeof(json)];
+	memcpy(buffer, json, sizeof(json));
+	if (document.ParseInsitu<0>(buffer).HasParseError())
+		return 1;
+#endif
+
+	////////////////////////////////////////////////////////////////////////////
+	// 2. Access values in document. 
+
+	printf("\nAccess values in document:\n");
+	assert(document.IsObject());	// Document is a JSON value represents the root of DOM. Root can be either an object or array.
+
+	assert(document.HasMember("token_type"));
+	assert(document["token_type"].IsString());
+	printf("hello = %s\n", document["token_type"].GetString());
 	
+	assert(document.HasMember("access_token"));
+	assert(document["access_token"].IsString());
+	printf("hello = %s\n", document["access_token"].GetString());
+	
+	assert(document.HasMember("expires_in"));
+	assert(document["expires_in"].IsString());
+	printf("hello = %s\n", document["expires_in"].GetString());
+	
+	assert(document.HasMember("scope"));
+	assert(document["scope"].IsString());
+	printf("hello = %s\n", document["scope"].GetString());
+	
+	/*
+	Save into JSON.txt the access_key
+	*/
+	FILE*js;
+	if (js = fopen("..\\conf\\JSON.txt", "w"))
+	{
+		fprintf(js, "%s", document["access_token"].GetString());
+		fclose(js);
+	}
+	//return document["access_token"].GetString();
+	return 0;
+}
 
 /*
 	Initialize Client's label colors,the values are RGB
@@ -162,6 +223,310 @@ void SetupColor()
 	int i;
 	for (i = 0; i < MAX;i++) person[i].speak = 0;
 }
+
+/*
+	Initialize string structure for HTTP interactions
+*/
+void init_string(struct stringa *s) {
+  s->len = 0;
+  s->ptr = (char*)malloc(s->len+1);
+  if (s->ptr == NULL) {
+    fprintf(stderr, "malloc() failed\n");
+    exit(EXIT_FAILURE);
+  }
+  s->ptr[0] = '\0';
+}
+
+/*
+	Save data from http request into string
+*/
+size_t writefunc(void *ptr, size_t size, size_t nmemb, struct stringa *s)
+{
+  size_t new_len = s->len + size*nmemb;
+  s->ptr = (char*)realloc(s->ptr, new_len+1);
+  if (s->ptr == NULL) {
+    fprintf(stderr, "realloc() failed\n");
+    exit(EXIT_FAILURE);
+  }
+  memcpy(s->ptr+s->len, ptr, size*nmemb);
+  s->ptr[new_len] = '\0';
+  s->len = new_len;
+
+  return size*nmemb;
+}
+
+
+void parseBing(char *word)
+{
+
+    char *buffer;
+    unsigned int i;
+	int result;
+    buffer=strstr(word,">");
+	result = (int)(buffer - word + 1);
+	if (buffer != NULL)
+		printf("%s found at position %d\n", word, result);
+	else
+		
+		return;
+    for(i=1;i<strlen(buffer);i++) buffer[i-1]=buffer[i];
+    buffer[strlen(buffer)-10]='\0';
+    StringTranslate=wxString::FromAscii(buffer); // StringTranslate contains the text translate
+}
+
+void parseGoogle(char *str)
+{
+    unsigned int i=0;
+    int j=0;
+    char * pch;
+    char * stringalpha;
+    char finale[2048]={""};
+  
+  char buffer[512]={""};
+  
+  pch = strtok (str,",.:\"'{}();200[]");
+  while (pch != NULL)
+  {
+    strcat(buffer,pch);
+    pch = strtok (NULL, ",.:\"'{}();200[]");
+  }
+
+    char prova[256];
+	int quanto;
+	char * p = strstr(buffer, "Text");
+	if (p == NULL)
+	{
+		return;
+	}
+	else
+	{
+		quanto = strlen(p);
+		strncpy(prova, strstr(buffer, "Text"), quanto);
+		prova[quanto] = '\0';
+		stringalpha = strstr(prova, "Text");
+		for (i = 4; i < strlen(strstr(prova, "Text")); i++)
+		{
+			finale[j] = stringalpha[i];
+			j++;
+		}
+		StringTranslate = wxString::FromAscii(finale);	//StringTranslate contains the message translate
+	}
+}
+
+char * richiestaBing(wxString StringSource, char * lang)
+{
+    if(strcmp(lang,CURRENT_LANG)==0) return (char*)StringSource.mb_str().data();	//If the message is written in client's language then return
+    
+    CURL *curl2;
+    CURL *curl3;
+    CURLcode res2;
+    struct curl_slist *chunk = NULL;
+    struct stringa f;
+    init_string(&f);
+    struct stringa p;
+    init_string(&p);
+    
+	
+    curl_global_init(CURL_GLOBAL_ALL);
+ 
+    curl2 = curl_easy_init();
+    if(curl2) 
+    {
+  
+    curl_easy_setopt(curl2, CURLOPT_URL, "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13"); //Set the url of http request
+    curl_easy_setopt(curl2, CURLOPT_SSL_VERIFYHOST, 0L);	//Use SSL Protocol
+    curl_easy_setopt(curl2, CURLOPT_SSL_VERIFYPEER, 0L);	//Use SSL protocol
+    curl_easy_setopt(curl2, CURLOPT_WRITEFUNCTION, writefunc);	//Function to handle http request
+    curl_easy_setopt(curl2, CURLOPT_WRITEDATA, &f);				//Save answer into string 
+    curl_easy_setopt(curl2, CURLOPT_POST, 1L);					//Inform the server to a post request
+    curl_easy_setopt(curl2, CURLOPT_USERAGENT, "libcurl-agent/1.0");	//Fill user-agent to not decline our request
+    curl_easy_setopt(curl2, CURLOPT_VERBOSE, 1L);
+     
+    FILE *bing;
+	if (bing = fopen("..\\conf\\BING.txt", "r"))
+	{
+    
+    char CLIENT_ID[50]="";
+    char CLIENT_SECRET[128]="";
+    
+    fscanf(bing,"%s",CLIENT_ID);
+    fscanf(bing,"%s",CLIENT_SECRET);
+    
+    char * encode_key=curl_easy_escape(curl2,CLIENT_SECRET,strlen(CLIENT_SECRET));	//Leave incorrect url characters from CLIENT_ID nad CLIENT_SECRET
+    char url2[1024]={""};
+    strcpy(url2,"client_id=");
+    strcat(url2,CLIENT_ID);
+    strcat(url2,"&client_secret=");
+    strcat(url2,encode_key);
+    strcat(url2,"&scope=http://api.microsofttranslator.com&grant_type=client_credentials");
+    curl_easy_setopt(curl2, CURLOPT_POSTFIELDS, url2);
+	}
+    
+    res2 = curl_easy_perform(curl2);
+	/*
+	Save into pagina.htm the json answer of access_token
+	*/
+	FILE *html;
+	if (html = fopen("..\\conf\\pagina.htm", "w"))
+	{
+		fprintf(html, "%s", f.ptr);
+		fflush(html);
+		fclose(html);
+	}
+
+    JSON(); //Parse answer for access_token value to start the translation
+    char auth[2048]={""};
+    char header[2048+512]={""};
+    
+	FILE * jfile;
+	if (jfile = fopen("..\\conf\\JSON.txt", "r+"))
+	{
+		fscanf(jfile, "%s", &auth);
+		fflush(jfile);
+		fclose(jfile);
+	}
+    strcpy(header,"Authorization: Bearer ");
+    strcat(header,auth);
+    char languagesrc[30]={""};
+    char languagedst[30]={""};
+    if(strcmp(lang,"Italian")==0)
+    {
+        strcpy(languagesrc,"it");
+        if(strcmp(CURRENT_LANG,"English")==0) strcpy(languagedst,"en");
+        if(strcmp(CURRENT_LANG,"Italian")==0) strcpy(languagedst,"it");
+        if(strcmp(CURRENT_LANG,"Portuguese")==0) strcpy(languagedst,"pt");
+    }
+    else if(strcmp(lang,"English")==0)
+    {
+        strcpy(languagesrc,"en");
+        if(strcmp(CURRENT_LANG,"English")==0) strcpy(languagedst,"en");
+        if(strcmp(CURRENT_LANG,"Italian")==0) strcpy(languagedst,"it");
+        if(strcmp(CURRENT_LANG,"Portuguese")==0) strcpy(languagedst,"pt");
+    }
+    else if(strcmp(lang,"Portuguese")==0)
+    {
+        strcpy(languagesrc,"pt");
+        if(strcmp(CURRENT_LANG,"English")==0) strcpy(languagedst,"en");
+        if(strcmp(CURRENT_LANG,"Italian")==0) strcpy(languagedst,"it");
+        if(strcmp(CURRENT_LANG,"Portuguese")==0) strcpy(languagedst,"pt");
+    }
+    curl3 = curl_easy_init();
+    char *trueheader=curl_easy_unescape(curl3 , header , 0 , NULL);
+	
+	
+    const char *BufferSource=curl_easy_escape(curl3, (char*)StringSource.mb_str().data(), strlen((char*)StringSource.mb_str().data()));
+	
+	
+    char url3[512]={""};
+    strcpy(url3,"http://api.microsofttranslator.com/V2/Http.svc/Translate?text=");
+	
+	//strcat(url3, url_encode(pr).c_str());
+	strcat(url3, BufferSource);
+    strcat(url3,"&from=");
+    strcat(url3,languagesrc);
+    strcat(url3,"&to=");
+    strcat(url3,languagedst);
+  
+    curl_easy_setopt(curl3, CURLOPT_URL, url3);
+    curl_easy_setopt(curl3, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+    chunk = curl_slist_append(chunk, header);
+    res2 = curl_easy_setopt(curl3, CURLOPT_HTTPHEADER, chunk);
+    curl_easy_setopt(curl3, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(curl3, CURLOPT_WRITEFUNCTION, writefunc);
+    curl_easy_setopt(curl3, CURLOPT_WRITEDATA, &p);
+    res2 = curl_easy_perform(curl3);
+   
+   
+    if(res2 != CURLE_OK)
+      fprintf(stderr, "curl_easy_perform() failed: %s\n",
+              curl_easy_strerror(res2));
+    curl_easy_cleanup(curl2);
+  }
+  curl_global_cleanup();
+  
+  FILE *html;
+  if (html = fopen("..\\conf\\trad.htm", "w"))
+  {
+	  fprintf(html, "%s", p.ptr);
+	  fflush(html);
+	  fclose(html);
+  }
+  return p.ptr;
+}
+
+
+char* richiestaGoogle(wxString StringSource, char * lang)
+{
+  
+    if(strcmp(lang,CURRENT_LANG)==0) return (char*)StringSource.mb_str().data();
+    
+	CURL *curl;
+    CURLcode res;
+
+    strcpy(url,"");
+    char languagesrc[30]={""};
+    char languagedst[30]={""};
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+ 
+    curl = curl_easy_init();
+    struct stringa s;
+    init_string(&s);
+    if(strcmp(lang,"Italian")==0)
+    {
+        strcpy(languagesrc,"it");
+        if(strcmp(CURRENT_LANG,"English")==0) strcpy(languagedst,"en");
+        if(strcmp(CURRENT_LANG,"Italian")==0) strcpy(languagedst,"it");
+        if(strcmp(CURRENT_LANG,"Portuguese")==0) strcpy(languagedst,"pt");
+    }
+    else if(strcmp(lang,"English")==0)
+    {
+        strcpy(languagesrc,"en");
+        if(strcmp(CURRENT_LANG,"English")==0) strcpy(languagedst,"en");
+        if(strcmp(CURRENT_LANG,"Italian")==0) strcpy(languagedst,"it");
+        if(strcmp(CURRENT_LANG,"Portuguese")==0) strcpy(languagedst,"pt");
+    }
+    else if(strcmp(lang,"Portuguese")==0)
+    {
+        strcpy(languagesrc,"pt");
+        if(strcmp(CURRENT_LANG,"English")==0) strcpy(languagedst,"en");
+        if(strcmp(CURRENT_LANG,"Italian")==0) strcpy(languagedst,"it");
+        if(strcmp(CURRENT_LANG,"Portuguese")==0) strcpy(languagedst,"pt");
+    }
+    
+    
+    if(curl) 
+    {
+    strcpy(url,"https://www.googleapis.com/language/translate/v2?key=");
+    strcat(url,GOOGLE_API_KEY);
+    
+    strcat(url,"&q=");
+	const char *BufferSource = curl_easy_escape(curl, (char*)StringSource.mb_str().data(), strlen((char*)StringSource.mb_str().data()));
+    strcat(url,BufferSource);
+    strcat(url,"&source=");
+    strcat(url,languagesrc);
+    strcat(url,"&target=");
+    strcat(url,languagedst);
+   
+    curl_easy_setopt(curl, CURLOPT_URL, url);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &s);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    res = curl_easy_perform(curl);
+  
+    /* Check for errors */ 
+    if(res != CURLE_OK)
+      fprintf(stderr, "curl_easy_perform() failed: %s\n",
+              curl_easy_strerror(res));
+    
+    /* always cleanup */ 
+    curl_easy_cleanup(curl);
+    return s.ptr;
+  }
+ 
+  curl_global_cleanup();
+}
+
 
 /* This is a global variable to indicate if sound needs to be recorded.
    Normally one would have thread synchronization with locks etc. for
@@ -693,6 +1058,8 @@ void onTextMessageEvent(uint64 serverConnectionHandlerID,  anyID targetMode,  an
      printf("Error querying client nickname: %d\n", error);
      return;
         }
+        
+		
        
 		strtok((char*)name, "$");	//Extract from entire message the name value example: $Adam -> Adam
 		strNick = wxString::FromAscii(strtok(NULL, "$"));
@@ -763,10 +1130,10 @@ void onTextMessageEvent(uint64 serverConnectionHandlerID,  anyID targetMode,  an
 
         if(strcmp(SERVICE,"google")==0)
         {
-		if (strcmp(MSG_SRC, TranslateController::richiestaGoogle(MSG_SRC, LANG_MSG_SRC)) == 0) StringTranslate = wxString::FromAscii(MSG_SRC);
+		if (strcmp(MSG_SRC, richiestaGoogle(MSG_SRC, LANG_MSG_SRC)) == 0) StringTranslate = wxString::FromAscii(MSG_SRC);
 		else
 		{
-			TranslateController::parseGoogle(TranslateController::richiestaGoogle(parsata, LANG_MSG_SRC));
+			parseGoogle(richiestaGoogle(parsata, LANG_MSG_SRC));
 			index++;
 			diary[index].msgold = wxString::FromUTF8(parsata);	//Save original message
 			diary[index].msgnew = StringTranslate;				//Save translate message
@@ -775,10 +1142,10 @@ void onTextMessageEvent(uint64 serverConnectionHandlerID,  anyID targetMode,  an
         
         if(strcmp(SERVICE,"bing")==0)
         {
-			if (strcmp(MSG_SRC, TranslateController::richiestaBing(MSG_SRC, LANG_MSG_SRC)) == 0) StringTranslate = wxString::FromAscii(MSG_SRC);
+			if (strcmp(MSG_SRC, richiestaBing(MSG_SRC, LANG_MSG_SRC)) == 0) StringTranslate = wxString::FromAscii(MSG_SRC);
 			else
 			{
-				TranslateController::parseBing(TranslateController::richiestaBing(parsata, LANG_MSG_SRC));
+				parseBing(richiestaBing(parsata, LANG_MSG_SRC));
 				index++;
 				diary[index].msgold = wxString::FromUTF8(parsata);	//Save original message
 				diary[index].msgnew = StringTranslate;				//Save translate message
@@ -1243,8 +1610,7 @@ DWORD WINAPI ClientStart(LPVOID lpParameter)
 
     /* Open default capture device */
 	/* Instead of passing mode and device[1], it would also be possible to pass empty strings to open the default device */
-	error = ts3client_openCaptureDevice(scHandlerID, mode, device[1]);
-    if(error != ERROR_ok) {
+    if((error = ts3client_openCaptureDevice(scHandlerID, mode, device[1])) != ERROR_ok) {
         wxMessageBox("Error opening capture device");
     }
 
@@ -1443,7 +1809,6 @@ ClientTsFrm::~ClientTsFrm()
 
 void ClientTsFrm::CreateGUIControls()
 {
-	//TODO Completare la traduzione di ClientTsFrm usando le variabile statica labels
 
 	FILE * record;
 	FILE * translate;
@@ -1476,11 +1841,11 @@ void ClientTsFrm::CreateGUIControls()
 	gridclient->SetColSize(0, 75);
 	gridclient->SetColSize(1, 60);
 	gridclient->SetColSize(2, 60);*/
+	
 
 	gridchat->CreateGrid(0, 2, wxGrid::wxGridSelectCells);
 
-	//gridchat->SetColLabelValue(0, wxString::FromUTF8(labels.gridMessage));
-	gridchat->SetColLabelValue(0, wxString::FromUTF8(labels.gridMessage.c_str()));
+	gridchat->SetColLabelValue(0, "Message");
 	gridchat->SetColLabelValue(1, "Play");
 	
 	gridchat->SetRowSize(curRow+1, 40);
@@ -1505,10 +1870,10 @@ void ClientTsFrm::CreateGUIControls()
 	txtlingua = new wxTextCtrl(this, ID_WXEDIT2, _(""), wxPoint(367, 20), wxSize(103, 20), wxTE_READONLY, wxDefaultValidator, _("txtlingua"));
 	txtlingua->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
-	lbllingua = new wxStaticText(this, ID_WXSTATICTEXT2, _(wxString::FromUTF8(labels.language.c_str())), wxPoint(299, 20), wxDefaultSize, 0, _("lbllingua"));
+	lbllingua = new wxStaticText(this, ID_WXSTATICTEXT2, _("Language:"), wxPoint(299, 20), wxDefaultSize, 0, _("lbllingua"));
 	lbllingua->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
-	lblnick = new wxStaticText(this, ID_WXSTATICTEXT1, _("nickname"), wxPoint(14, 20), wxDefaultSize, 0, _("lblnick"));
+	lblnick = new wxStaticText(this, ID_WXSTATICTEXT1, _("Nickname:"), wxPoint(14, 20), wxDefaultSize, 0, _("lblnick"));
 	lblnick->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
 	txtnick = new wxTextCtrl(this, ID_WXEDIT1, _(""), wxPoint(91, 20), wxSize(102, 20), wxTE_READONLY, wxDefaultValidator, _("txtnick"));
@@ -1516,8 +1881,7 @@ void ClientTsFrm::CreateGUIControls()
 
 	
 
-	//btnsend = new wxButton(this, ID_WXBUTTON2, _( wxString::FromUTF8(labels.send)), wxPoint(830, 450), wxSize(103, 48), 0, wxDefaultValidator, _("btnsend"));
-	btnsend = new wxButton(this, ID_WXBUTTON2, _(wxString::FromUTF8(labels.send.c_str())), wxPoint(830, 450), wxSize(103, 48), 0, wxDefaultValidator, _("btnsend"));
+	btnsend = new wxButton(this, ID_WXBUTTON2, _("Invia"), wxPoint(830, 450), wxSize(103, 48), 0, wxDefaultValidator, _("btnsend"));
 	btnsend->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
 	txtmsg = new wxTextCtrl(this, ID_WXEDIT3, _(""), wxPoint(211, 450), wxSize(570, 45), wxTE_PROCESS_ENTER, wxDefaultValidator, _("txtmsg"));
@@ -1526,10 +1890,7 @@ void ClientTsFrm::CreateGUIControls()
 
 	wxBitmap WxBitmapButton1_BITMAP(NULL);
 	WxBitmapButton1 = new wxBitmapButton(this, ID_WXBITMAPBUTTON1, WxBitmapButton1_BITMAP, wxPoint(211+570, 450), wxSize(50, 45), wxBU_AUTODRAW, wxDefaultValidator, _("WxBitmapButton1"));
-	string enableSTTService = "";
-	enableSTTService.append(labels.enable);
-	enableSTTService.append(" SpeechToText Service");
-	WxBitmapButton1->SetToolTip(_(enableSTTService));
+	WxBitmapButton1->SetToolTip(_("Abilita SpeechToText Service"));
 
 	/*btnspeech = new wxButton(this, ID_WXBUTTON3, _("Speech to text disabilitato"), wxPoint(10, 450), wxSize(180, 31), 0, wxDefaultValidator, _("WxButton1"));
 	btnspeech->Show(true);
@@ -1537,14 +1898,13 @@ void ClientTsFrm::CreateGUIControls()
 
 	WxMenuBar1 = new wxMenuBar();
 	ID_MNU_FILE_1001_Mnu_Obj = new wxMenu();
-	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_ESCI_1003, _(wxString::FromUTF8(labels.exit.c_str())), _(""), wxITEM_NORMAL);
-	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, _("file"));
+	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_ESCI_1003, _("Esci"), _(""), wxITEM_NORMAL);
+	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, _("File"));
 
 	ID_MNU_OPZIONI_1004_Mnu_Obj = new wxMenu();
-	ID_MNU_OPZIONI_1004_Mnu_Obj->Append(ID_MNU_AUDIO_1005, _(wxString::FromUTF8(labels.sound.c_str())), _(""), wxITEM_NORMAL);
-	
-	ID_MNU_OPZIONI_1004_Mnu_Obj->AppendCheckItem(ID_MNU_SPEECH_1006, _(enableSTTService), _(""));
-	WxMenuBar1->Append(ID_MNU_OPZIONI_1004_Mnu_Obj, _(wxString::FromUTF8(labels.options.c_str())));
+	ID_MNU_OPZIONI_1004_Mnu_Obj->Append(ID_MNU_AUDIO_1005, _("Audio"), _(""), wxITEM_NORMAL);
+	ID_MNU_OPZIONI_1004_Mnu_Obj->AppendCheckItem(ID_MNU_SPEECH_1006, _("Abilita SpeechToText Service"), _(""));
+	WxMenuBar1->Append(ID_MNU_OPZIONI_1004_Mnu_Obj, _("Opzioni"));
 	SetMenuBar(WxMenuBar1);
 
 	SetTitle(_("TeamTranslate"));
@@ -1592,7 +1952,14 @@ void ClientTsFrm::CreateGUIControls()
 	engine = irrklang::createIrrKlangDevice();
 	recorder = irrklang::createIrrKlangAudioRecorder(engine);
 	gridptr = gridchat;
-	
+
+	char lang[20] = { "" };
+
+	strcpy(lang, CURRENT_LANG);
+
+	char filename[20] = { "" };
+	strcpy(filename, strcat(lang, ".xml"));
+	ClientTsFrm::readXmlLangDoc(filename);
 
 }
 
@@ -1657,9 +2024,7 @@ void ClientTsFrm::RefreshChat()
 				/*gridclient->SetCellTextColour(wxColour(colors[i].red, colors[i].green, colors[i].blue), i, 0);
 				gridclient->SetCellValue(i, 0, person[i].name);*/
 				txtclient->WriteText(person[i].name + "\t");
-				if (person[i].lang == "Italian") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/italy.bmp"));*/ 
-					txtclient->WriteImage(wxBitmap(italy_xpm)); }
-			
+				if (person[i].lang == "Italian") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/italy.bmp"));*/ txtclient->WriteImage(wxBitmap(italy_xpm)); }
 				if (person[i].lang == "English")  { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/usa.bmp"));*/ txtclient->WriteImage(wxBitmap(usa_xpm)); }
 				if (person[i].lang == "Portuguese") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/brasil.bmp"));*/ txtclient->WriteImage(wxBitmap(brasil_xpm)); }
 				txtclient->WriteText("\t");
@@ -1671,7 +2036,7 @@ void ClientTsFrm::RefreshChat()
 				/*gridclient->SetCellTextColour(wxColour(colors[i].red, colors[i].green, colors[i].blue), i, 0);
 				gridclient->SetCellValue(i, 0, person[i].name);*/
 				txtclient->WriteText(person[i].name + "\t");
-				if (person[i].lang == "Italian") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/.bmp"));*/ txtclient->WriteImage(wxBitmap(italy_xpm)); }
+				if (person[i].lang == "Italian") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/italy.bmp"));*/ txtclient->WriteImage(wxBitmap(italy_xpm)); }
 				if (person[i].lang == "English") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/usa.bmp")); */txtclient->WriteImage(wxBitmap(usa_xpm));}
 				if (person[i].lang == "Portuguese") { /*gridclient->SetCellRenderer(i, 1, new MyGridCellRenderer(L"../res/brasil.bmp"));*/ txtclient->WriteImage(wxBitmap(brasil_xpm)); }
 				if (person[i].write == 1)
@@ -1784,21 +2149,28 @@ void ClientTsFrm::btnspeechClick(wxCommandEvent& event)
 	automatic_stt_flag = !automatic_stt_flag;
 	if (automatic_stt_flag == false)
 	{
-		string stdisabled = "";
-		stdisabled.append(labels.enable);
-		stdisabled.append(" Speech to text");
-		ID_MNU_OPZIONI_1004_Mnu_Obj->SetLabel(ID_MNU_SPEECH_1006, wxString::FromUTF8(stdisabled.c_str()));
-		ID_MNU_OPZIONI_1004_Mnu_Obj->Check(ID_MNU_SPEECH_1006, false);
-		WxBitmapButton1->Enable(true);
+		
+			ID_MNU_OPZIONI_1004_Mnu_Obj->SetLabel(ID_MNU_SPEECH_1006, "Speech to text disabilitato");
+			ID_MNU_OPZIONI_1004_Mnu_Obj->Check(ID_MNU_SPEECH_1006, false);
+			WxBitmapButton1->Enable(true);
+			if (strcmp(CURRENT_LANG, "English") == 0){
+				ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(1)->SetItemLabel("SpeachToText Service disabled");
+			}
+			else if (strcmp(CURRENT_LANG, "Portuguese") == 0){
+				ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(1)->SetItemLabel("SpeachToText Service desativado");
+			}
 	}
 	else
 	{
-		string stenabled = "";
-		stenabled.append(labels.disable);
-		stenabled.append(" Speech to text");
-		ID_MNU_OPZIONI_1004_Mnu_Obj->SetLabel(ID_MNU_SPEECH_1006, wxString::FromUTF8(stenabled.c_str()));
+		ID_MNU_OPZIONI_1004_Mnu_Obj->SetLabel(ID_MNU_SPEECH_1006, "Speech to text abilitato");
 		ID_MNU_OPZIONI_1004_Mnu_Obj->Check(ID_MNU_SPEECH_1006, true);
 		WxBitmapButton1->Enable(false);
+		if (strcmp(CURRENT_LANG, "English") == 0){
+			ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(1)->SetItemLabel("SpeachToText Service enabled");
+		}
+		else if (strcmp(CURRENT_LANG, "Portuguese") == 0){
+			ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(1)->SetItemLabel("SpeachToText Service habilitado");
+		}
 	}
 }
 
@@ -1854,4 +2226,37 @@ void ClientTsFrm::WxBitmapButton1Click(wxCommandEvent& event)
 		WxBitmapButton1->SetBitmap(microphone_xpm);
 		ID_MNU_OPZIONI_1004_Mnu_Obj->Enable(ID_MNU_SPEECH_1006, false);
 	}
+}
+
+void ClientTsFrm::readXmlLangDoc(char* filename){
+
+	tinyxml2::XMLDocument xmlDoc;//creazione document per la lettura
+	tinyxml2::XMLError eResult = xmlDoc.LoadFile(filename);		//caricamento del file xml
+	tinyxml2::XMLNode * pRoot = xmlDoc.FirstChild();			//lettura del padre language
+	tinyxml2::XMLElement * pElement;
+
+	tinyxml2::XMLNode *primoFiglio = pRoot->FirstChild();
+	tinyxml2::XMLNode *pFratello = primoFiglio;
+
+	do
+	{
+		const char* etichetta = pFratello->Value();
+		tinyxml2::XMLNode *figlio = pFratello->FirstChild();
+
+		const char* valFiglio = figlio->Value();
+
+		if (strcmp(etichetta, "lblmessage") == 0) gridchat->SetColLabelValue(0, valFiglio);
+		if (strcmp(etichetta, "btnsend") == 0) btnsend->SetLabelText(valFiglio);
+		if (strcmp(etichetta, "lblexit") == 0) ID_MNU_FILE_1001_Mnu_Obj->FindItemByPosition(0)->SetItemLabel(valFiglio);
+		if (strcmp(etichetta, "lbloptions") == 0) WxMenuBar1->SetMenuLabel(1,valFiglio);
+		if (strcmp(etichetta, "lblsound") == 0)  ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(0)->SetItemLabel(valFiglio);
+		if (strcmp(etichetta, "lblenable") == 0) ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(1)->SetItemLabel(strcat((char *)valFiglio, " SpeachToText Service"));
+		if (strcmp(etichetta, "lblLanguage") == 0) lbllingua->SetLabel(valFiglio);
+
+		pFratello = pFratello->NextSibling();
+
+	} while (pFratello != NULL);
+
+	return;
+
 }

@@ -13,16 +13,10 @@
 #include "AudioWizard.h"
 #include <malloc.h>
 #include "utility.h"
-#include "../res/connect.xpm"
+#include "tinyxml2.h"
+#include "tinyxml2.cpp"
 #include <iostream>
 #include <fstream>
-#include <string.h>
-#include "GlobalVariables.h"
-
-#include "translateController/translateController.h"
-#include "translateController/translateVariable.h"
-
-using namespace std;
 
 FILE*config;
 char StringLoginServer[20];
@@ -30,8 +24,6 @@ char StringLoginNick[50];
 char StringLoginLingua[20];
 char StringLoginServizio[20];
 int  cmbelement=0;
-
-Labels labels;
 
 int hostname_to_ip(char * hostname , char* ip)
 {
@@ -68,215 +60,134 @@ int hostname_to_ip(char * hostname , char* ip)
 //Add Custom Events only in the appropriate block.
 //Code added in other places will be removed by wxDev-C++
 ////Event Table Start
-BEGIN_EVENT_TABLE(Login,wxDialog)
-	////Manual Code Start
-	////Manual Code End
-	
-	EVT_CLOSE(Login::OnClose)
-	EVT_BUTTON(ID_WXBUTTON1,Login::btnloginClick)
-	EVT_COMBOBOX(ID_WXCOMBOBOX1, Login::cmblingua_SelectionChange)
+BEGIN_EVENT_TABLE(Login, wxDialog)
+////Manual Code Start
+////Manual Code End
+
+EVT_CLOSE(Login::OnClose)
+EVT_BUTTON(ID_WXBUTTON1, Login::btnloginClick)
+EVT_COMBOBOX(ID_WXCOMBOBOX1, Login::cmblingua_SelectionChange)
 END_EVENT_TABLE()
 ////Event Table End
 
 Login::Login(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
-	/*
-	*	CREATE GUI
-	*/
-
-	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
-	this->Centre(wxBOTH);
-	
-	this->SetSize(wxSize(600, 400));
-
-	wxBoxSizer* bSizer2;
-	bSizer2 = new wxBoxSizer(wxVERTICAL);
-
-	wxBoxSizer* bSizer5;
-	bSizer5 = new wxBoxSizer(wxHORIZONTAL);
-
-	bSizer5->Add(0, 0, 1, wxEXPAND, 5);
-
-	m_bitmap1 = new wxStaticBitmap(this, wxID_ANY, wxBitmap( connect_xpm ), wxDefaultPosition, wxSize(75, 75), 0);
-	bSizer5->Add(m_bitmap1, 0, wxALL, 5);
-
-
-	bSizer2->Add(bSizer5, 1, wxEXPAND, 5);
-
-	wxBoxSizer* bSizer3;
-	bSizer3 = new wxBoxSizer(wxHORIZONTAL);
-
-	lblNameHost = new wxStaticText(this, wxID_ANY, wxT("Name/Host server:"), wxDefaultPosition, wxSize(150, -1), 0);
-	lblNameHost->Wrap(-1);
-	bSizer3->Add(lblNameHost, 0, wxALIGN_CENTER | wxALL, 5);
-
-	txtNameHost = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-	bSizer3->Add(txtNameHost, 1, wxALL, 5);
-
-
-	bSizer2->Add(bSizer3, 0, wxALIGN_CENTER | wxEXPAND, 5);
-
-	wxBoxSizer* bSizer31;
-	bSizer31 = new wxBoxSizer(wxHORIZONTAL);
-
-	lblNickName = new wxStaticText(this, wxID_ANY, wxT("nickname"), wxDefaultPosition, wxSize(150, -1), 0);
-	lblNickName->Wrap(-1);
-	bSizer31->Add(lblNickName, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-
-	txtNickName = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-	bSizer31->Add(txtNickName, 1, wxALL, 5);
-
-
-	bSizer2->Add(bSizer31, 0, wxEXPAND, 5);
-
-	wxBoxSizer* bSizer311;
-	bSizer311 = new wxBoxSizer(wxHORIZONTAL);
-
-	lblLanguage = new wxStaticText(this, wxID_ANY, wxT("Language:"), wxDefaultPosition, wxSize(150, -1), 0);
-	lblLanguage->Wrap(-1);
-	bSizer311->Add(lblLanguage, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-
-	cmbLingua = new wxComboBox(this, wxID_ANY, wxT("<Select language>"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
-	cmbLingua->Append(wxT("English"));
-	cmbLingua->Append(wxT("Italian"));
-	cmbLingua->Append(wxT("Portuguese"));
-	//cmbLingua->Append(wxEmptyString);
-	bSizer311->Add(cmbLingua, 1, wxALL, 5);
-
-
-	bSizer2->Add(bSizer311, 0, wxEXPAND, 5);
-
-
-	bSizer2->Add(20, 20, 0, wxEXPAND, 5);
-
-	lblService = new wxStaticText(this, wxID_ANY, wxT("Service:"), wxDefaultPosition, wxDefaultSize, 0);
-	lblService->Wrap(-1);
-	bSizer2->Add(lblService, 0, wxALL, 5);
-
-	wxBoxSizer* bSizer7;
-	bSizer7 = new wxBoxSizer(wxVERTICAL);
-
-	radGoogle = new wxRadioButton(this, wxID_ANY, wxT("Google Translate"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer7->Add(radGoogle, 0, wxALL, 5);
-
-	radBing = new wxRadioButton(this, wxID_ANY, wxT("Bing Translate"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer7->Add(radBing, 0, wxALL, 5);
-
-	bSizer2->Add(bSizer7, 0, wxEXPAND, 5);
-
-	wxBoxSizer* bSizer6;
-	bSizer6 = new wxBoxSizer(wxHORIZONTAL);
-
-
-	bSizer6->Add(0, 0, 1, wxEXPAND, 5);
-
-	cmdConfirm = new wxButton(this, wxID_ANY, wxT("Confirm"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer6->Add(cmdConfirm, 0, wxALL, 5);
-
-
-	bSizer2->Add(bSizer6, 0, wxEXPAND, 5);
-
-
-	this->SetSizer(bSizer2);
-	this->Layout();
-
+	CreateGUIControls();
 	// Connect Events
-	cmbLingua->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(Login::cmblingua_SelectionChange), NULL, this);
-	cmdConfirm->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Login::btnloginClick), NULL, this);
-
-	ReadConfig();
-
-	Login::SetLabel();
-
-	//CreateGUIControls();
+	cmblingua->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(Login::cmblingua_SelectionChange), NULL, this);
 }
 
 Login::~Login()
 {
 	// Disconnect Events
-	cmbLingua->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(Login::cmblingua_SelectionChange), NULL, this);
-	cmdConfirm->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Login::btnloginClick), NULL, this);
+	cmblingua->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(Login::cmblingua_SelectionChange), NULL, this);
 } 
+
+void Login::CreateGUIControls()
+{
+	//Do not add custom code between
+	//GUI Items Creation Start and GUI Items Creation End.
+	//wxDev-C++ designer will remove them.
+	//Add the custom code before or after the blocks
+	////GUI Items Creation Start
+
+	radbing = new wxRadioButton(this, ID_WXRADIOBUTTON2, _("Bing Translate"), wxPoint(32, 272), wxSize(161, 17), 0, wxDefaultValidator, _("radbing"));
+
+	radgoogle = new wxRadioButton(this, ID_WXRADIOBUTTON1, _("Google Translate"), wxPoint(32, 240), wxSize(153, 17), 0, wxDefaultValidator, _("radgoogle"));
+
+	lbltrad = new wxStaticText(this, ID_WXSTATICTEXT4, _("Service:"), wxPoint(32, 192), wxDefaultSize, 0, _("lbltrad"));
+
+	wxArrayString arrayStringFor_cmblingua;
+	arrayStringFor_cmblingua.Add(_("English"));
+	arrayStringFor_cmblingua.Add(_("Italian"));
+	arrayStringFor_cmblingua.Add(_("Portuguese"));
+	cmblingua = new wxComboBox(this, ID_WXCOMBOBOX1, _(""), wxPoint(248, 128), wxSize(145, 28), arrayStringFor_cmblingua, 0, wxDefaultValidator, _("cmblingua"));
+
+	lbllingua = new wxStaticText(this, ID_WXSTATICTEXT3, _("Language:"), wxPoint(32, 136), wxDefaultSize, 0, _("lbllingua"));
+
+	btnlogin = new wxButton(this, ID_WXBUTTON1, _("Confirm"), wxPoint(451, 332), wxSize(89, 25), 0, wxDefaultValidator, _("btnlogin"));
+
+	txtnick = new wxTextCtrl(this, ID_WXEDIT2, _(""), wxPoint(248, 86), wxSize(121, 22), 0, wxDefaultValidator, _("txtnick"));
+
+	lblnick = new wxStaticText(this, ID_WXSTATICTEXT2, _("Nickname: "), wxPoint(30, 87), wxDefaultSize, 0, _("lblnick"));
+
+	txtserver = new wxTextCtrl(this, ID_WXEDIT1, _("127.0.0.1"), wxPoint(249, 46), wxSize(121, 22), 0, wxDefaultValidator, _("txtserver"));
+
+	lblserver = new wxStaticText(this, ID_WXSTATICTEXT1, _("Name/Host server: "), wxPoint(32, 45), wxDefaultSize, 0, _("lblserver"));
+
+	SetTitle(_("Login Form"));
+	SetIcon(wxNullIcon);
+	SetSize(8,8,640,480);
+	Center();
+	
+	////GUI Items Creation End
+	
+	
+	if (config = fopen("..\\conf\\config.txt", "r"))
+    {
+
+        fscanf(config,"%s",&StringLoginServer);
+        txtserver->SetValue(StringLoginServer);
+        
+        fscanf(config,"%s",&StringLoginNick);
+        txtnick->SetValue(StringLoginNick);
+        
+        fscanf(config,"%d",&cmbelement);
+        cmblingua->SetSelection(cmbelement);
+        
+        fscanf(config,"%s",&StringLoginLingua);
+        cmblingua->SetValue(StringLoginLingua);
+        
+        fscanf(config,"%s",&StringLoginServizio);
+        if(StringLoginServizio=="google")
+        {
+            radgoogle->SetValue(true);
+            radbing->SetValue(false);
+        }
+        if(StringLoginServizio=="bing")
+        {
+            radgoogle->SetValue(false);
+            radbing->SetValue(true);
+        }
+        
+        fclose(config);
+    }
+    cmblingua->SetSelection(cmbelement);
+
+	writeAndReadLabels();
+	
+}
 
 void Login::OnClose(wxCloseEvent& /*event*/)
 {
 	Destroy();
 }
 
-void Login::ReadConfig()
-{
+void Login::writeAndReadLabels(){
+	char lang[20] = { "" };
+
+	strcpy(lang, (char*)cmblingua->GetStringSelection().mb_str().data());
+
 	char filename[20] = { "" };
-	strcpy(filename, "..\\conf\\config.txt");
+	strcpy(filename, strcat(lang, ".xml"));
 
-	ifstream file(filename, ios::in);
-	if (file.is_open()){
-		if (config = fopen("..\\conf\\config.txt", "r"))
-		{
+	//ifstream file (filename, ios::in);
+	//if (file.is_open()){
+	//writeXmlLangDoc(filename);
+	//}
 
-			fscanf(config, "%s", &StringLoginServer);
-			txtNameHost->SetValue(StringLoginServer);
+	lblserver->SetLabel("");
+	lbllingua->SetLabel("");
+	lbltrad->SetLabel("");
+	btnlogin->SetLabel("");
 
-			fscanf(config, "%s", &StringLoginNick);
-			txtNickName->SetValue(StringLoginNick);
-
-			fscanf(config, "%d", &cmbelement);
-			cmbLingua->SetSelection(cmbelement);
-
-			fscanf(config, "%s", &StringLoginLingua);
-			cmbLingua->SetValue(StringLoginLingua);
-
-			fscanf(config, "%s", &StringLoginServizio);
-			if (StringLoginServizio == "google")
-			{
-				radGoogle->SetValue(true);
-				radBing->SetValue(false);
-			}
-			if (StringLoginServizio == "bing")
-			{
-				radGoogle->SetValue(false);
-				radBing->SetValue(true);
-			}
-
-			TranslateController::InitLanguageVariable(StringLoginLingua);
-			cmbLingua->SetSelection(cmbelement);
-
-			fclose(config);
-		}
-	}
-	else{
-		cmbLingua->SetSelection(0);
-		TranslateController::InitLanguageVariable((char *)cmbLingua->GetString(cmbLingua->GetSelection()).mb_str(wxConvUTF8).data());
-	}
-	
+	readXmlLangDoc(filename);
 }
-
-/*	
- * EVENTI 
-*/
-
-/*
-*	cmbSelectionChange
-*/
 
 void Login::cmblingua_SelectionChange(wxCommandEvent& event)
 {
-	char lang[20] = { "" };
-	
-	//Leggo la lingua selezionata
-	strcpy(lang, (char*)cmbLingua->GetStringSelection().mb_str().data());
-
-	TranslateController::InitLanguageVariable(lang);
-
-	Login::SetLabel();
-}
-
-void Login::SetLabel(){
-	lblNameHost->SetLabel(wxString::FromUTF8(labels.nameHostServer.append("/host server").c_str()));
-	//lblNickName->SetLabel(labelsnickname);
-	lblLanguage->SetLabel(wxString::FromUTF8(labels.language.c_str()));
-	lblService->SetLabel(wxString::FromUTF8(labels.service.c_str()));
-	cmdConfirm->SetLabel(wxString::FromUTF8(labels.login.c_str()));
+	writeAndReadLabels();
 }
 
 /*
@@ -286,30 +197,179 @@ void Login::btnloginClick(wxCommandEvent& event)
 {
 	// insert your code here
 	//wxMessageBox(ip);
-	
-    strncpy(StringLoginServer, (const char*)txtNameHost->GetValue().mb_str(wxConvUTF8), 20);
-    strncpy(StringLoginNick, (const char*)txtNickName->GetValue().mb_str(wxConvUTF8), 50);
-    strncpy(StringLoginLingua, (const char*)cmbLingua->GetStringSelection().mb_str(wxConvUTF8), 20);    
+
+    strncpy(StringLoginServer, (const char*)txtserver->GetValue().mb_str(wxConvUTF8), 20);
+    strncpy(StringLoginNick, (const char*)txtnick->GetValue().mb_str(wxConvUTF8), 50);
+    strncpy(StringLoginLingua, (const char*)cmblingua->GetStringSelection().mb_str(wxConvUTF8), 20);    
     
     char ip[100];
 	hostname_to_ip(StringLoginServer , ip);
 	
 	
         config=fopen("..\\conf\\config.txt","w");
-		fprintf(config, "%s\n", ip); 
+    	fprintf(config,"%s\n",ip);
     	fprintf(config,"%s\n",StringLoginNick);
-    	fprintf(config,"%d\n",cmbLingua->GetSelection());
+    	fprintf(config,"%d\n",cmblingua->GetSelection());
     	fprintf(config,"%s\n",StringLoginLingua);
-    	if(radGoogle->GetValue()==true) fprintf(config,"%s","google");
-    	if(radBing->GetValue()==true)   fprintf(config,"%s","bing");
+    	if(radgoogle->GetValue()==true) fprintf(config,"%s","google");
+    	if(radbing->GetValue()==true)   fprintf(config,"%s","bing");
     	fflush(config);
     	fclose(config);
-
-		TranslateController::InitLanguageVariable(StringLoginLingua);
     
 	ClientTsFrm* frame = new ClientTsFrm(NULL);
     frame->Show();
 	this->Close();
 }
 
+void Login::writeXmlLangDoc(char* filename)
+{
+	tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument(); //creazione documento
+	tinyxml2::XMLNode* element = doc->InsertEndChild(doc->NewElement("language")); //creazione nodo radice //
+	tinyxml2::XMLElement* sub[14] = { doc->NewElement("lblNameHost"), doc->NewElement("lblLanguage"), doc->NewElement("lblService"),
+		doc->NewElement("btnlogin"), doc->NewElement("lblmessage"), doc->NewElement("btnsend"), doc->NewElement("lblexit"),
+		doc->NewElement("lbloptions"), doc->NewElement("lblsound"), doc->NewElement("lblenable"), doc->NewElement("lbldisable"),
+		doc->NewElement("lblmicrophone"), doc->NewElement("lblmin"), doc->NewElement("lblmax") }; //creazione figli con inserimento tag
 
+	//assegnazione dei valori nei tag
+	if (strcmp((char*)(cmblingua->GetStringSelection().mb_str().data()),"English") == 0){
+		sub[0]->InsertFirstChild(doc->NewText("Name/Host Server:"));
+		element->InsertEndChild(sub[0]);
+		sub[1]->InsertFirstChild(doc->NewText("Language:"));
+		element->InsertEndChild(sub[1]);
+		sub[2]->InsertFirstChild(doc->NewText("Service:"));
+		element->InsertEndChild(sub[2]);
+		sub[3]->InsertFirstChild(doc->NewText("Confirm"));
+		element->InsertEndChild(sub[3]);
+		sub[4]->InsertFirstChild(doc->NewText("Message"));
+		element->InsertEndChild(sub[4]);
+		sub[5]->InsertFirstChild(doc->NewText("Send"));
+		element->InsertEndChild(sub[5]);
+		sub[6]->InsertFirstChild(doc->NewText("Exit"));
+		element->InsertEndChild(sub[6]);
+		sub[7]->InsertFirstChild(doc->NewText("Options"));
+		element->InsertEndChild(sub[7]);
+		sub[8]->InsertFirstChild(doc->NewText("Audio"));
+		element->InsertEndChild(sub[8]);
+		sub[9]->InsertFirstChild(doc->NewText("Enable"));
+		element->InsertEndChild(sub[9]);
+		sub[10]->InsertFirstChild(doc->NewText("Disable"));
+		element->InsertEndChild(sub[10]);
+		sub[11]->InsertFirstChild(doc->NewText("Adjust the sensitivity of the microphone"));
+		element->InsertEndChild(sub[11]);
+		sub[12]->InsertFirstChild(doc->NewText("the lowest captures all the sounds from the mic without filters"));
+		element->InsertEndChild(sub[12]);
+		sub[13]->InsertFirstChild(doc->NewText("while the maximum value does not capture any sound"));
+		element->InsertEndChild(sub[13]);
+	}
+	else if (strcmp((char*)(cmblingua->GetStringSelection().mb_str().data()), "Italian") == 0){
+		sub[0]->InsertFirstChild(doc->NewText("Nome/Host Server:"));
+		element->InsertEndChild(sub[0]);
+		sub[1]->InsertFirstChild(doc->NewText("Linguaggio:"));
+		element->InsertEndChild(sub[1]);
+		sub[2]->InsertFirstChild(doc->NewText("Servizio:"));
+		element->InsertEndChild(sub[2]);
+		sub[3]->InsertFirstChild(doc->NewText("Conferma"));
+		element->InsertEndChild(sub[3]);
+		sub[4]->InsertFirstChild(doc->NewText("Messaggio"));
+		element->InsertEndChild(sub[4]);
+		sub[5]->InsertFirstChild(doc->NewText("Invia"));
+		element->InsertEndChild(sub[5]);
+		sub[6]->InsertFirstChild(doc->NewText("Esci"));
+		element->InsertEndChild(sub[6]);
+		sub[7]->InsertFirstChild(doc->NewText("Opzioni"));
+		element->InsertEndChild(sub[7]);
+		sub[8]->InsertFirstChild(doc->NewText("Audio"));
+		element->InsertEndChild(sub[8]);
+		sub[9]->InsertFirstChild(doc->NewText("Abilita"));
+		element->InsertEndChild(sub[9]);
+		sub[10]->InsertFirstChild(doc->NewText("Disabilita"));
+		element->InsertEndChild(sub[10]);
+		sub[11]->InsertFirstChild(doc->NewText("Regola la sensibilità del microfono"));
+		element->InsertEndChild(sub[11]);
+		sub[12]->InsertFirstChild(doc->NewText("Il valore minimo cattura tutti i suoni dal microfono senza filtri"));
+		element->InsertEndChild(sub[12]);
+		sub[13]->InsertFirstChild(doc->NewText("Mentre il valore massimo non cattura nessun suono"));
+		element->InsertEndChild(sub[13]);
+	}
+	else if (strcmp((char*)(cmblingua->GetStringSelection().mb_str().data()), "Portuguese") == 0){
+		sub[0]->InsertFirstChild(doc->NewText("Nome/Host Server:"));
+		element->InsertEndChild(sub[0]);
+		sub[1]->InsertFirstChild(doc->NewText("Linguagem:"));
+		element->InsertEndChild(sub[1]);
+		sub[2]->InsertFirstChild(doc->NewText("Serviço:"));
+		element->InsertEndChild(sub[2]);
+		sub[3]->InsertFirstChild(doc->NewText("Confirmação"));
+		element->InsertEndChild(sub[3]);
+		sub[4]->InsertFirstChild(doc->NewText("Mensagens"));
+		element->InsertEndChild(sub[4]);
+		sub[5]->InsertFirstChild(doc->NewText("Enviar"));
+		element->InsertEndChild(sub[5]);
+		sub[6]->InsertFirstChild(doc->NewText("Parar"));
+		element->InsertEndChild(sub[6]);
+		sub[7]->InsertFirstChild(doc->NewText("Opções"));
+		element->InsertEndChild(sub[7]);
+		sub[8]->InsertFirstChild(doc->NewText("Àudio"));
+		element->InsertEndChild(sub[8]);
+		sub[9]->InsertFirstChild(doc->NewText("Habilitar"));
+		element->InsertEndChild(sub[9]);
+		sub[10]->InsertFirstChild(doc->NewText("Desabilitar"));
+		element->InsertEndChild(sub[10]);
+		sub[11]->InsertFirstChild(doc->NewText("Ajustar a sensibilidade do microfone"));
+		element->InsertEndChild(sub[11]);
+		sub[12]->InsertFirstChild(doc->NewText("O menor captura todos os sons do microfone sem filtros"));
+		element->InsertEndChild(sub[12]);
+		sub[13]->InsertFirstChild(doc->NewText("Enquanto o valor máximo não capturar qualquer som"));
+		element->InsertEndChild(sub[13]);
+	}
+	
+
+	doc->Print(); //stampa nella console
+
+	//int value = 10;
+	//int result = doc->FirstChildElement()->LastChildElement()->QueryIntAttribute("attrib", &value);
+
+	//stampa sul file
+	{
+		tinyxml2::XMLPrinter streamer;
+		doc->Print(&streamer);
+		printf("%s", streamer.CStr());
+	}
+		{
+			tinyxml2::XMLPrinter streamer(0, true);
+			doc->Print(&streamer);
+		}
+	doc->SaveFile(filename);
+	//doc->SaveFile("compact.xml", true);
+	delete doc;
+
+}
+
+void Login::readXmlLangDoc(char* filename){
+
+	tinyxml2::XMLDocument xmlDoc;//creazione document per la lettura
+	tinyxml2::XMLError eResult = xmlDoc.LoadFile(filename);		//caricamento del file xml
+	tinyxml2::XMLNode * pRoot = xmlDoc.FirstChild();			//lettura del padre language
+	tinyxml2::XMLElement * pElement;
+
+	tinyxml2::XMLNode *primoFiglio = pRoot->FirstChild();
+	tinyxml2::XMLNode *pFratello = primoFiglio;
+
+	do
+	{
+		const char* etichetta = pFratello->Value();
+		tinyxml2::XMLNode *figlio = pFratello->FirstChild();
+
+		const char* valFiglio = figlio->Value();
+
+		if (strcmp(etichetta, "lblNameHost") == 0) lblserver->SetLabel(valFiglio);
+		if (strcmp(etichetta, "lblLanguage") == 0) lbllingua->SetLabel(valFiglio);
+		if (strcmp(etichetta, "lblService") == 0) lbltrad->SetLabel(valFiglio);
+		if (strcmp(etichetta, "btnlogin") == 0) btnlogin->SetLabel(valFiglio);
+
+		pFratello = pFratello->NextSibling();
+
+	} while (pFratello != NULL);
+
+	return;
+
+}

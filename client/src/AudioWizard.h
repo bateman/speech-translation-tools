@@ -47,6 +47,7 @@ class AudioWizard : public wxDialog
 		void ConfermaClick(wxCommandEvent& event);
 		virtual ~AudioWizard();
 		void WxTimer1Timer(wxTimerEvent& event);
+		void readXmlLangDoc(char* filename);
 	
 	private:
 		//Do not add custom control declarations between 

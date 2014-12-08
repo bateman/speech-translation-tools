@@ -15,8 +15,8 @@
 ////Header Include Start
 #include "../res/ledrosso.xpm"
 #include "../res/ledverde.xpm"
-
-#include "translateController/translateVariable.h"
+#include "tinyxml2.h"
+#include <string>
 ////Header Include End
 
 char immagine[50];
@@ -49,8 +49,6 @@ AudioWizard::~AudioWizard()
 
 void AudioWizard::CreateGUIControls()
 {
-	//TODO Completare la traduzione di AudioWizard usando le variabile statica labels
-
 	//Do not add custom code between
 	//GUI Items Creation Start and GUI Items Creation End.
 	//wxDev-C++ designer will remove them.
@@ -59,15 +57,9 @@ void AudioWizard::CreateGUIControls()
 
 	wxInitAllImageHandlers();   //Initialize graphic format handlers
 
-	btnconferma = new wxButton(this, ID_WXBUTTON1, _(wxString::FromUTF8(labels.login.c_str())), wxPoint(344, 368), wxSize(75, 25), 0, wxDefaultValidator, _("btnconferma"));
+	btnconferma = new wxButton(this, ID_WXBUTTON1, _("Conferma"), wxPoint(344, 368), wxSize(75, 25), 0, wxDefaultValidator, _("btnconferma"));
 
-	string audiotext = "";
-	audiotext.append(labels.microphone);
-	audiotext.append("\n\n");
-	audiotext.append(labels.min);
-	audiotext.append("\n\n");
-	audiotext.append(labels.max);
-	lblhelp = new wxStaticText(this, ID_WXSTATICTEXT1, _(wxString::FromUTF8(audiotext.c_str())), wxPoint(20, 32), wxDefaultSize, 0, _("lblhelp"));
+	lblhelp = new wxStaticText(this, ID_WXSTATICTEXT1, _("Regola la sensibilità del microfono\n\nIl valore minimo cattura tutti i suoni dal mic senza filtri\n\nMentre il valore massimo non cattura nessun suono"), wxPoint(20, 32), wxDefaultSize, 0, _("lblhelp"));
 	
 	WxTimer1 = new wxTimer();
 	WxTimer1->SetOwner(this, ID_WXTIMER1);
@@ -97,7 +89,27 @@ void AudioWizard::CreateGUIControls()
 	SetSize(8,8,520,520);
 	Center();
 	
-	////GUI Items Creation End
+	
+	//GUI Items Creation End
+
+	char filename[20];
+	FILE* file;
+
+	char temp[20], language[20];
+
+	if (file = fopen("..\\conf\\config.txt", "r"))
+	{
+
+		fscanf(file, "%s", &temp);
+		fscanf(file, "%s", &temp);
+		fscanf(file, "%s", &temp);
+		fscanf(file, "%s", &language);
+
+		fclose(file);
+	}
+
+	strcpy(filename, strcat(language, ".xml"));
+	AudioWizard::readXmlLangDoc(filename);
 }
 
 void AudioWizard::OnClose(wxCloseEvent& /*event*/)
@@ -117,5 +129,43 @@ void AudioWizard::ConfermaClick(wxCommandEvent& event)
 
 void AudioWizard::WxTimer1Timer(wxTimerEvent& event)
 {
+
+}
+
+void AudioWizard::readXmlLangDoc(char* filename){
+
+	tinyxml2::XMLDocument xmlDoc;//creazione document per la lettura
+	tinyxml2::XMLError eResult = xmlDoc.LoadFile(filename);		//caricamento del file xml
+	tinyxml2::XMLNode * pRoot = xmlDoc.FirstChild();			//lettura del padre language
+	tinyxml2::XMLElement * pElement;
+
+	tinyxml2::XMLNode *primoFiglio = pRoot->FirstChild();
+	tinyxml2::XMLNode *pFratello = primoFiglio;
+
+	char help[200];
+
+	do
+	{
+		const char* etichetta = pFratello->Value();
+		tinyxml2::XMLNode *figlio = pFratello->FirstChild();
+
+		const char* valFiglio = figlio->Value();
+		
+		if (strcmp(etichetta, "lblmicrophone") == 0) 
+			strcpy(help, strcat((char*)valFiglio,"\n\n"));
+		if (strcmp(etichetta, "lblmin") == 0) 
+			strcat(help, strcat((char*)valFiglio, "\n\n"));
+		if (strcmp(etichetta, "lblmax") == 0) 
+			strcat(help, strcat((char*)valFiglio, "\n\n"));
+		if (strcmp(etichetta, "btnlogin") == 0) 
+			btnconferma->SetLabelText(valFiglio);
+
+		pFratello = pFratello->NextSibling();
+
+	} while (pFratello != NULL);
+
+	lblhelp->SetLabel(help);
+
+	return;
 
 }
