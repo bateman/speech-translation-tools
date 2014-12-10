@@ -50,7 +50,7 @@ class Login : public wxDialog
 		void txtserverUpdated(wxCommandEvent& event);
 		void writeXmlLangDoc(char* filename);
 		void readXmlLangDoc(char* filename);
-		void cmblingua_SelectionChange(wxCommandEvent& event);
+		void cmblang_SelectionChange(wxCommandEvent& event);
 		void Login::writeAndReadLabels();
 		/*void getServerAddress();
 		void getServerAddress();*/
@@ -63,8 +63,8 @@ class Login : public wxDialog
 		wxRadioButton *radbing;
 		wxRadioButton *radgoogle;
 		wxStaticText *lbltrad;
-		wxComboBox *cmblingua;
-		wxStaticText *lbllingua;
+		wxComboBox *cmblang;
+		wxStaticText *lblanguage;
 		wxButton *btnlogin;
 		wxTextCtrl *txtnick;
 		wxStaticText *lblnick;

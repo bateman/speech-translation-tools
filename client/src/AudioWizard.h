@@ -54,7 +54,7 @@ class AudioWizard : public wxDialog
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
-		wxButton *btnconferma;
+		wxButton *btnconfirm;
 		wxStaticText *lblhelp;
 		wxSlider *slideraudio;
 		wxStaticBitmap *bmpfeed;

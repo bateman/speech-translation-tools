@@ -81,8 +81,8 @@ class ClientTsFrm : public wxFrame
 		wxTimer *WxTimer1;
 		wxButton *btnspeech;
 		wxRichTextCtrl *txtclient;
-		wxTextCtrl *txtlingua;
-		wxStaticText *lbllingua;
+		wxTextCtrl *txtlanguage;
+		wxStaticText *lblanguage;
 		wxStaticText *lblnick;
 		wxTextCtrl *txtnick;
 		wxRichTextCtrl *txtchat;

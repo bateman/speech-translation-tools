@@ -12,8 +12,8 @@ class TranslateController
 		static wxString TraduzioneLabel(char* language);
 		static void writeXmlLangDoc(char* filename);
 		static void readXmlLangDoc(char* filename);
-		static void parseBing(char *word);
-		static void parseGoogle(char *str);
-		static char *richiestaBing(wxString StringSource, char * lang);
-		static char *richiestaGoogle(wxString StringSource, char * lang);
+		
+		
+		
+		
 };

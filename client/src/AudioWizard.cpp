@@ -57,7 +57,7 @@ void AudioWizard::CreateGUIControls()
 
 	wxInitAllImageHandlers();   //Initialize graphic format handlers
 
-	btnconferma = new wxButton(this, ID_WXBUTTON1, _("Conferma"), wxPoint(344, 368), wxSize(75, 25), 0, wxDefaultValidator, _("btnconferma"));
+	btnconfirm = new wxButton(this, ID_WXBUTTON1, _("Conferma"), wxPoint(344, 368), wxSize(75, 25), 0, wxDefaultValidator, _("btnconfirm"));
 
 	lblhelp = new wxStaticText(this, ID_WXSTATICTEXT1, _("Regola la sensibilità del microfono\n\nIl valore minimo cattura tutti i suoni dal mic senza filtri\n\nMentre il valore massimo non cattura nessun suono"), wxPoint(20, 32), wxDefaultSize, 0, _("lblhelp"));
 	
@@ -139,30 +139,30 @@ void AudioWizard::readXmlLangDoc(char* filename){
 	tinyxml2::XMLNode * pRoot = xmlDoc.FirstChild();			//lettura del padre language
 	tinyxml2::XMLElement * pElement;
 
-	tinyxml2::XMLNode *primoFiglio = pRoot->FirstChild();
-	tinyxml2::XMLNode *pFratello = primoFiglio;
+	tinyxml2::XMLNode *firstChild = pRoot->FirstChild();
+	tinyxml2::XMLNode *pBrother = firstChild;
 
 	char help[200];
 
 	do
 	{
-		const char* etichetta = pFratello->Value();
-		tinyxml2::XMLNode *figlio = pFratello->FirstChild();
+		const char* label = pBrother->Value();
+		tinyxml2::XMLNode *child = pBrother->FirstChild();
 
-		const char* valFiglio = figlio->Value();
+		const char* valChild = child->Value();
 		
-		if (strcmp(etichetta, "lblmicrophone") == 0) 
-			strcpy(help, strcat((char*)valFiglio,"\n\n"));
-		if (strcmp(etichetta, "lblmin") == 0) 
-			strcat(help, strcat((char*)valFiglio, "\n\n"));
-		if (strcmp(etichetta, "lblmax") == 0) 
-			strcat(help, strcat((char*)valFiglio, "\n\n"));
-		if (strcmp(etichetta, "btnlogin") == 0) 
-			btnconferma->SetLabelText(valFiglio);
+		if (strcmp(label, "lblmicrophone") == 0) 
+			strcpy(help, strcat((char*)valChild,"\n\n"));
+		if (strcmp(label, "lblmin") == 0) 
+			strcat(help, strcat((char*)valChild, "\n\n"));
+		if (strcmp(label, "lblmax") == 0) 
+			strcat(help, strcat((char*)valChild, "\n\n"));
+		if (strcmp(label, "btnlogin") == 0) 
+			btnconfirm->SetLabelText(valChild);
 
-		pFratello = pFratello->NextSibling();
+		pBrother = pBrother->NextSibling();
 
-	} while (pFratello != NULL);
+	} while (pBrother != NULL);
 
 	lblhelp->SetLabel(help);
 

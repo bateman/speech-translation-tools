@@ -1824,26 +1824,7 @@ void ClientTsFrm::CreateGUIControls()
 	}
 	gridchat = new wxGrid(this, ID_GRIDCHAT, wxPoint(211, 72), wxSize(722, 350));
 
-	/*gridclient = new wxGrid(this, ID_GRIDCLIENT, wxPoint(10, 250), wxSize(184, 155));
-	gridclient->CreateGrid(0, 3, wxGrid::wxGridSelectCells);
-	gridclient->SetColLabelValue(0, "Nickname");
-	gridclient->SetColLabelValue(1, "Country");
-	gridclient->SetColLabelValue(2, "Status");
-
-	gridclient->SetRowLabelSize(0);
-	
-	gridclient->AppendRows(4, true);
-	gridclient->SetRowSize(0, 40);
-	gridclient->SetRowSize(1, 40);
-	gridclient->SetRowSize(2, 40);
-	gridclient->SetRowSize(3, 40);
-
-	gridclient->SetColSize(0, 75);
-	gridclient->SetColSize(1, 60);
-	gridclient->SetColSize(2, 60);*/
-	
-
-	gridchat->CreateGrid(0, 2, wxGrid::wxGridSelectCells);
+		gridchat->CreateGrid(0, 2, wxGrid::wxGridSelectCells);
 
 	gridchat->SetColLabelValue(0, "Message");
 	gridchat->SetColLabelValue(1, "Play");
@@ -1867,11 +1848,11 @@ void ClientTsFrm::CreateGUIControls()
 	txtclient->SetInsertionPointEnd();
 	txtclient->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
-	txtlingua = new wxTextCtrl(this, ID_WXEDIT2, _(""), wxPoint(367, 20), wxSize(103, 20), wxTE_READONLY, wxDefaultValidator, _("txtlingua"));
-	txtlingua->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
+	txtlanguage = new wxTextCtrl(this, ID_WXEDIT2, _(""), wxPoint(367, 20), wxSize(103, 20), wxTE_READONLY, wxDefaultValidator, _("txtlanguage"));
+	txtlanguage->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
-	lbllingua = new wxStaticText(this, ID_WXSTATICTEXT2, _("Language:"), wxPoint(299, 20), wxDefaultSize, 0, _("lbllingua"));
-	lbllingua->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
+	lblanguage = new wxStaticText(this, ID_WXSTATICTEXT2, _("Language:"), wxPoint(299, 20), wxDefaultSize, 0, _("lblanguage"));
+	lblanguage->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
 
 	lblnick = new wxStaticText(this, ID_WXSTATICTEXT1, _("Nickname:"), wxPoint(14, 20), wxDefaultSize, 0, _("lblnick"));
 	lblnick->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));
@@ -1891,10 +1872,6 @@ void ClientTsFrm::CreateGUIControls()
 	wxBitmap WxBitmapButton1_BITMAP(NULL);
 	WxBitmapButton1 = new wxBitmapButton(this, ID_WXBITMAPBUTTON1, WxBitmapButton1_BITMAP, wxPoint(211+570, 450), wxSize(50, 45), wxBU_AUTODRAW, wxDefaultValidator, _("WxBitmapButton1"));
 	WxBitmapButton1->SetToolTip(_("Abilita SpeechToText Service"));
-
-	/*btnspeech = new wxButton(this, ID_WXBUTTON3, _("Speech to text disabilitato"), wxPoint(10, 450), wxSize(180, 31), 0, wxDefaultValidator, _("WxButton1"));
-	btnspeech->Show(true);
-	btnspeech->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false));*/
 
 	WxMenuBar1 = new wxMenuBar();
 	ID_MNU_FILE_1001_Mnu_Obj = new wxMenu();
@@ -1943,7 +1920,7 @@ void ClientTsFrm::CreateGUIControls()
 	}
 
 	txtnick->AppendText(NICK);
-	txtlingua->AppendText(CURRENT_LANG);
+	txtlanguage->AppendText(CURRENT_LANG);
 	HANDLE myHandle = CreateThread(0, 0, ClientStart, NULL, 0, &myThreadID);
 	HANDLE myHandle2 = CreateThread(0, 0, TTS_THREAD, NULL, 0, &myThreadID2);
 	HANDLE myHandle3 = CreateThread(0, 0, STT_THREAD, NULL, 0, &myThreadID4);
@@ -2230,32 +2207,32 @@ void ClientTsFrm::WxBitmapButton1Click(wxCommandEvent& event)
 
 void ClientTsFrm::readXmlLangDoc(char* filename){
 
-	tinyxml2::XMLDocument xmlDoc;//creazione document per la lettura
-	tinyxml2::XMLError eResult = xmlDoc.LoadFile(filename);		//caricamento del file xml
-	tinyxml2::XMLNode * pRoot = xmlDoc.FirstChild();			//lettura del padre language
+	tinyxml2::XMLDocument xmlDoc;
+	tinyxml2::XMLError eResult = xmlDoc.LoadFile(filename);		
+	tinyxml2::XMLNode * pRoot = xmlDoc.FirstChild();			
 	tinyxml2::XMLElement * pElement;
 
-	tinyxml2::XMLNode *primoFiglio = pRoot->FirstChild();
-	tinyxml2::XMLNode *pFratello = primoFiglio;
+	tinyxml2::XMLNode *firstChild = pRoot->FirstChild();
+	tinyxml2::XMLNode *pBrother = firstChild;
 
 	do
 	{
-		const char* etichetta = pFratello->Value();
-		tinyxml2::XMLNode *figlio = pFratello->FirstChild();
+		const char* label = pBrother->Value();
+		tinyxml2::XMLNode *child = pBrother->FirstChild();
 
-		const char* valFiglio = figlio->Value();
+		const char* valChild = child->Value();
 
-		if (strcmp(etichetta, "lblmessage") == 0) gridchat->SetColLabelValue(0, valFiglio);
-		if (strcmp(etichetta, "btnsend") == 0) btnsend->SetLabelText(valFiglio);
-		if (strcmp(etichetta, "lblexit") == 0) ID_MNU_FILE_1001_Mnu_Obj->FindItemByPosition(0)->SetItemLabel(valFiglio);
-		if (strcmp(etichetta, "lbloptions") == 0) WxMenuBar1->SetMenuLabel(1,valFiglio);
-		if (strcmp(etichetta, "lblsound") == 0)  ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(0)->SetItemLabel(valFiglio);
-		if (strcmp(etichetta, "lblenable") == 0) ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(1)->SetItemLabel(strcat((char *)valFiglio, " SpeachToText Service"));
-		if (strcmp(etichetta, "lblLanguage") == 0) lbllingua->SetLabel(valFiglio);
+		if (strcmp(label, "lblmessage") == 0) gridchat->SetColLabelValue(0, valChild);
+		if (strcmp(label, "btnsend") == 0) btnsend->SetLabelText(valChild);
+		if (strcmp(label, "lblexit") == 0) ID_MNU_FILE_1001_Mnu_Obj->FindItemByPosition(0)->SetItemLabel(valChild);
+		if (strcmp(label, "lbloptions") == 0) WxMenuBar1->SetMenuLabel(1,valChild);
+		if (strcmp(label, "lblsound") == 0)  ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(0)->SetItemLabel(valChild);
+		if (strcmp(label, "lblenable") == 0) ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(1)->SetItemLabel(strcat((char *)valChild, " SpeachToText Service"));
+		if (strcmp(label, "lblLanguage") == 0) lblanguage->SetLabel(valChild);
 
-		pFratello = pFratello->NextSibling();
+		pBrother = pBrother->NextSibling();
 
-	} while (pFratello != NULL);
+	} while (pBrother != NULL);
 
 	return;
 
