@@ -108,7 +108,9 @@ void AudioWizard::CreateGUIControls()
 		fclose(file);
 	}
 
-	strcpy(filename, strcat(language, ".xml"));
+
+	strcpy(filename, "lang\\");
+	strcat(filename, strcat(language, ".xml"));
 	AudioWizard::readXmlLangDoc(filename);
 }
 

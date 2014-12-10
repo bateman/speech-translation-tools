@@ -1935,7 +1935,8 @@ void ClientTsFrm::CreateGUIControls()
 	strcpy(lang, CURRENT_LANG);
 
 	char filename[20] = { "" };
-	strcpy(filename, strcat(lang, ".xml"));
+	strcpy(filename, "lang\\");
+	strcat(filename, strcat(lang, ".xml"));
 	ClientTsFrm::readXmlLangDoc(filename);
 
 }

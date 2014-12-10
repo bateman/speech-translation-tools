@@ -51,7 +51,7 @@ class Login : public wxDialog
 		void writeXmlLangDoc(char* filename);
 		void readXmlLangDoc(char* filename);
 		void cmblang_SelectionChange(wxCommandEvent& event);
-		void Login::writeAndReadLabels();
+		void writeAndReadLabels();
 		/*void getServerAddress();
 		void getServerAddress();*/
 	
