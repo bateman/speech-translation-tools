@@ -272,6 +272,23 @@ void parseBing(char *word)
     for(i=1;i<strlen(buffer);i++) buffer[i-1]=buffer[i];
     buffer[strlen(buffer)-10]='\0';
     StringTranslate=wxString::FromAscii(buffer); // StringTranslate contains the text translate
+
+	//saving log informations
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	logmessage.append(NICK);
+	logmessage.append(" || ");
+	char temp[100];
+	strftime(temp, 100, "%c", timeinfo);
+	puts(temp);
+	logmessage.append(temp);
+	logmessage.append(" || Messaggio tradotto:");
+	logmessage.append((const char*)StringTranslate.mb_str());
+
+	clientMessages.push_back(logmessage);
+	logmessage.clear();
+	//end of saving
 }
 
 void parseGoogle(char *str)
@@ -451,6 +468,7 @@ char * richiestaBing(wxString StringSource, char * lang)
 	  fflush(html);
 	  fclose(html);
   }
+
   return p.ptr;
 }
 
@@ -1972,6 +1990,34 @@ void ClientTsFrm::gridchatCellLeftClick(wxGridEvent& event)
 }
 void ClientTsFrm::OnClose(wxCloseEvent& event)
 {
+	char filename[50] = {""};
+
+	//saving current time
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	char temp[100];
+	strftime(temp, 100, "%d-%m-%Y_%H-%M-%S", timeinfo);
+	puts(temp);
+
+	strcpy(filename, "chatLogs\\chatLog");
+	strcat(filename, temp);
+	strcat(filename, ".txt");
+
+	if (chatSessionLog = fopen(filename, "w"))
+	{
+		int i;
+		list<string>::iterator it;
+		for (it = clientMessages.begin(); it != clientMessages.end(); it++)
+		{
+			string temp = *it;
+			fprintf(chatSessionLog, "%s", temp.c_str());
+			fprintf(chatSessionLog, "%s", "\n");
+		}
+
+		fclose(chatSessionLog);
+	}
+
     flag=1;
     Sleep(300);
 	Destroy();
@@ -2086,19 +2132,36 @@ void ClientTsFrm::btnsendClick(wxCommandEvent& event)
 	char str[1024]={""};
     strcpy(str,(const char*)txtmsg->GetValue().mb_str());
 	wxString parsata=txtmsg->GetValue().ToUTF8(); //convert write message into UTF8
+
 	if (parsata == "") return;	//if the message is empty exit
 	txtmsg->DiscardEdits();		//Clear buffer of textbox
 	write_flag = false;
 
-    if(strcmp(CURRENT_LANG,"Italian")==0) ts3client_requestSendChannelTextMsg(DEFAULT_VIRTUAL_SERVER,"\nItalian\n"+parsata,(uint64)1,NULL);
+    if(strcmp(CURRENT_LANG,"Italian")==0) ts3client_requestSendChannelTextMsg(DEFAULT_VIRTUAL_SERVER,"\nItalian\n" + parsata,(uint64)1,NULL);
 	else if (strcmp(CURRENT_LANG, "English") == 0) ts3client_requestSendChannelTextMsg(DEFAULT_VIRTUAL_SERVER, "\nEnglish\n" + parsata, (uint64)1, NULL);
 	else if (strcmp(CURRENT_LANG, "Portuguese") == 0) ts3client_requestSendChannelTextMsg(DEFAULT_VIRTUAL_SERVER, "\nPortuguese\n" + parsata, (uint64)1, NULL);
 	
 	wxString scrive_msg = "\n" + wxString::FromAscii(CURRENT_LANG) + "\n" + "write0";	//Inform other clients that we have finish to write
 	ts3client_requestSendChannelTextMsg(DEFAULT_VIRTUAL_SERVER, scrive_msg, (uint64)1, NULL);
 	txtmsg->Clear();
+
+	//saving log informations
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
 	
-	
+	logmessage.append(NICK);
+	logmessage.append(" || ");
+	char temp[100];
+	strftime(temp, 100, "%c", timeinfo);
+	puts(temp);
+	logmessage.append(temp);
+	logmessage.append(" || Messaggio inviato:");
+	logmessage.append((const char*)parsata.mb_str());
+
+	clientMessages.push_back(logmessage);
+	logmessage.clear();
+	//end of saving
+
 }
 
 

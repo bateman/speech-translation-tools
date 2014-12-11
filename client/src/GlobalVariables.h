@@ -16,6 +16,7 @@
 #include <irrKlang.h>
 #include <string.h>
 #include <iostream>
+#include <list>
 #include <public_definitions.h>
 #include <public_errors.h>
 #include <clientlib_publicdefinitions.h>
@@ -184,8 +185,13 @@ bool write_flag = false;			//Flag to recognize Typing
 bool tasto_stt_flag = false;		//Flag to activate Automatic SpeechToText
 bool finish_ctrl_flag = false;		//Flag to recognize CTRL press button
 bool automatic_stt_flag = false;
-wxRichTextCtrl *chatptr;				//Pointer to edit the chatptr
+wxRichTextCtrl *chatptr;			//Pointer to edit the chatptr
 unsigned int curRow = 0;			//Initialize Row index
 unsigned int curCol = 0;			//Initialize Column index
 MESSAGE diary[1024];				//Structure to record log chatptr
 wxGrid *gridptr;					//Pointer to edit the chatptr grid
+FILE* chatSessionLog;				//Log File for chat recording at the end of a chat session
+time_t rawtime;						//CurrentTime
+struct tm * timeinfo;				//Structure for timestamp
+list<string> clientMessages;		//List of client messages for log
+string logmessage;					//Single Log message
