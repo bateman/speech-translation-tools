@@ -11,6 +11,8 @@
 #include "GlobalVariables.h"
 #include "tinyxml2.h"
 
+void saveLogSent(wxString messageS); //Prototype of method save log sent
+void saveLogReceived(); //Prototype of method save log received
 /*
 This procedure allows the use of TextToSpeech offered by Microsoft
 it has two parameters: the language of message and body of message
@@ -272,23 +274,8 @@ void parseBing(char *word)
     for(i=1;i<strlen(buffer);i++) buffer[i-1]=buffer[i];
     buffer[strlen(buffer)-10]='\0';
     StringTranslate=wxString::FromAscii(buffer); // StringTranslate contains the text translate
-
-	//saving log informations
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-
-	logmessage.append(NICK);
-	logmessage.append(" || ");
-	char temp[100];
-	strftime(temp, 100, "%c", timeinfo);
-	puts(temp);
-	logmessage.append(temp);
-	logmessage.append(" || Messaggio tradotto:");
-	logmessage.append((const char*)StringTranslate.mb_str());
-
-	clientMessages.push_back(logmessage);
-	logmessage.clear();
-	//end of saving
+	saveLogReceived();
+	
 }
 
 void parseGoogle(char *str)
@@ -328,6 +315,7 @@ void parseGoogle(char *str)
 		}
 		StringTranslate = wxString::FromAscii(finale);	//StringTranslate contains the message translate
 	}
+	saveLogReceived();
 }
 
 char * richiestaBing(wxString StringSource, char * lang)
@@ -1991,6 +1979,7 @@ void ClientTsFrm::gridchatCellLeftClick(wxGridEvent& event)
 void ClientTsFrm::OnClose(wxCloseEvent& event)
 {
 	char filename[50] = {""};
+	char filenamecsv[50] = { "" };
 
 	//saving current time
 	time(&rawtime);
@@ -2017,6 +2006,28 @@ void ClientTsFrm::OnClose(wxCloseEvent& event)
 
 		fclose(chatSessionLog);
 	}
+	//saving current time
+	
+	strcpy(filenamecsv, "chatLogs\\chatLog");
+	strcat(filenamecsv, temp);
+	strcat(filenamecsv, ".csv");
+
+	if (chatSessionLogCsv = fopen(filenamecsv, "w"))
+	{
+		int i;
+		list<string>::iterator it;
+		for (it = clientMessagesCsv.begin(); it != clientMessagesCsv.end(); it++)
+		{
+			string temp = *it;
+			fprintf(chatSessionLogCsv, "%s", temp.c_str());
+			//fprintf(chatSessionLogCsv, "%s", "\n");
+		}
+
+		fclose(chatSessionLogCsv);
+	}
+
+
+
 
     flag=1;
     Sleep(300);
@@ -2145,23 +2156,7 @@ void ClientTsFrm::btnsendClick(wxCommandEvent& event)
 	ts3client_requestSendChannelTextMsg(DEFAULT_VIRTUAL_SERVER, scrive_msg, (uint64)1, NULL);
 	txtmsg->Clear();
 
-	//saving log informations
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-	
-	logmessage.append(NICK);
-	logmessage.append(" || ");
-	char temp[100];
-	strftime(temp, 100, "%c", timeinfo);
-	puts(temp);
-	logmessage.append(temp);
-	logmessage.append(" || Messaggio inviato:");
-	logmessage.append((const char*)parsata.mb_str());
-
-	clientMessages.push_back(logmessage);
-	logmessage.clear();
-	//end of saving
-
+	saveLogSent(parsata);
 }
 
 
@@ -2239,7 +2234,57 @@ void ClientTsFrm::WxTimer2Timer(wxTimerEvent& event)
 
 void ClientTsFrm::Debug(wxCommandEvent& event)
 {
-	// insert your code here
+	char filename[50] = { "" };
+	char filenamecsv[50] = { "" };
+
+	//saving current time
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	char temp[100];
+	strftime(temp, 100, "%d-%m-%Y_%H-%M-%S", timeinfo);
+	puts(temp);
+
+	strcpy(filename, "chatLogs\\chatLog");
+	strcat(filename, temp);
+	strcat(filename, ".txt");
+
+	if (chatSessionLog = fopen(filename, "w"))
+	{
+		int i;
+		list<string>::iterator it;
+		for (it = clientMessages.begin(); it != clientMessages.end(); it++)
+		{
+			string temp = *it;
+			fprintf(chatSessionLog, "%s", temp.c_str());
+			fprintf(chatSessionLog, "%s", "\n");
+		}
+
+		fclose(chatSessionLog);
+	}
+	//saving current time
+
+	strcpy(filenamecsv, "chatLogs\\chatLog");
+	strcat(filenamecsv, temp);
+	strcat(filenamecsv, ".csv");
+
+	if (chatSessionLogCsv = fopen(filenamecsv, "w"))
+	{
+		int i;
+		list<string>::iterator it;
+		for (it = clientMessagesCsv.begin(); it != clientMessagesCsv.end(); it++)
+		{
+			string temp = *it;
+			fprintf(chatSessionLogCsv, "%s", temp.c_str());
+			//fprintf(chatSessionLogCsv, "%s", "\n");
+		}
+
+		fclose(chatSessionLogCsv);
+	}
+
+
+
+
 	flag = 1;
 	Sleep(300);
 	Destroy();
@@ -2300,4 +2345,78 @@ void ClientTsFrm::readXmlLangDoc(char* filename){
 
 	return;
 
+}
+//Definition of method save log sent
+void saveLogSent(wxString parsata){
+	//saving log informations
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	logmessage.append(NICK);
+	logmessage.append(" || ");
+	char temp[100];
+	strftime(temp, 100, "%c", timeinfo);
+	puts(temp);
+	logmessage.append(temp);
+	logmessage.append(" || --> ");
+	logmessage.append((const char*)parsata.mb_str());
+
+	clientMessages.push_back(logmessage);
+	logmessage.clear();
+	//end of saving
+	//saving log csv
+	logmessagecsv.append("\"");
+	logmessagecsv.append(NICK);
+	logmessagecsv.append("\"");
+	logmessagecsv.append(",");
+	logmessagecsv.append("\"");
+	logmessagecsv.append(temp);
+	logmessagecsv.append("\"");
+	logmessagecsv.append(",");
+	logmessagecsv.append("\"");
+	logmessagecsv.append(" --> ");
+	logmessagecsv.append((const char*)parsata.mb_str());
+	logmessagecsv.append("\"");
+	logmessagecsv.append("\n");
+	clientMessagesCsv.push_back(logmessagecsv);
+	logmessagecsv.clear();
+	//end of saving csv
+
+}
+//Definition of method save log receive
+void saveLogReceived(){
+	//saving log informations
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	logmessage.append(NICK);
+	logmessage.append(" || ");
+	char temp[100];
+	strftime(temp, 100, "%c", timeinfo);
+	puts(temp);
+	logmessage.append(temp);
+	logmessage.append(" || <-- ");
+	logmessage.append((const char*)StringTranslate.mb_str());
+
+	clientMessages.push_back(logmessage);
+	logmessage.clear();
+	//end of saving
+	//saving log csv
+	logmessagecsv.append("\"");
+	logmessagecsv.append(NICK);
+	logmessagecsv.append("\"");
+	logmessagecsv.append(",");
+	logmessagecsv.append("\"");
+	logmessagecsv.append(temp);
+	logmessagecsv.append("\"");
+	logmessagecsv.append(",");
+	logmessagecsv.append("\"");
+
+	logmessagecsv.append(" <-- ");
+	logmessagecsv.append((const char*)StringTranslate.mb_str());
+	logmessagecsv.append("\"");
+	logmessagecsv.append("\n");
+	clientMessagesCsv.push_back(logmessagecsv);
+	logmessagecsv.clear();
+	//end of saving csv
 }

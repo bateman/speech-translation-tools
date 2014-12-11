@@ -178,6 +178,8 @@ void Login::writeAndReadLabels(){
 	lblanguage->SetLabel("");
 	lbltrad->SetLabel("");
 	btnlogin->SetLabel("");
+	
+	
 
 	readXmlLangDoc(filename);
 }

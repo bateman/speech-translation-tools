@@ -71,7 +71,7 @@ class ClientTsFrm : public wxFrame
 		void Wizard(wxCommandEvent& event);
 		void WxBitmapButton1Click(wxCommandEvent& event);
 		void readXmlLangDoc(char* filename);
-		
+				
 	private:
 		//Do not add custom control declarations between
 		//GUI Control Declaration Start and GUI Control Declaration End.

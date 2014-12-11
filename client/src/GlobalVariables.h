@@ -191,7 +191,10 @@ unsigned int curCol = 0;			//Initialize Column index
 MESSAGE diary[1024];				//Structure to record log chatptr
 wxGrid *gridptr;					//Pointer to edit the chatptr grid
 FILE* chatSessionLog;				//Log File for chat recording at the end of a chat session
+FILE* chatSessionLogCsv;			//Log File for chat recording at the end of a chat session for cvs
 time_t rawtime;						//CurrentTime
 struct tm * timeinfo;				//Structure for timestamp
 list<string> clientMessages;		//List of client messages for log
+list<string> clientMessagesCsv;		//List of client messages for log for cvs
 string logmessage;					//Single Log message
+string logmessagecsv;				//Single Log message csv
