@@ -320,7 +320,9 @@ void parseGoogle(char *str)
 
 char * richiestaBing(wxString StringSource, char * lang)
 {
-    if(strcmp(lang,CURRENT_LANG)==0) return (char*)StringSource.mb_str().data();	//If the message is written in client's language then return
+	StringSourceLog = StringSource; //set source message for log
+	SourceLanguageLog = lang;//set source language for log
+	if(strcmp(lang,CURRENT_LANG)==0) return (char*)StringSource.mb_str().data();	//If the message is written in client's language then return
     
     CURL *curl2;
     CURL *curl3;
@@ -463,7 +465,8 @@ char * richiestaBing(wxString StringSource, char * lang)
 
 char* richiestaGoogle(wxString StringSource, char * lang)
 {
-  
+	StringSourceLog = StringSource; //set source message for log
+	SourceLanguageLog = lang;//set source language for log
     if(strcmp(lang,CURRENT_LANG)==0) return (char*)StringSource.mb_str().data();
     
 	CURL *curl;
@@ -2348,7 +2351,7 @@ void ClientTsFrm::readXmlLangDoc(char* filename){
 }
 //Definition of method save log sent
 void saveLogSent(wxString parsata){
-	//saving log informations
+	//saving log informations txt
 	time(&rawtime);
 	timeinfo = localtime(&rawtime);
 
@@ -2363,16 +2366,15 @@ void saveLogSent(wxString parsata){
 
 	clientMessages.push_back(logmessage);
 	logmessage.clear();
-	//end of saving
 	//saving log csv
 	logmessagecsv.append("\"");
 	logmessagecsv.append(NICK);
 	logmessagecsv.append("\"");
-	logmessagecsv.append(",");
+	logmessagecsv.append(";");
 	logmessagecsv.append("\"");
 	logmessagecsv.append(temp);
 	logmessagecsv.append("\"");
-	logmessagecsv.append(",");
+	logmessagecsv.append(";");
 	logmessagecsv.append("\"");
 	logmessagecsv.append(" --> ");
 	logmessagecsv.append((const char*)parsata.mb_str());
@@ -2380,12 +2382,12 @@ void saveLogSent(wxString parsata){
 	logmessagecsv.append("\n");
 	clientMessagesCsv.push_back(logmessagecsv);
 	logmessagecsv.clear();
-	//end of saving csv
+	
 
 }
 //Definition of method save log receive
 void saveLogReceived(){
-	//saving log informations
+	//saving log informations txt
 	time(&rawtime);
 	timeinfo = localtime(&rawtime);
 
@@ -2395,28 +2397,38 @@ void saveLogReceived(){
 	strftime(temp, 100, "%c", timeinfo);
 	puts(temp);
 	logmessage.append(temp);
-	logmessage.append(" || <-- ");
+	logmessage.append(" || <-- (");
+	logmessage.append(SourceLanguageLog);
+	logmessage.append(":");
+	logmessage.append((const char*)StringSourceLog.mb_str());
+	logmessage.append(" --> ");
+	logmessage.append(CURRENT_LANG);
+	logmessage.append(":");
 	logmessage.append((const char*)StringTranslate.mb_str());
-
+	logmessage.append(")");
 	clientMessages.push_back(logmessage);
 	logmessage.clear();
-	//end of saving
+
 	//saving log csv
 	logmessagecsv.append("\"");
 	logmessagecsv.append(strNick);
 	logmessagecsv.append("\"");
-	logmessagecsv.append(",");
+	logmessagecsv.append(";");
 	logmessagecsv.append("\"");
 	logmessagecsv.append(temp);
 	logmessagecsv.append("\"");
-	logmessagecsv.append(",");
+	logmessagecsv.append(";");
 	logmessagecsv.append("\"");
-
 	logmessagecsv.append(" <-- ");
+	logmessagecsv.append(SourceLanguageLog);
+	logmessagecsv.append(":");
+	logmessagecsv.append((const char*)StringSourceLog.mb_str());
+	logmessagecsv.append(" --> ");
+	logmessagecsv.append(CURRENT_LANG);
+	logmessagecsv.append(":");
 	logmessagecsv.append((const char*)StringTranslate.mb_str());
 	logmessagecsv.append("\"");
 	logmessagecsv.append("\n");
 	clientMessagesCsv.push_back(logmessagecsv);
 	logmessagecsv.clear();
-	//end of saving csv
 }
