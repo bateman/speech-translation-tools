@@ -2389,7 +2389,7 @@ void saveLogReceived(){
 	time(&rawtime);
 	timeinfo = localtime(&rawtime);
 
-	logmessage.append(NICK);
+	logmessage.append(strNick);
 	logmessage.append(" || ");
 	char temp[100];
 	strftime(temp, 100, "%c", timeinfo);
@@ -2403,7 +2403,7 @@ void saveLogReceived(){
 	//end of saving
 	//saving log csv
 	logmessagecsv.append("\"");
-	logmessagecsv.append(NICK);
+	logmessagecsv.append(strNick);
 	logmessagecsv.append("\"");
 	logmessagecsv.append(",");
 	logmessagecsv.append("\"");
