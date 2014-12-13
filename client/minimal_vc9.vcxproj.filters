@@ -9,6 +9,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Source Files\connectionController">
+      <UniqueIdentifier>{45b5a460-d73e-4f29-9fa1-32c11411601a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\translateController">
+      <UniqueIdentifier>{b3c0c1af-86fc-4cc6-b5ca-43a014f34f01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ClientTsFrm.cpp">
@@ -21,6 +27,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\AudioWizard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\translateController\translateController.cpp">
+      <Filter>Source Files\translateController</Filter>
+    </ClCompile>
+    <ClCompile Include="src\translateController\Labels.cpp">
+      <Filter>Source Files\translateController</Filter>
+    </ClCompile>
+    <ClCompile Include="src\connectionController\connectionController.cpp">
+      <Filter>Source Files\connectionController</Filter>
+    </ClCompile>
+    <ClCompile Include="translateVariable.cpp">
+      <Filter>Source Files\translateController</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,6 +62,21 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GlobalVariables.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\translateController\translateController.h">
+      <Filter>Source Files\translateController</Filter>
+    </ClInclude>
+    <ClInclude Include="src\translateController\translateVariable.h">
+      <Filter>Source Files\translateController</Filter>
+    </ClInclude>
+    <ClInclude Include="src\translateController\Labels.h">
+      <Filter>Source Files\translateController</Filter>
+    </ClInclude>
+    <ClInclude Include="src\connectionController\connectionController.h">
+      <Filter>Source Files\connectionController</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tinyxml2.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -69,6 +108,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\ledverde.xpm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico_connection.xpm">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

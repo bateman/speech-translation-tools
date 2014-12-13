@@ -34,6 +34,7 @@
 #include <wx/textctrl.h>
 #include <wx/button.h>
 #include <wx/grid.h>
+
 ////Header Include End
 
 ////Dialog Style Start

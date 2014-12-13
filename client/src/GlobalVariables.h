@@ -1,6 +1,10 @@
-#include "ClientTsFrm.h"
-#include "AudioWizard.h"
-#include "Login.h"
+//#include "ClientTsFrm.h"
+//#include "AudioWizard.h"
+//#include "Login.h"
+
+#ifndef _GLOBALVARIABLE_H_
+#define _GLOBALVARIABLE_H_
+
 #include "utility.h"
 #include <windows.h>
 #include <atlbase.h>
@@ -34,6 +38,7 @@
 #include <wx/richtext/richtextstyledlg.h>
 #include <wx/richtext/richtextprint.h>
 #include <wx/richtext/richtextimagedlg.h>
+#include "../include/wx/grid.h"
 #include "rapidjson/document.h"		
 #include "rapidjson/prettywriter.h"	
 #include "rapidjson/filestream.h"
@@ -140,64 +145,66 @@ struct WriteThis {
 	long sizeleft;
 };
 
-DWORD myThreadID;
-DWORD myThreadID2;
-DWORD myThreadID3;
-DWORD myThreadID4;
+extern DWORD myThreadID;
+extern DWORD myThreadID2;
+extern DWORD myThreadID3;
+extern DWORD myThreadID4;
 
-int iresult;
-short flag = 0; //Flag to exit from client
+extern int iresult;
+extern short flag; //Flag to exit from client
 
-wxString strGlobale = "";
-wxString oldstrGlobale = "";
-wxString strNick = "";
-wxString strMessage = "";
-wxString StringTranslate = "";
+extern wxString strGlobale;
+extern wxString oldstrGlobale;
+extern wxString strNick;
+extern wxString strMessage;
+//wxString StringTranslate = "";
 //wxString StringSource = "";
-wxString StringSourceLog = "";
-wxString SourceLanguageLog = "";
-wxString oldStringTranslate = "";
-wxString StringOriginal = "";
-wxString strSpeak = "";
+extern string StringSourceLog;
 
-char SERVER_ADDRESS[20];
-char NICK[50];
-char CURRENT_LANG[20];
-char SERVICE[20];
-char LANG_MSG_SRC[20] = { "" };
-char MSG_SRC[50] = { "" };
-char GOOGLE_API_KEY[50] = { "" };
-char url[256] = { "" };
-char MSG_PARSE[1024] = { "" };
-char translate_jar[512] = { "" };
+extern wxString SourceLanguageLog;
+extern wxString oldStringTranslate;
+extern wxString StringOriginal;
+extern wxString strSpeak;
+
+extern char SERVER_ADDRESS[20];
+extern char NICK[50];
+//char CURRENT_LANG[20];
+extern char SERVICE[20];
+extern char LANG_MSG_SRC[20];
+extern char MSG_SRC[50];
+extern char GOOGLE_API_KEY[50];
+extern char url[256];
+extern char MSG_PARSE[1024];
+extern char translate_jar[512];
+extern unsigned short PORT;	//Number port of server
+extern int cmbel;				//Index of comboBox choose
+extern int index;
+extern int VAD_VALUE;			//Minimum value to record audio
+extern COLORE colors[10];
+extern unsigned count_client;
+extern unsigned short set_color_client;	//Own client color name
+extern struct user person[MAX];			//Array of user to record client's information
+extern ISoundEngine* engine;			//Audio Engine to record sound
+extern IAudioRecorder* recorder;		//Flow of audio daa
+extern bool sound_flag;					//Flag to start/stop 
+extern bool tts_flag;					//Flag to start/stop TextToSpeech 		
+extern bool write_flag;					//Flag to recognize Typing
+extern bool tasto_stt_flag;				//Flag to activate Automatic SpeechToText
+extern bool finish_ctrl_flag;			//Flag to recognize CTRL press button
+extern bool automatic_stt_flag;
+extern wxRichTextCtrl *chatptr;			//Pointer to edit the chatptr
+extern unsigned int curRow;				//Initialize Row index
+extern unsigned int curCol;				//Initialize Column index
+extern MESSAGE diary[1024];				//Structure to record log chatptr
+extern wxGrid *gridptr;					//Pointer to edit the chatptr grid
+extern FILE* chatSessionLog;				//Log File for chat recording at the end of a chat session
+extern FILE* chatSessionLogCsv;			//Log File for chat recording at the end of a chat session for cvs
+extern time_t rawtime;						//CurrentTime
+extern struct tm * timeinfo;				//Structure for timestamp
+extern list<string> clientMessages;		//List of client messages for log
+extern list<string> clientMessagesCsv;		//List of client messages for log for cvs
+extern string logmessage;					//Single Log message
+extern string logmessagecsv;
 
 
-unsigned short PORT = 9987;	//Number port of server
-int cmbel = 0;				//Index of comboBox choose
-int index = -1;
-int VAD_VALUE = 1;			//Minimum value to record audio
-COLORE colors[10];
-unsigned count_client;
-unsigned short set_color_client;	//Own client color name
-struct user person[MAX];			//Array of user to record client's information
-ISoundEngine* engine;				//Audio Engine to record sound
-IAudioRecorder* recorder;			//Flow of audio daa
-bool sound_flag = false;			//Flag to start/stop 
-bool tts_flag = false;				//Flag to start/stop TextToSpeech 		
-bool write_flag = false;			//Flag to recognize Typing
-bool tasto_stt_flag = false;		//Flag to activate Automatic SpeechToText
-bool finish_ctrl_flag = false;		//Flag to recognize CTRL press button
-bool automatic_stt_flag = false;
-wxRichTextCtrl *chatptr;			//Pointer to edit the chatptr
-unsigned int curRow = 0;			//Initialize Row index
-unsigned int curCol = 0;			//Initialize Column index
-MESSAGE diary[1024];				//Structure to record log chatptr
-wxGrid *gridptr;					//Pointer to edit the chatptr grid
-FILE* chatSessionLog;				//Log File for chat recording at the end of a chat session
-FILE* chatSessionLogCsv;			//Log File for chat recording at the end of a chat session for cvs
-time_t rawtime;						//CurrentTime
-struct tm * timeinfo;				//Structure for timestamp
-list<string> clientMessages;		//List of client messages for log
-list<string> clientMessagesCsv;		//List of client messages for log for cvs
-string logmessage;					//Single Log message
-string logmessagecsv;				//Single Log message csv
+#endif // _GLOBALVARIABLE_H_

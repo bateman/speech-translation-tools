@@ -39,66 +39,32 @@
 ////Dialog Style End
 
 class Login : public wxDialog
-{
-	private:
-		DECLARE_EVENT_TABLE();
-		
+{		
 	public:
 		Login(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("Login"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = Login_STYLE);
 		virtual ~Login();
-		void btnloginClick(wxCommandEvent& event);
 		void txtserverUpdated(wxCommandEvent& event);
-		void writeXmlLangDoc(char* filename);
-		void readXmlLangDoc(char* filename);
-		void cmblang_SelectionChange(wxCommandEvent& event);
-		void writeAndReadLabels();
-		/*void getServerAddress();
-		void getServerAddress();*/
-	
-	private:
-		//Do not add custom control declarations between 
-		//GUI Control Declaration Start and GUI Control Declaration End.
-		//wxDev-C++ will remove them. Add custom code after the block.
-		////GUI Control Declaration Start
-		wxRadioButton *radbing;
-		wxRadioButton *radgoogle;
-		wxStaticText *lbltrad;
-		wxComboBox *cmblang;
-		wxStaticText *lblanguage;
-		wxButton *btnlogin;
-		wxTextCtrl *txtnick;
-		wxStaticText *lblnick;
-		wxTextCtrl *txtserver;
-		wxStaticText *lblserver;
-		////GUI Control Declaration End
-		/*char *SERVER_ADDRESS;
-		char *CURRENT_NICK;*/
+		void cmb_lingua_SelectionChange(wxCommandEvent& event);
+		void cmdConfirmClick(wxCommandEvent& event);
 		
-	private:
-		//Note: if you receive any error with these enum IDs, then you need to
-		//change your old form code that are based on the #define control IDs.
-		//#defines may replace a numeric value for the enum names.
-		//Try copy and pasting the below block in your old form header files.
-		enum
-		{
-			////GUI Enum Control ID Start
-			ID_WXRADIOBUTTON2 = 1011,
-			ID_WXRADIOBUTTON1 = 1009,
-			ID_WXSTATICTEXT4 = 1008,
-			ID_WXCOMBOBOX1 = 1007,
-			ID_WXSTATICTEXT3 = 1006,
-			ID_WXBUTTON1 = 1005,
-			ID_WXEDIT2 = 1004,
-			ID_WXSTATICTEXT2 = 1003,
-			ID_WXEDIT1 = 1002,
-			ID_WXSTATICTEXT1 = 1001,
-			////GUI Enum Control ID End
-			ID_DUMMY_VALUE_ //don't remove this value unless you have other enum values
-		};
+	protected:
+		wxStaticBitmap* m_bitmap1;
+		wxStaticText* lblServer;
+		wxTextCtrl* txtServer;
+		wxStaticText* lblNickName;
+		wxTextCtrl* txtNickname;
+		wxStaticText* lbllanguage;
+		wxComboBox* cmblingua;
+		wxStaticText* lblService;
+		wxRadioButton* optGoogle;
+		wxRadioButton* optBing;
+		wxButton* cmdConfirm;		
 	
 	private:
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
+		void ReadConfig();
+		void changeLanguage();
 };
 
 #endif

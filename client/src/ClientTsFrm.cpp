@@ -8,8 +8,12 @@
 ///
 ///------------------------------------------------------------------
 
+#include "connectionController\connectionController.h"
+#include "translateController\translateVariable.h"
 #include "GlobalVariables.h"
+#include "AudioWizard.h"
 #include "tinyxml2.h"
+#include "ClientTsFrm.h"
 
 void saveLogSent(wxString messageS); //Prototype of method save log sent
 void saveLogReceived(); //Prototype of method save log received
@@ -48,6 +52,19 @@ it has two parameters: the language of message and body of message
 			cpEnum.Release();
 			cpToken.Release();
 			
+	}
+
+	/*
+	Initialize string structure for HTTP interactions
+	*/
+	void init_string(struct stringa *s) {
+		s->len = 0;
+		s->ptr = (char*)malloc(s->len + 1);
+		if (s->ptr == NULL) {
+			fprintf(stderr, "malloc() failed\n");
+			exit(EXIT_FAILURE);
+		}
+		s->ptr[0] = '\0';
 	}
 
 	void Print(char*word)
@@ -142,7 +159,7 @@ int JSON()
 	Load json string to parse
 	*/
 	FILE * jfile;
-	if (jfile = fopen("..\\conf\\pagina.htm", "r"))
+	if (jfile = fopen("conf\\pagina.htm", "r"))
 	{
 		fscanf(jfile, "%s", &json);
 		fflush(jfile);
@@ -188,7 +205,7 @@ int JSON()
 	Save into JSON.txt the access_key
 	*/
 	FILE*js;
-	if (js = fopen("..\\conf\\JSON.txt", "w"))
+	if (js = fopen("conf\\JSON.txt", "w"))
 	{
 		fprintf(js, "%s", document["access_token"].GetString());
 		fclose(js);
@@ -226,18 +243,7 @@ void SetupColor()
 	for (i = 0; i < MAX;i++) person[i].speak = 0;
 }
 
-/*
-	Initialize string structure for HTTP interactions
-*/
-void init_string(struct stringa *s) {
-  s->len = 0;
-  s->ptr = (char*)malloc(s->len+1);
-  if (s->ptr == NULL) {
-    fprintf(stderr, "malloc() failed\n");
-    exit(EXIT_FAILURE);
-  }
-  s->ptr[0] = '\0';
-}
+
 
 /*
 	Save data from http request into string
@@ -257,7 +263,6 @@ size_t writefunc(void *ptr, size_t size, size_t nmemb, struct stringa *s)
   return size*nmemb;
 }
 
-
 void parseBing(char *word)
 {
 
@@ -275,7 +280,23 @@ void parseBing(char *word)
     buffer[strlen(buffer)-10]='\0';
     StringTranslate=wxString::FromAscii(buffer); // StringTranslate contains the text translate
 	saveLogReceived();
-	
+
+	//saving log informations
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	logmessage.append(NICK);
+	logmessage.append(" || ");
+	char temp[100];
+	strftime(temp, 100, "%c", timeinfo);
+	puts(temp);
+	logmessage.append(temp);
+	logmessage.append(" || Messaggio tradotto:");
+	logmessage.append( StringTranslate );
+
+	clientMessages.push_back(logmessage);
+	logmessage.clear();
+	//end of saving
 }
 
 void parseGoogle(char *str)
@@ -333,7 +354,6 @@ char * richiestaBing(wxString StringSource, char * lang)
     struct stringa p;
     init_string(&p);
     
-	
     curl_global_init(CURL_GLOBAL_ALL);
  
     curl2 = curl_easy_init();
@@ -350,7 +370,7 @@ char * richiestaBing(wxString StringSource, char * lang)
     curl_easy_setopt(curl2, CURLOPT_VERBOSE, 1L);
      
     FILE *bing;
-	if (bing = fopen("..\\conf\\BING.txt", "r"))
+	if (bing = fopen("conf\\BING.txt", "r"))
 	{
     
     char CLIENT_ID[50]="";
@@ -374,7 +394,7 @@ char * richiestaBing(wxString StringSource, char * lang)
 	Save into pagina.htm the json answer of access_token
 	*/
 	FILE *html;
-	if (html = fopen("..\\conf\\pagina.htm", "w"))
+	if (html = fopen("conf\\pagina.htm", "w"))
 	{
 		fprintf(html, "%s", f.ptr);
 		fflush(html);
@@ -386,7 +406,7 @@ char * richiestaBing(wxString StringSource, char * lang)
     char header[2048+512]={""};
     
 	FILE * jfile;
-	if (jfile = fopen("..\\conf\\JSON.txt", "r+"))
+	if (jfile = fopen("conf\\JSON.txt", "r+"))
 	{
 		fscanf(jfile, "%s", &auth);
 		fflush(jfile);
@@ -452,7 +472,7 @@ char * richiestaBing(wxString StringSource, char * lang)
   curl_global_cleanup();
   
   FILE *html;
-  if (html = fopen("..\\conf\\trad.htm", "w"))
+  if (html = fopen("conf\\trad.htm", "w"))
   {
 	  fprintf(html, "%s", p.ptr);
 	  fflush(html);
@@ -461,7 +481,6 @@ char * richiestaBing(wxString StringSource, char * lang)
 
   return p.ptr;
 }
-
 
 char* richiestaGoogle(wxString StringSource, char * lang)
 {
@@ -535,7 +554,6 @@ char* richiestaGoogle(wxString StringSource, char * lang)
  
   curl_global_cleanup();
 }
-
 
 /* This is a global variable to indicate if sound needs to be recorded.
    Normally one would have thread synchronization with locks etc. for
@@ -889,7 +907,7 @@ void onEditMixedPlaybackVoiceDataEvent(uint64 serverConnectionHandlerID, short* 
 		/*start recording*/
 		header.len = 0;
 		header.dataLen = 0;
-		if((pfile = fopen("..\\conf\\recordedvoices.wav", "wb")) == NULL) return;
+		if((pfile = fopen("conf\\recordedvoices.wav", "wb")) == NULL) return;
 		fwrite(&header, sizeof(struct WaveHeader), 1, pfile);
 	} else if (!recordSound && (pfile != NULL)){
 		/*stop recording*/
@@ -1399,7 +1417,7 @@ void setVadLevel(uint64 serverConnectionHandlerID) {
 	Load vad value from file
 	*/
 	FILE *mic;
-	if (mic = fopen("..\\conf\\mic.txt", "r"))
+	if (mic = fopen("conf\\mic.txt", "r"))
 	{
 		fscanf(mic, "%d", &vad);
 		fflush(mic);
@@ -1508,7 +1526,7 @@ void toggleRecordSound(uint64 serverConnectionHandlerID){
 int readIdentity(char* identity) {
     FILE *file;
 
-    if((file = fopen("..\\conf\\identity.txt", "r")) == NULL) {
+    if((file = fopen("conf\\identity.txt", "r")) == NULL) {
         printf("Could not open file 'identity.txt' for reading.\n");
         return -1;
     }
@@ -1526,7 +1544,7 @@ int readIdentity(char* identity) {
 int writeIdentity(const char* identity) {
     FILE *file;
 
-    if((file = fopen("..\\conf\\identity.txt", "w")) == NULL) {
+    if((file = fopen("conf\\identity.txt", "w")) == NULL) {
         printf("Could not open file 'identity.txt' for writing.\n");
         return -1;
     }
@@ -1913,7 +1931,7 @@ void ClientTsFrm::CreateGUIControls()
 	conta=10.0;
 	FILE*config;
 	FILE *api;
-	if (config = fopen("..\\conf\\config.txt", "r"))
+	if (config = fopen("conf\\config.txt", "r"))
 	{
     fscanf(config,"%s",&SERVER_ADDRESS);
     fscanf(config,"%s",&NICK);
@@ -1922,7 +1940,7 @@ void ClientTsFrm::CreateGUIControls()
     fscanf(config,"%s",&SERVICE);
     fclose(config);
 	}
-	if (api = fopen("..\\conf\\GOOGLE.txt", "r"))
+	if (api = fopen("conf\\GOOGLE.txt", "r"))
 	{
 		fscanf(api, "%s", GOOGLE_API_KEY);
 		fclose(api);
@@ -1979,6 +1997,7 @@ void ClientTsFrm::gridchatCellLeftClick(wxGridEvent& event)
 	if (event.GetCol() == 0) { gridchat->GetGridWindow()->SetToolTip(tooltip); }
 
 }
+
 void ClientTsFrm::OnClose(wxCloseEvent& event)
 {
 	char filename[50] = {""};
@@ -2010,7 +2029,7 @@ void ClientTsFrm::OnClose(wxCloseEvent& event)
 		fclose(chatSessionLog);
 	}
 	//saving current time
-	
+
 	strcpy(filenamecsv, "chatLogs\\chatLog");
 	strcat(filenamecsv, temp);
 	strcat(filenamecsv, ".csv");
@@ -2036,7 +2055,6 @@ void ClientTsFrm::OnClose(wxCloseEvent& event)
     Sleep(300);
 	Destroy();
 }
-
 
 /*Refresh chat for new message or new clients*/
 void ClientTsFrm::RefreshChat()
@@ -2096,7 +2114,7 @@ void ClientTsFrm::RefreshChat()
 			gridchat->AppendRows(1, true); //Add a new message row
 			if(strNick==NICK)
 			{
-					wxString messaggio = strNick + "(" + buf + "): " + wxString::FromUTF8(StringTranslate);
+					wxString messaggio = strNick + "(" + buf + "): " + wxString::FromUTF8(StringTranslate.c_str());
 					gridchat->SetCellValue(messaggio,curRow,0);
 					gridchat->SetCellRenderer(curRow++, 1, new MyGridCellRenderer(L"../res/play.bmp"));
 			
@@ -2110,7 +2128,7 @@ void ClientTsFrm::RefreshChat()
 						if(strNick==person[i].name && person[i].used==1)
 						{
                    
-							wxString messaggio = strNick + "(" + buf + "): " + wxString::FromUTF8(StringTranslate);
+							wxString messaggio = strNick + "(" + buf + "): " + wxString::FromUTF8(StringTranslate.c_str());
 							gridchat->SetCellTextColour(curRow, 0, wxColour(colors[person[i].color].red, colors[person[i].color].green, colors[person[i].color].blue));
 							gridchat->SetCellValue(messaggio, curRow, 0);
 							gridchat->SetRowSize(curRow, 40);
@@ -2366,6 +2384,7 @@ void saveLogSent(wxString parsata){
 
 	clientMessages.push_back(logmessage);
 	logmessage.clear();
+
 	//saving log csv
 	logmessagecsv.append("\"");
 	logmessagecsv.append(NICK);
@@ -2400,11 +2419,11 @@ void saveLogReceived(){
 	logmessage.append(" || <-- (");
 	logmessage.append(SourceLanguageLog);
 	logmessage.append(":");
-	logmessage.append((const char*)StringSourceLog.mb_str());
+	logmessage.append((const char*)StringSourceLog.c_str());
 	logmessage.append(" --> ");
 	logmessage.append(CURRENT_LANG);
 	logmessage.append(":");
-	logmessage.append((const char*)StringTranslate.mb_str());
+	logmessage.append((const char*)StringTranslate.c_str());
 	logmessage.append(")");
 	clientMessages.push_back(logmessage);
 	logmessage.clear();
@@ -2422,11 +2441,11 @@ void saveLogReceived(){
 	logmessagecsv.append(" <-- ");
 	logmessagecsv.append(SourceLanguageLog);
 	logmessagecsv.append(":");
-	logmessagecsv.append((const char*)StringSourceLog.mb_str());
+	logmessagecsv.append((const char*)StringSourceLog.c_str());
 	logmessagecsv.append(" --> ");
 	logmessagecsv.append(CURRENT_LANG);
 	logmessagecsv.append(":");
-	logmessagecsv.append((const char*)StringTranslate.mb_str());
+	logmessagecsv.append((const char*)StringTranslate.c_str());
 	logmessagecsv.append("\"");
 	logmessagecsv.append("\n");
 	clientMessagesCsv.push_back(logmessagecsv);

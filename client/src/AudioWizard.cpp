@@ -71,14 +71,14 @@ void AudioWizard::CreateGUIControls()
 	slideraudio->SetValue(1);
 	/*wxBitmap bmpfeed_BITMAP(ledrosso_xpm);
 	bmpfeed = new wxStaticBitmap(this, ID_WXSTATICBITMAP1, bmpfeed_BITMAP, wxPoint(216, 270), wxSize(32, 32));*/
-	if (mic = fopen("..\\conf\\mic.txt", "r"))
+	if (mic = fopen("conf\\mic.txt", "r"))
 	{
 		fscanf(mic, "%d", &valore);
 		slideraudio->SetValue(valore);
 	}
 	else
 	{
-		mic = fopen("..\\conf\\mic.txt", "w");
+		mic = fopen("conf\\mic.txt", "w");
 		slideraudio->SetValue(1);
 	}
 	fflush(mic);
@@ -97,7 +97,7 @@ void AudioWizard::CreateGUIControls()
 
 	char temp[20], language[20];
 
-	if (file = fopen("..\\conf\\config.txt", "r"))
+	if (file = fopen("conf\\config.txt", "r"))
 	{
 
 		fscanf(file, "%s", &temp);
@@ -123,7 +123,7 @@ void AudioWizard::OnClose(wxCloseEvent& /*event*/)
 
 void AudioWizard::ConfermaClick(wxCommandEvent& event)
 {
-	FILE *mic = fopen("..\\conf\\mic.txt","w");
+	FILE *mic = fopen("conf\\mic.txt","w");
 	fprintf(mic,"%d",slideraudio->GetValue());
 	fflush(mic);
 	//wxMessageBox(wxString::FromDouble(slideraudio->GetValue()));

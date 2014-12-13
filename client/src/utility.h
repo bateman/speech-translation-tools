@@ -1,6 +1,12 @@
 #include <winsock.h>
 #include <curl/curl.h>
 
+class Utility
+{
+	public:
+		int static Utility::hostname_to_ip(char * hostname, char* ip);
+};
+
 /*struct stringa {
   char *ptr;
   size_t len;

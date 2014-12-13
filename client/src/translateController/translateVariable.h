@@ -1,7 +1,6 @@
 #ifndef _TRANSLATEVARIABLES_H_
 #define _TRANSLATEVARIABLES_H_
 
-//#include "src/GlobalVariables.h"
 #include <string>
 
 using namespace std;
@@ -10,7 +9,7 @@ typedef struct Labels{
 	string nameHostServer = "";
 	string language = "";
 	string service = "";
-	string login = "";
+	string cmdConfirm = "";
 	string gridMessage = "";
 	string send = "";
 	string exit = "";
@@ -25,8 +24,8 @@ typedef struct Labels{
 };
 
 extern Labels labels;
-static wxString StringTranslate = "";
-static char CURRENT_LANG[20] = { "English" };
+extern string StringTranslate;
+extern char CURRENT_LANG[20];
 
 #endif // _TRANSLATEVARIABLES_H_
 

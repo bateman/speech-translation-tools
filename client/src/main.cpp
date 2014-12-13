@@ -13,6 +13,7 @@
 // declarations
 // ============================================================================
 
+
 // ----------------------------------------------------------------------------
 // headers
 // ----------------------------------------------------------------------------
@@ -22,7 +23,11 @@
 #include "Login.h"
 #include "ClientTsFrm.h"
 #include "AudioWizard.h"
-
+#include "string.h"
+#include "GlobalVariables.h"
+#include "translateController\translateVariable.h"
+#include "crtdefs.h"
+#include <wx/msgdlg.h>
 
 #ifdef __BORLANDC__
     #pragma hdrstop
@@ -43,6 +48,74 @@
 #if !defined(__WXMSW__) && !defined(__WXPM__)
     #include "../sample.xpm"
 #endif
+
+// ----------------------------------------------------------------------------
+// Variable
+// ----------------------------------------------------------------------------
+
+Labels labels;
+string StringTranslate = "";
+char CURRENT_LANG[20] = { "English" };
+unsigned short PORT = 9987;
+unsigned int curRow = 0;
+unsigned int curCol = 0;
+short flag = 0;
+int VAD_VALUE = 1;
+int index = -1;
+char LANG_MSG_SRC[20] = { "" };
+char MSG_SRC[50] = { "" };
+char GOOGLE_API_KEY[50] = { "" };
+char url[256] = { "" };
+char MSG_PARSE[1024] = { "" };
+char translate_jar[512] = { "" };
+int cmbel = 0;
+
+bool sound_flag = false;			//Flag to start/stop 
+bool tts_flag = false;				//Flag to start/stop TextToSpeech 		
+bool write_flag = false;			//Flag to recognize Typing
+bool tasto_stt_flag = false;		//Flag to activate Automatic SpeechToText
+bool finish_ctrl_flag = false;		//Flag to recognize CTRL press button
+bool automatic_stt_flag = false;
+
+wxString strGlobale = "";
+wxString oldstrGlobale = "";
+wxString strNick = "";
+wxString strMessage = "";
+//wxString StringTranslate = "";
+//wxString StringSource = "";
+string StringSourceLog = "";
+
+wxString SourceLanguageLog = "";
+wxString oldStringTranslate = "";
+wxString StringOriginal = "";
+wxString strSpeak = "";
+
+DWORD myThreadID;
+DWORD myThreadID2;
+DWORD myThreadID3;
+DWORD myThreadID4;
+
+unsigned count_client;
+struct user person[MAX];
+time_t rawtime;
+struct tm * timeinfo;
+MESSAGE diary[1024];
+COLORE colors[10];
+FILE* chatSessionLog;				//Log File for chat recording at the end of a chat session
+FILE* chatSessionLogCsv;
+wxGrid *gridptr;
+
+list<string> clientMessages;		
+list<string> clientMessagesCsv;
+string logmessagecsv;
+string logmessage;
+
+char NICK[50];
+char SERVER_ADDRESS[20];
+char SERVICE[20];
+
+ISoundEngine* engine;
+IAudioRecorder* recorder;
 
 // ----------------------------------------------------------------------------
 // private classes
@@ -123,28 +196,35 @@ IMPLEMENT_APP(MyApp)
 // 'Main program' equivalent: the program execution "starts" here
 bool MyApp::OnInit()
 {
-    // call the base class initialization method, currently it only parses a
-    // few common command-line options but it could be do more in the future
-    if ( !wxApp::OnInit() )
-        return false;
-	Login * dialog = new Login(NULL);
-	SetTopWindow(dialog);
-	//frame->Show();
-	dialog->Show();
-	/*AudioWizard* frame = new AudioWizard(NULL);
-	frame->Show();*/
-	return true;
-    // create the main application window
-    //MyFrame *frame = new MyFrame("Minimal wxWidgets App");
+	try
+	{
+		// call the base class initialization method, currently it only parses a
+		// few common command-line options but it could be do more in the future
+		if (!wxApp::OnInit())
+			return false;
+		Login * dialog = new Login(NULL);
+		SetTopWindow(dialog);
+		//frame->Show();
+		dialog->Show();
+		/*AudioWizard* frame = new AudioWizard(NULL);
+		frame->Show();*/
+		return true;
+		// create the main application window
+		//MyFrame *frame = new MyFrame("Minimal wxWidgets App");
 
-    // and show it (the frames, unlike simple controls, are not shown when
-    // created initially)
-    //frame->Show(true);
+		// and show it (the frames, unlike simple controls, are not shown when
+		// created initially)
+		//frame->Show(true);
 
-    // success: wxApp::OnRun() will be called which will enter the main message
-    // loop and the application will run. If we returned false here, the
-    // application would exit immediately.
-    return true;
+		// success: wxApp::OnRun() will be called which will enter the main message
+		// loop and the application will run. If we returned false here, the
+		// application would exit immediately.
+		return true;
+	}
+	catch (const std::exception &e)
+	{
+		wxMessageBox( e.what() );
+	}
 }
 
 // ----------------------------------------------------------------------------
