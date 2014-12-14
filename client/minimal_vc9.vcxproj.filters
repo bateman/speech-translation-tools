@@ -15,6 +15,9 @@
     <Filter Include="Source Files\translateController">
       <UniqueIdentifier>{b3c0c1af-86fc-4cc6-b5ca-43a014f34f01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{e17f6ff3-228c-4730-8589-10f7257f462c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ClientTsFrm.cpp">
@@ -43,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="src\tinyxml2.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\frmSaveDialog.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +82,9 @@
     <ClInclude Include="src\tinyxml2.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\UI\frmSaveDialog.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\sample.rc">
@@ -108,6 +117,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\ico_connection.xpm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico_save.xpm">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

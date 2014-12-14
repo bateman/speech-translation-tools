@@ -14,6 +14,7 @@
 #include "AudioWizard.h"
 #include "tinyxml2.h"
 #include "ClientTsFrm.h"
+#include "UI\frmSaveDialog.h"
 
 void saveLogSent(wxString messageS); //Prototype of method save log sent
 void saveLogReceived(); //Prototype of method save log received
@@ -1807,16 +1808,17 @@ DWORD WINAPI CTRL_STT(LPVOID lpParameter)
 	END_EVENT_TABLE()
 
 
-ClientTsFrm::ClientTsFrm(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
-: wxFrame(parent, id, title, position, size, style)
+ClientTsFrm::ClientTsFrm(wxWindow *parent, wxWindowID id, const wxString &title, 
+						 const wxPoint &position, const wxSize& size, long style)
+			: wxFrame(parent, id, title, position, size, style)
 {
 	CreateGUIControls();
 }
 
 ClientTsFrm::~ClientTsFrm()
 {
+	
 }
-
 
 void ClientTsFrm::CreateGUIControls()
 {
@@ -1984,6 +1986,9 @@ void ClientTsFrm::gridchatCellLeftClick(wxGridEvent& event)
 
 void ClientTsFrm::OnClose(wxCloseEvent& event)
 {
+	FrmSaveDialog *frame = new FrmSaveDialog(NULL);
+	frame->ShowModal();
+
 	char filename[50] = {""};
 	char filenamecsv[50] = { "" };
 
