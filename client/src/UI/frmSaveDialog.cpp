@@ -45,6 +45,7 @@ FrmSaveDialog::FrmSaveDialog(wxWindow* parent, wxWindowID id, const wxString &ti
 
 	opt_saveDialog_NO = new wxRadioButton(this, wxID_ANY, wxT("NO, i do not want to save them."), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer5->Add(opt_saveDialog_NO, 0, wxALL, 5);
+	(*opt_saveDialog_NO).SetValue(true);
 
 	opt_saveDialog_YES = new wxRadioButton(this, wxID_ANY, wxT("YES, i want to save them..."), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer5->Add(opt_saveDialog_YES, 0, wxALL, 5);
@@ -112,9 +113,9 @@ FrmSaveDialog::FrmSaveDialog(wxWindow* parent, wxWindowID id, const wxString &ti
 	this->Layout();
 
 	// Connect Events
-	/*opt_saveDialog_NO->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(FrmSaveDialog::optNoSelect), NULL, this);
+	opt_saveDialog_NO->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(FrmSaveDialog::optNoSelect), NULL, this);
 	opt_saveDialog_YES->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(FrmSaveDialog::optYesSelect), NULL, this);
-	cmd_saveDialog_Confirm->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FrmSaveDialog::cmdConfirm_Click), NULL, this);*/
+	cmd_saveDialog_Confirm->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FrmSaveDialog::cmdConfirm_Click), NULL, this);
 }
 
 FrmSaveDialog::~FrmSaveDialog()
@@ -136,5 +137,14 @@ void FrmSaveDialog::optYesSelect(wxCommandEvent& event)
 }
 void FrmSaveDialog::cmdConfirm_Click(wxCommandEvent& event) 
 { 
-	event.Skip(); 
+	if ( (*FrmSaveDialog::opt_saveDialog_NO).GetValue() )
+	{
+		wxMessageBox("Non salvo");
+		Close();
+	}
+	else
+	{
+		wxMessageBox("Salvo");
+	}
+	Close();
 }
