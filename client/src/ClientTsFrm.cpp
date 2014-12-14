@@ -281,22 +281,6 @@ void parseBing(char *word)
     StringTranslate=wxString::FromAscii(buffer); // StringTranslate contains the text translate
 	saveLogReceived();
 
-	//saving log informations
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-
-	logmessage.append(NICK);
-	logmessage.append(" || ");
-	char temp[100];
-	strftime(temp, 100, "%c", timeinfo);
-	puts(temp);
-	logmessage.append(temp);
-	logmessage.append(" || Messaggio tradotto:");
-	logmessage.append( StringTranslate );
-
-	clientMessages.push_back(logmessage);
-	logmessage.clear();
-	//end of saving
 }
 
 void parseGoogle(char *str)
@@ -2316,6 +2300,9 @@ void ClientTsFrm::Wizard(wxCommandEvent& event)
 	// insert your code here
 	AudioWizard* dialog = new AudioWizard(NULL);
 	dialog->Show(true);
+	
+
+	
 }
 
 void ClientTsFrm::WxBitmapButton1Click(wxCommandEvent& event)

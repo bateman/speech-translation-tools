@@ -512,7 +512,6 @@
     <ClCompile Include="src\translateController\Labels.cpp" />
     <ClCompile Include="src\translateController\translateController.cpp" />
     <ClCompile Include="src\Utility.cpp" />
-    <ClCompile Include="translateVariable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AudioWizard.h" />

@@ -38,9 +38,6 @@
     <ClCompile Include="src\connectionController\connectionController.cpp">
       <Filter>Source Files\connectionController</Filter>
     </ClCompile>
-    <ClCompile Include="translateVariable.cpp">
-      <Filter>Source Files\translateController</Filter>
-    </ClCompile>
     <ClCompile Include="src\Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
