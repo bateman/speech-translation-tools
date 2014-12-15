@@ -13,4 +13,11 @@
     <lblmicrophone>Regola la sensibilità del microfono</lblmicrophone>
     <lblmin>Il valore minimo cattura tutti i suoni dal microfono senza filtri</lblmin>
     <lblmax>Mentre il valore massimo non cattura nessun suono</lblmax>
+    <lblsavemessage>Vuoi salvare questa sessione di chat?</lblsavemessage>
+    <lblnomessage>No, non voglio salvarla.</lblnomessage>
+    <lblyesmessage>Si, voglio salvarla:</lblyesmessage>
+    <lblsavecsv>Salva nel formato CSV.</lblsavecsv>
+    <lblsavetxt>Salva nel formato TXT.</lblsavetxt>
+    <lblsavein>Salva in:</lblsavein>
+    <btnbrowse>Esplora</btnbrowse>
 </language>

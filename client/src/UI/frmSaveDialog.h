@@ -46,14 +46,16 @@ protected:
 	wxCheckBox* chk__saveDialog_CSV;
 	wxCheckBox* chk__saveDialog_TXT;
 	wxStaticText* lbl__saveDialog_saveIn;
-	wxFilePickerCtrl* fpk__saveDialog_Browse;
+	wxDirPickerCtrl* fpk__saveDialog_Browse;
 	wxButton* cmd_saveDialog_Confirm;
 
 	// Virtual event handlers, overide them in your derived class
 	void optNoSelect(wxCommandEvent& event);
 	void optYesSelect(wxCommandEvent& event);
 	void cmdConfirm_Click(wxCommandEvent& event);
-
+	void opt__saveDialog_CSV(wxCommandEvent& event);
+	void opt__saveDialog_TXT(wxCommandEvent& event);
+	void cmdbrowse(wxCommandEvent& event);
 
 public:
 
@@ -61,6 +63,7 @@ public:
 				  const wxPoint& pos = wxPoint(5, 5), const wxSize& size = wxSize(437, 300), 
 				  long style = wxCAPTION | wxSYSTEM_MENU | wxSTAY_ON_TOP);
 	~FrmSaveDialog();
+	void readXmlLangDoc(char* filename);
 
 };
 

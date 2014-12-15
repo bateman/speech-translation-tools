@@ -20,6 +20,13 @@ typedef struct Labels{
 	string microphone = "";
 	string min = "";
 	string max = "";
+	string savemessage = "";
+	string nomessage = "";
+	string yesmessage = "";
+	string savecsv = "";
+	string savetxt = "";
+	string savein = "";
+	string browse= "";
 
 };
 
