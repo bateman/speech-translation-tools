@@ -109,7 +109,6 @@ void Login::CreateGUIControls()
 	cmblingua->Append(wxT("English"));
 	cmblingua->Append(wxT("Italian"));
 	cmblingua->Append(wxT("Portuguese"));
-	cmblingua->Append(wxEmptyString);
 	bSizer311->Add(cmblingua, 1, wxALL, 5);
 
 

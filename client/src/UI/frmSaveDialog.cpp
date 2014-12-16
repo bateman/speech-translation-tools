@@ -239,7 +239,7 @@ void FrmSaveDialog::readXmlLangDoc(char* filename){
 		if (strcmp(label, "lblsavecsv") == 0) chk__saveDialog_CSV->SetLabelText(valChild);
 		if (strcmp(label, "lblsavetxt") == 0)  chk__saveDialog_TXT->SetLabelText(valChild);
 		if (strcmp(label, "lblsavein") == 0) lbl__saveDialog_saveIn->SetLabelText(valChild);
-		if (strcmp(label, "btnbrowse") == 0) fpk__saveDialog_Browse->SetLabelText(valChild); 
+		if (strcmp(label, "btnbrowse") == 0) fpk__saveDialog_Browse->SetLabel(valChild);
 		if (strcmp(label, "btnlogin") == 0) cmd_saveDialog_Confirm->SetLabelText(valChild);
 		
 
