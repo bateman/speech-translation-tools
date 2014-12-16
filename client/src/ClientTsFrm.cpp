@@ -1794,19 +1794,20 @@ DWORD WINAPI CTRL_STT(LPVOID lpParameter)
 }
 
 
-	BEGIN_EVENT_TABLE(ClientTsFrm,wxFrame)
-		
-	EVT_CLOSE(ClientTsFrm::OnClose)
-	EVT_TIMER(ID_WXTIMER2,ClientTsFrm::WxTimer2Timer)
-	EVT_TIMER(ID_WXTIMER1,ClientTsFrm::WxTimer1Timer)
-	EVT_BUTTON(ID_WXBITMAPBUTTON1, ClientTsFrm::WxBitmapButton1Click)
-	EVT_BUTTON(ID_WXBUTTON2,ClientTsFrm::btnsendClick)
-	EVT_TEXT_ENTER(ID_WXEDIT3,ClientTsFrm::txtmsgEnter)
-	EVT_BUTTON(ID_WXBUTTON1,ClientTsFrm::WxButton1Click)
-	EVT_MENU(ID_MNU_ESCI_1003, ClientTsFrm::Debug)
-	EVT_MENU(ID_MNU_AUDIO_1005, ClientTsFrm::Wizard)
-	EVT_MENU(ID_MNU_SPEECH_1006, ClientTsFrm::btnspeechClick)
-	EVT_GRID_CELL_LEFT_CLICK(ClientTsFrm::gridchatCellLeftClick)
+BEGIN_EVENT_TABLE(ClientTsFrm, wxFrame)
+
+EVT_CLOSE(ClientTsFrm::OnClose)
+EVT_TIMER(ID_WXTIMER2, ClientTsFrm::WxTimer2Timer)
+EVT_TIMER(ID_WXTIMER1, ClientTsFrm::WxTimer1Timer)
+EVT_BUTTON(ID_WXBITMAPBUTTON1, ClientTsFrm::WxBitmapButton1Click)
+EVT_BUTTON(ID_WXBUTTON2, ClientTsFrm::btnsendClick)
+EVT_TEXT_ENTER(ID_WXEDIT3, ClientTsFrm::txtmsgEnter)
+EVT_BUTTON(ID_WXBUTTON1, ClientTsFrm::WxButton1Click)
+EVT_MENU(ID_MNU_ESCI_1003, ClientTsFrm::Debug)
+EVT_MENU(ID_MNU_AUDIO_1005, ClientTsFrm::Wizard)
+EVT_MENU(ID_MNU_SPEECH_1006, ClientTsFrm::btnspeechClick)
+EVT_GRID_CELL_LEFT_CLICK(ClientTsFrm::gridchatCellLeftClick)
+EVT_MENU(ID_MNU_SAVE_1007, ClientTsFrm::Save)
 
 	END_EVENT_TABLE()
 
@@ -1891,6 +1892,7 @@ void ClientTsFrm::CreateGUIControls()
 
 	WxMenuBar1 = new wxMenuBar();
 	ID_MNU_FILE_1001_Mnu_Obj = new wxMenu();
+	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_SAVE_1007, _("Salva"), _(""), wxITEM_NORMAL);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_ESCI_1003, _("Esci"), _(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, _("File"));
 
@@ -1995,6 +1997,8 @@ void ClientTsFrm::OnClose(wxCloseEvent& event)
     Sleep(300);
 	Destroy();
 }
+
+
 
 /*Refresh chat for new message or new clients*/
 void ClientTsFrm::RefreshChat()
@@ -2212,7 +2216,13 @@ void ClientTsFrm::Wizard(wxCommandEvent& event)
 
 	
 }
+void ClientTsFrm::Save(wxCommandEvent& event)
+{
+	FrmSaveDialog *frame = new FrmSaveDialog(NULL);
+	frame->ShowModal();
 
+
+}
 void ClientTsFrm::WxBitmapButton1Click(wxCommandEvent& event)
 {
 	tasto_stt_flag = !tasto_stt_flag;
@@ -2249,11 +2259,12 @@ void ClientTsFrm::readXmlLangDoc(char* filename){
 
 		if (strcmp(label, "lblmessage") == 0) gridchat->SetColLabelValue(0, valChild);
 		if (strcmp(label, "btnsend") == 0) btnsend->SetLabelText(valChild);
-		if (strcmp(label, "lblexit") == 0) ID_MNU_FILE_1001_Mnu_Obj->FindItemByPosition(0)->SetItemLabel(valChild);
+		if (strcmp(label, "lblexit") == 0) ID_MNU_FILE_1001_Mnu_Obj->FindItemByPosition(1)->SetItemLabel(valChild);
 		if (strcmp(label, "lbloptions") == 0) WxMenuBar1->SetMenuLabel(1,valChild);
 		if (strcmp(label, "lblsound") == 0)  ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(0)->SetItemLabel(valChild);
 		if (strcmp(label, "lblenable") == 0) ID_MNU_OPZIONI_1004_Mnu_Obj->FindItemByPosition(1)->SetItemLabel(strcat((char *)valChild, " SpeachToText Service"));
 		if (strcmp(label, "lblLanguage") == 0) lblanguage->SetLabel(valChild);
+		if (strcmp(label, "lblsavemenu") == 0) ID_MNU_FILE_1001_Mnu_Obj->FindItemByPosition(0)->SetItemLabel(valChild);
 
 		pBrother = pBrother->NextSibling();
 
@@ -2301,6 +2312,14 @@ void saveLogSentCSV(wxString parsata)
 	logmessagecsv.append(";");
 	logmessagecsv.append("\"");
 	logmessagecsv.append(" --> ");
+	logmessagecsv.append("\"");
+	logmessagecsv.append(";");
+	logmessagecsv.append("\"");
+	logmessagecsv.append(CURRENT_LANG);
+	logmessagecsv.append(":");
+	logmessagecsv.append("\"");
+	logmessagecsv.append(";");
+	logmessagecsv.append("\"");
 	logmessagecsv.append((const char*)parsata.mb_str());
 	logmessagecsv.append("\"");
 	logmessagecsv.append("\n");
@@ -2350,12 +2369,27 @@ void saveLogReceivedCSV(){
 	logmessagecsv.append(";");
 	logmessagecsv.append("\"");
 	logmessagecsv.append(" <-- ");
+	logmessagecsv.append("\"");
+	logmessagecsv.append(";");
+	logmessagecsv.append("\"");
 	logmessagecsv.append(SourceLanguageLog);
 	logmessagecsv.append(":");
+	logmessagecsv.append("\"");
+	logmessagecsv.append(";");
+	logmessagecsv.append("\"");
 	logmessagecsv.append((const char*)StringSourceLog.c_str());
+	logmessagecsv.append("\"");
+	logmessagecsv.append(";");
+	logmessagecsv.append("\"");
 	logmessagecsv.append(" #orig# ");
+	logmessagecsv.append("\"");
+	logmessagecsv.append(";");
+	logmessagecsv.append("\"");
 	logmessagecsv.append(CURRENT_LANG);
 	logmessagecsv.append(":");
+	logmessagecsv.append("\"");
+	logmessagecsv.append(";");
+	logmessagecsv.append("\"");
 	logmessagecsv.append((const char*)StringTranslate.c_str());
 	logmessagecsv.append("\"");
 	logmessagecsv.append("\n");

@@ -18,6 +18,8 @@
     <lblyesmessage>Sim, eu quero salvá-los:</lblyesmessage>
     <lblsavecsv>Salve em formato CSV.</lblsavecsv>
     <lblsavetxt>Salve em formato TXT.</lblsavetxt>
+    <lblsavemenu>Salve</lblsavemenu>
     <lblsavein>Salve em:</lblsavein>
+
     <btnbrowse>Explorar</btnbrowse>
 </language>

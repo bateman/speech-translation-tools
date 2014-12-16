@@ -19,5 +19,6 @@
     <lblsavecsv>Save in CSV format.</lblsavecsv>
     <lblsavetxt>Save in TXT format.</lblsavetxt>
     <lblsavein>Save in:</lblsavein>
+    <lblsavemenu>Save</lblsavemenu>
     <btnbrowse>Browse</btnbrowse>
 </language>

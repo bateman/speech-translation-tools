@@ -75,6 +75,7 @@ class ClientTsFrm : public wxFrame
 		void Wizard(wxCommandEvent& event);
 		void WxBitmapButton1Click(wxCommandEvent& event);
 		void readXmlLangDoc(char* filename);
+		void Save(wxCommandEvent& event);
 				
 	private:
 		//Do not add custom control declarations between
@@ -126,6 +127,7 @@ class ClientTsFrm : public wxFrame
 			ID_WXBUTTON1 = 1001,
 			ID_MNU_FILE_1001 = 1111,
 			ID_MNU_ESCI_1003 = 1113,
+			ID_MNU_SAVE_1007 = 1117,
 			ID_MNU_OPZIONI_1004 = 1114,
 			ID_MNU_AUDIO_1005 = 1115,
 			ID_MNU_SPEECH_1006 = 1116,
