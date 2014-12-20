@@ -11,7 +11,7 @@ FrmMailSending::FrmMailSending(wxWindow* parent, wxWindowID id, const wxString& 
 	bSizer3->Add(0, 0, 1, wxEXPAND, 5);
 	bSizer3->Add(0, 0, 1, wxEXPAND, 5);
 
-	m_bitmap1 = new wxStaticBitmap(this, wxID_ANY, wxBitmap(sendemail_xpm), wxDefaultPosition, wxSize(75, 75), 0);
+	m_bitmap1 = new wxStaticBitmap(this, wxID_ANY, wxBitmap(send_email_xpm), wxDefaultPosition, wxSize(75, 75), 0);
 	bSizer3->Add(m_bitmap1, 0, wxALL, 5);
 
 	bSizer1->Add(bSizer3, 1, wxEXPAND, 5);
