@@ -6,33 +6,56 @@
 using namespace std;
 
 typedef struct Labels{
+
+	// frame Login
 	string nameHostServer = "";
 	string language = "";
 	string service = "";
-	string cmdConfirm = "";
+	string confirm = "";
+
+	// frame Client
 	string gridMessage = "";
 	string send = "";
-	string exit = "";
+
+	string saveMenu = "";
+	string mailMenu = "";
+	string exitMenu = "";
+
 	string options = "";
-	string sound = "";
+	string audioMenu = "";
 	string enable = "";
 	string disable = "";
+
+	// frame Audio
 	string microphone = "";
 	string min = "";
 	string max = "";
-	string savemessage = "";
-	string nomessage = "";
-	string yesmessage = "";
-	string savecsv = "";
-	string savetxt = "";
-	string savein = "";
-	string browse= "";
 
+	// frame Save
+	string saveMessage = "";
+	string no = "";
+	string yes = "";
+	string saveFormatMessage = "";
+	string formatCsv = "";
+	string formatTxt = "";
+	string saveIn = "";
+	string saveSuccess = "";
+	string saveError = "";
+
+	// frame Mail
+	string mailTo = "";
+	string mailSubject = "";
+	string mailBody = "";
+	string mailAttachment = "";
+	string fileSelect = "";
+	string dirSelect = "";
+	string mailSuccess = "";
+	string mailError = "";
 };
 
 extern Labels labels;
-extern string StringTranslate;
+
 extern char CURRENT_LANG[20];
 
-#endif // _TRANSLATEVARIABLES_H_
+#endif
 

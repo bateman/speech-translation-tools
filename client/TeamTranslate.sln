@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TeamTranslate", "minimal_vc9.vcxproj", "{853D1FD7-20AB-586C-9699-9680F84AC985}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ts3_server_sample", "..\server\ts3_server_sample.vcxproj", "{68FE7DBC-6F59-4800-8913-1D40A6D04440}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A7C8F959-4C78-469A-AC16-6339303204B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,7 @@ Global
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.DLL Universal Release|x64.ActiveCfg = DLL Universal Release|Win32
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.Release|Win32.ActiveCfg = Release|Win32
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.Release|Win32.Build.0 = Release|Win32
+		{853D1FD7-20AB-586C-9699-9680F84AC985}.Release|Win32.Deploy.0 = Release|Win32
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.Release|x64.ActiveCfg = Release|Win32
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.Universal Debug|Win32.ActiveCfg = Universal Debug|Win32
 		{853D1FD7-20AB-586C-9699-9680F84AC985}.Universal Debug|Win32.Build.0 = Universal Debug|Win32

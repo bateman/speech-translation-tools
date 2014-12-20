@@ -10,62 +10,58 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
     <Filter Include="Source Files\connectionController">
-      <UniqueIdentifier>{45b5a460-d73e-4f29-9fa1-32c11411601a}</UniqueIdentifier>
+      <UniqueIdentifier>{3abff4cf-c017-482b-8a36-1955b87892a8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\translateController">
-      <UniqueIdentifier>{b3c0c1af-86fc-4cc6-b5ca-43a014f34f01}</UniqueIdentifier>
+      <UniqueIdentifier>{f90e4d02-27c1-4ef8-897d-9075937b8231}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\UI">
-      <UniqueIdentifier>{e17f6ff3-228c-4730-8589-10f7257f462c}</UniqueIdentifier>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{e7257350-8165-4d86-a32b-fd007d315096}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ClientTsFrm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Login.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AudioWizard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\translateController\translateController.cpp">
-      <Filter>Source Files\translateController</Filter>
-    </ClCompile>
-    <ClCompile Include="src\translateController\Labels.cpp">
-      <Filter>Source Files\translateController</Filter>
-    </ClCompile>
-    <ClCompile Include="src\connectionController\connectionController.cpp">
-      <Filter>Source Files\connectionController</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UI\frmSaveDialog.cpp">
-      <Filter>Source Files\UI</Filter>
+    <ClCompile Include="src\connectionController\connectionController.cpp">
+      <Filter>Source Files\connectionController</Filter>
+    </ClCompile>
+    <ClCompile Include="src\translateController\translateController.cpp">
+      <Filter>Source Files\translateController</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\AudioWizard.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\ClientTsFrm.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Login.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\FrmMailSending.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\FrmSaveChat.cpp">
+      <Filter>Source Files\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ClientTsFrm.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Login.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AudioWizard.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GlobalVariables.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="res\resource.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\tinyxml2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\connectionController\connectionController.h">
+      <Filter>Source Files\connectionController</Filter>
     </ClInclude>
     <ClInclude Include="src\translateController\translateController.h">
       <Filter>Source Files\translateController</Filter>
@@ -73,23 +69,21 @@
     <ClInclude Include="src\translateController\translateVariable.h">
       <Filter>Source Files\translateController</Filter>
     </ClInclude>
-    <ClInclude Include="src\translateController\Labels.h">
-      <Filter>Source Files\translateController</Filter>
+    <ClInclude Include="src\GUI\AudioWizard.h">
+      <Filter>Source Files\gui</Filter>
     </ClInclude>
-    <ClInclude Include="src\connectionController\connectionController.h">
-      <Filter>Source Files\connectionController</Filter>
+    <ClInclude Include="src\GUI\ClientTsFrm.h">
+      <Filter>Source Files\gui</Filter>
     </ClInclude>
-    <ClInclude Include="src\tinyxml2.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\GUI\Login.h">
+      <Filter>Source Files\gui</Filter>
     </ClInclude>
-    <ClInclude Include="src\UI\frmSaveDialog.h">
-      <Filter>Source Files\UI</Filter>
+    <ClInclude Include="src\gui\FrmMailSending.h">
+      <Filter>Source Files\gui</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="res\sample.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <ClInclude Include="src\gui\FrmSaveChat.h">
+      <Filter>Source Files\gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\keyboard.xpm">
@@ -116,11 +110,24 @@
     <None Include="res\ledverde.xpm">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\ico_connection.xpm">
+    <None Include="res\connect.xpm">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\ico_save.xpm">
+    <None Include="res\sendemail.xpm">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\sample.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TeamTranslate.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

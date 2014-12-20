@@ -22,20 +22,14 @@
 	#include <wx/wxprec.h>
 #endif
 
-//Do not add custom headers between 
-//Header Include Start and Header Include End.
-//wxDev-C++ designer will remove them. Add custom headers after the block.
-////Header Include Start
 #include <wx/button.h>
 #include <wx/stattext.h>
 #include <wx/slider.h>
 #include <wx/statbmp.h>
-////Header Include End
 
-////Dialog Style Start
-#undef AudioWizard_STYLE
-#define AudioWizard_STYLE wxCAPTION | wxSYSTEM_MENU | wxDIALOG_NO_PARENT | wxMINIMIZE_BOX | wxCLOSE_BOX
-////Dialog Style End
+#include "../res/ledrosso.xpm"
+#include "../res/ledverde.xpm"
+#include "..\translateController\translateVariable.h"
 
 class AudioWizard : public wxDialog
 {
@@ -43,29 +37,22 @@ class AudioWizard : public wxDialog
 		DECLARE_EVENT_TABLE();
 		
 	public:
-		AudioWizard(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("AudioWizard"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = AudioWizard_STYLE);
+		AudioWizard(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("AudioWizard"), 
+			const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, 
+			long style = wxCAPTION | wxSYSTEM_MENU | wxDIALOG_NO_PARENT | wxMINIMIZE_BOX | wxCLOSE_BOX | wxRESIZE_BORDER);
 		void ConfermaClick(wxCommandEvent& event);
 		virtual ~AudioWizard();
 		void WxTimer1Timer(wxTimerEvent& event);
-		void readXmlLangDoc(char* filename);
 	
 	private:
-		//Do not add custom control declarations between 
-		//GUI Control Declaration Start and GUI Control Declaration End.
-		//wxDev-C++ will remove them. Add custom code after the block.
-		////GUI Control Declaration Start
-		wxButton *btnconfirm;
+		wxButton *btnconferma;
 		wxStaticText *lblhelp;
 		wxSlider *slideraudio;
 		wxStaticBitmap *bmpfeed;
 		wxTimer *WxTimer1;
-		////GUI Control Declaration End
+
 		
 	private:
-		//Note: if you receive any error with these enum IDs, then you need to
-		//change your old form code that are based on the #define control IDs.
-		//#defines may replace a numeric value for the enum names.
-		//Try copy and pasting the below block in your old form header files.
 		enum
 		{
 			////GUI Enum Control ID Start

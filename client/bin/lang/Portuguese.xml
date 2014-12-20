@@ -1,25 +1,35 @@
 <language>
-    <lblNameHost>Nome/Host Server:</lblNameHost>
-    <lblLanguage>Linguagem:</lblLanguage>
-    <lblService>Serviço:</lblService>
-    <btnlogin>Confirmação</btnlogin>
-    <lblmessage>Mensagens</lblmessage>
-    <btnsend>Enviar</btnsend>
-    <lblexit>Parar</lblexit>
-    <lbloptions>Opções</lbloptions>
-    <lblsound>Àudio</lblsound>
-    <lblenable>Habilitar</lblenable>
-    <lbldisable>Desabilitar</lbldisable>
-    <lblmicrophone>Ajustar a sensibilidade do microfone</lblmicrophone>
-    <lblmin>O menor captura todos os sons do microfone sem filtros</lblmin>
-    <lblmax>Enquanto o valor máximo não capturar qualquer som</lblmax>
-    <lblsavemessage>Você quer salvar esta sessão de bate-papo?</lblsavemessage>
-    <lblnomessage>Não, eu faço não para salvá-los.</lblnomessage>
-    <lblyesmessage>Sim, eu quero salvá-los:</lblyesmessage>
-    <lblsavecsv>Salve em formato CSV.</lblsavecsv>
-    <lblsavetxt>Salve em formato TXT.</lblsavetxt>
-    <lblsavemenu>Salve</lblsavemenu>
-    <lblsavein>Salve em:</lblsavein>
-
-    <btnbrowse>Explorar</btnbrowse>
+    <nameHostServer>Nome</nameHostServer>
+    <language>Lnoinguagem</language>
+    <service>Serviço</service>
+    <confirm>Confirmar</confirm>
+    <gridMessage>Mensagem</gridMessage>
+    <send>Enviar</send>
+    <saveMenu>Salvar sessão de chat</saveMenu>
+    <mailMenu>Enviar el chat um e-mail</mailMenu>
+    <exitMenu>Sair</exitMenu>
+    <options>Opções</options>
+    <audioMenu>Audio</audioMenu>
+    <enable>Permitir</enable>
+    <disable>Inhabilitar</disable>
+    <microphone>Ajuste a sensibilidade do microfone.</microphone>
+    <min>O menor capta todos os sons do microfone, sem filtros,</min>
+    <max>enquanto o valor máximo não capta qualquer som</max>
+    <saveMessage>Quer economizar este chat?</saveMessage>
+    <no>Não</no>
+    <yes>Sim</yes>
+    <saveFormatMessage>Em que formato você quer salvar?</saveFormatMessage>
+    <formatCsv>CSV formato</formatCsv>
+    <formatTxt>TXT formato</formatTxt>
+    <saveIn>Salvar como</saveIn>
+    <saveSuccess>Chat sessão salva com sucesso!</saveSuccess>
+    <saveError>Sessão de bate-papo não salvou! Houve um erro durante a gravação!</saveError>
+    <mailTo>Para</mailTo>
+    <mailSubject>Sujeitar</mailSubject>
+    <mailBody>Corpo</mailBody>
+    <mailAttachment>Ligação:</mailAttachment>
+    <fileSelect>Selecione ligação</fileSelect>
+    <dirSelect>Selecione diretório</dirSelect>
+    <mailSuccess>E-mail enviado com sucesso/mailSuccess>
+    <mailError>E-mail não foi enviado! Ocorreu um erro durante o envio!</mailError>  
 </language>

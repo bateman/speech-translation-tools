@@ -21,13 +21,9 @@
 #else
 	#include <wx/wxprec.h>
 #endif
+
 #include <wx/sizer.h>
 #include <wx/wx.h>
-#include <wx/timer.h>
-//Do not add custom headers between 
-//Header Include Start and Header Include End.
-//wxDev-C++ designer will remove them. Add custom headers after the block.
-////Header Include Start
 #include <wx/timer.h>
 #include <wx/stattext.h>
 #include <wx/richtext/richtextctrl.h>
@@ -35,29 +31,26 @@
 #include <wx/button.h>
 #include <wx/grid.h>
 
-////Header Include End
-
-////Dialog Style Start
-#undef ClientTsFrm_STYLE
-#define ClientTsFrm_STYLE  wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX
-////Dialog Style End
+#include "..\GlobalVariables.h"
+#include "..\translateController\translateController.h"
+#include "..\translateController\translateVariable.h"
+#include "FrmMailSending.h"
+#include "AudioWizard.h"
+#include <list>
+#include "FrmSaveChat.h"
 
 #define MENU_ESCI 1800
 #define MENU_OPZIONI 1801
 #define MENU_SPEECH 1802
+
+
 
 class ClientTsFrm : public wxFrame
 {
 	private:
 		DECLARE_EVENT_TABLE();
 		double conta;
-		
-	public:
-		ClientTsFrm(wxWindow *parent, wxWindowID id = 1, 
-					const wxString &title = wxT("TeamTranslate"), 
-					const wxPoint& pos = wxDefaultPosition, 
-					const wxSize& size = wxDefaultSize, long style = ClientTsFrm_STYLE);
-		virtual ~ClientTsFrm();
+		void askForSaving();
 		void WxButton1Click(wxCommandEvent& event);
 		void btnsendClick(wxCommandEvent& event);
 		void txtchatClick(wxRichTextEvent& event);
@@ -74,20 +67,25 @@ class ClientTsFrm : public wxFrame
 		void Debug(wxCommandEvent& event);
 		void Wizard(wxCommandEvent& event);
 		void WxBitmapButton1Click(wxCommandEvent& event);
-		void readXmlLangDoc(char* filename);
+		void Mail(wxCommandEvent& event);
 		void Save(wxCommandEvent& event);
-				
-	private:
-		//Do not add custom control declarations between
-		//GUI Control Declaration Start and GUI Control Declaration End.
-		//wxDev-C++ will remove them. Add custom code after the block.
-		////GUI Control Declaration Start
+		void OnClose(wxCloseEvent& event);
+
+	public:
+		
+		ClientTsFrm(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("TeamTranslate"), 
+					const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, 
+					long style = wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxRESIZE_BORDER);
+
+		virtual ~ClientTsFrm();
+
+	private:	
 		wxTimer *WxTimer2;
 		wxTimer *WxTimer1;
 		wxButton *btnspeech;
 		wxRichTextCtrl *txtclient;
-		wxTextCtrl *txtlanguage;
-		wxStaticText *lblanguage;
+		wxTextCtrl *txtlingua;
+		wxStaticText *lbllingua;
 		wxStaticText *lblnick;
 		wxTextCtrl *txtnick;
 		wxRichTextCtrl *txtchat;
@@ -101,13 +99,7 @@ class ClientTsFrm : public wxFrame
 		wxMenu *ID_MNU_FILE_1001_Mnu_Obj;
 		wxMenu *ID_MNU_OPZIONI_1004_Mnu_Obj;
 		wxBitmapButton *WxBitmapButton1;
-		////GUI Control Declaration End
-		
-	private:
-		//Note: if you receive any error with these enum IDs, then you need to
-		//change your old form code that are based on the #define control IDs.
-		//#defines may replace a numeric value for the enum names.
-		//Try copy and pasting the below block in your old form header files.
+
 		enum
 		{
 			////GUI Enum Control ID Start
@@ -126,8 +118,9 @@ class ClientTsFrm : public wxFrame
 			ID_WXEDIT3 = 1003,
 			ID_WXBUTTON1 = 1001,
 			ID_MNU_FILE_1001 = 1111,
+			ID_MNU_SAVE_1002 = 1118,
+			ID_MNU_MAIL_1004 = 1117,
 			ID_MNU_ESCI_1003 = 1113,
-			ID_MNU_SAVE_1007 = 1117,
 			ID_MNU_OPZIONI_1004 = 1114,
 			ID_MNU_AUDIO_1005 = 1115,
 			ID_MNU_SPEECH_1006 = 1116,
@@ -135,11 +128,11 @@ class ClientTsFrm : public wxFrame
 			////GUI Enum Control ID End
 			ID_DUMMY_VALUE_ //don't remove this value unless you have other enum values
 		};
-
+		
 	private:
-		void OnClose(wxCloseEvent& event);
-		void CreateGUIControls();
+		
 };
+
 class MyGridCellRenderer : public wxGridCellStringRenderer
 {
 private:

@@ -1,24 +1,35 @@
 <language>
-    <lblNameHost>Nome/Host Server:</lblNameHost>
-    <lblLanguage>Linguaggio:</lblLanguage>
-    <lblService>Servizio:</lblService>
-    <btnlogin>Conferma</btnlogin>
-    <lblmessage>Messaggio</lblmessage>
-    <btnsend>Invia</btnsend>
-    <lblexit>Esci</lblexit>
-    <lbloptions>Opzioni</lbloptions>
-    <lblsound>Audio</lblsound>
-    <lblenable>Abilita</lblenable>
-    <lbldisable>Disabilita</lbldisable>
-    <lblmicrophone>Regola la sensibilità del microfono</lblmicrophone>
-    <lblmin>Il valore minimo cattura tutti i suoni dal microfono senza filtri</lblmin>
-    <lblmax>Mentre il valore massimo non cattura nessun suono</lblmax>
-    <lblsavemessage>Vuoi salvare questa sessione di chat?</lblsavemessage>
-    <lblnomessage>No, non voglio salvarla.</lblnomessage>
-    <lblyesmessage>Si, voglio salvarla:</lblyesmessage>
-    <lblsavecsv>Salva nel formato CSV.</lblsavecsv>
-    <lblsavetxt>Salva nel formato TXT.</lblsavetxt>
-    <lblsavein>Salva in:</lblsavein>
-    <lblsavemenu>Salva</lblsavemenu>
-    <btnbrowse>Esplora</btnbrowse>
+    <nameHostServer>Nome</nameHostServer>
+    <language>Lingua</language>
+    <service>Servizio</service>
+    <confirm>Conferma</confirm>
+    <gridMessage>Messaggio</gridMessage>
+    <send>Invia</send>
+    <saveMenu>Salva sessione di chat</saveMenu>
+    <mailMenu>Invia chat per e-mail</mailMenu>
+    <exitMenu>Esci</exitMenu>
+    <options>Opzioni</options>
+    <audioMenu>Audio</audioMenu>
+    <enable>Abilita</enable>
+    <disable>Disabilita</disable>
+    <microphone>Regola la sensibilità del microfono.</microphone>
+    <min>Il valore minimo cattura tutti i suoni dal microfono senza filtri,</min>
+    <max>mentre il valore massimo non cattura nessun suono.</max>
+    <saveMessage>Vuoi salvare questa sessione di chat?</saveMessage>
+    <no>No</no>
+    <yes>Si</yes>
+    <saveFormatMessage>In che formato vuoi salvare?</saveFormatMessage>
+    <formatCsv>Formato CSV</formatCsv>
+    <formatTxt>Formato TXT</formatTxt>
+    <saveIn>Salva in</saveIn>
+    <saveSuccess>Sessione di chat salvata con successo!</saveSuccess>
+    <saveError>Sessione di chat non salvata! Si è verificato un errore durante il salvataggio!</saveError>
+    <mailTo>A</mailTo>
+    <mailSubject>Oggetto</mailSubject>
+    <mailBody>Testo</mailBody>
+    <mailAttachment>Allegato:</mailAttachment>
+    <fileSelect>Seleziona il file</fileSelect>
+    <dirSelect>Seleziona la directory</dirSelect>
+    <mailSuccess>E-mail inviata con successo!</mailSuccess>
+    <mailError>E-mail non inviata! Si è verificato un errore durante l'invio!</mailError>
 </language>
