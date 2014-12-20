@@ -27,7 +27,7 @@
     <mailTo>To</mailTo>
     <mailSubject>Subject</mailSubject>
     <mailBody>Body</mailBody>
-    <mailAttachment>Attachment:</mailAttachment>
+    <mailAttachment>Attachment</mailAttachment>
     <fileSelect>Select attachment</fileSelect>
     <dirSelect>Select directory</dirSelect>
     <mailSuccess>E-mail sent succesfully</mailSuccess>

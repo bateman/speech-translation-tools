@@ -1,6 +1,6 @@
 <language>
     <nameHostServer>Nome</nameHostServer>
-    <language>Lnoinguagem</language>
+    <language>Linguagem</language>
     <service>Serviço</service>
     <confirm>Confirmar</confirm>
     <gridMessage>Mensagem</gridMessage>
@@ -27,9 +27,9 @@
     <mailTo>Para</mailTo>
     <mailSubject>Sujeitar</mailSubject>
     <mailBody>Corpo</mailBody>
-    <mailAttachment>Ligação:</mailAttachment>
+    <mailAttachment>Ligação</mailAttachment>
     <fileSelect>Selecione ligação</fileSelect>
     <dirSelect>Selecione diretório</dirSelect>
-    <mailSuccess>E-mail enviado com sucesso/mailSuccess>
+    <mailSuccess>E-mail enviado com sucesso</mailSuccess>
     <mailError>E-mail não foi enviado! Ocorreu um erro durante o envio!</mailError>  
 </language>
