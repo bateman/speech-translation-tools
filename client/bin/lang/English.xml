@@ -31,5 +31,12 @@
     <fileSelect>Select attachment</fileSelect>
     <dirSelect>Select directory</dirSelect>
     <mailSuccess>E-mail sent succesfully</mailSuccess>
-    <mailError>E-mail not sent! An error occurred during sending!</mailError>  
+    <mailError>E-mail not sent! An error occurred during sending!</mailError>
+    <emailSetting>Email Settings</emailSetting>
+    <serverName>SMTP Server</serverName>
+    <serverPort>Port</serverPort>
+    <messageSecure>Use secure connection</messageSecure>
+    <noSecure>No</noSecure>
+    <messageEmailSetting>Configuration Saved</messageEmailSetting>
+    <noSave>Nothing to save</noSave>	
 </language>

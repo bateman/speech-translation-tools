@@ -61,13 +61,23 @@ FrmMailSending::FrmMailSending(wxWindow* parent, wxWindowID id, const wxString& 
 	lblAttachment->Wrap(-1);
 	bSizer312->Add(lblAttachment, 0, wxALIGN_CENTER | wxALL, 5);
 
-	filePicker = new wxFilePickerCtrl(this, wxID_ANY, wxEmptyString, labels.fileSelect, wxT("*.txt;*.csv"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE);
+	filePicker = new wxFilePickerCtrl(this, wxID_ANY, wxEmptyString, labels.fileSelect, wxT("*.txt"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE);
 	bSizer312->Add(filePicker, 1, wxALL, 5);
-
+	
 
 	bSizer1->Add(bSizer312, 1, wxEXPAND, 5);
+	
 
-
+	bSizer1->Add(0, 0, 1, wxEXPAND, 5);
+	
+	wxBoxSizer* bSizer3600;
+	bSizer3600 = new wxBoxSizer(wxHORIZONTAL);
+	lblAttachment = new wxStaticText(this, wxID_ANY, labels.mailAttachment, wxDefaultPosition, wxSize(100, -1), 0);
+	lblAttachment->Wrap(-1);
+	bSizer3600->Add(lblAttachment, 0, wxALIGN_CENTER | wxALL, 5);
+	filePicker2 = new wxFilePickerCtrl(this, wxID_ANY, wxEmptyString, labels.fileSelect, wxT("*.csv"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE);
+	bSizer3600->Add(filePicker2, 1, wxALL, 5);
+	bSizer1->Add(bSizer3600, 1, wxEXPAND, 5);
 	bSizer1->Add(0, 0, 1, wxEXPAND, 5);
 
 	wxBoxSizer* bSizer30;
@@ -88,7 +98,31 @@ FrmMailSending::FrmMailSending(wxWindow* parent, wxWindowID id, const wxString& 
 
 	this->SetSizer(bSizer1);
 	this->Layout();
+	char directorycurrent[3000];
+	char directorycurrent2[3000];
+	FILE *config;
+	if ((config=fopen("..\\bin\\conf\\directory.txt", "r")) != NULL){
+		fscanf(config, "%s", directorycurrent);
+		fscanf(config, "%s", directorycurrent2);
+		
+		if (strcmp(directorycurrent, "") == 0){
+			filePicker->SetPath("C:\\");
+		}
+		else{ filePicker->SetPath(directorycurrent2); }
+		if (strcmp(directorycurrent2, "") == 0){
+			filePicker2->SetPath("C:\\");
+		}
+		else{ filePicker2->SetPath(directorycurrent); }
+		fclose(config);
+	}
+	else{
+		filePicker2->SetPath("C:\\");
+		filePicker->SetPath("C:\\");
+		
+	}
+	
 
+	
 	// Connect Events
 	btnCancel->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FrmMailSending::btnCancelMailClick), NULL, this);
 	btnSend->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FrmMailSending::btnSendMailClick), NULL, this);
@@ -108,13 +142,15 @@ void FrmMailSending::btnSendMailClick(wxCommandEvent& event)
 	char* to = (char*)malloc(strlen((const char*)txtTo->GetValue().mb_str(wxConvUTF8)) + 1);
 	char* body = (char*)malloc(strlen((const char*)txtText->GetValue().mb_str(wxConvUTF8)) + 1);
 	char* attachment = (char*)malloc(strlen((const char*)filePicker->GetPath().mb_str(wxConvUTF8)) + 1);
+	char* attachment2 = (char*)malloc(strlen((const char*)filePicker2->GetPath().mb_str(wxConvUTF8)) + 1);
 
 	strcpy(subject, (const char*)txtSubject->GetValue().mb_str(wxConvUTF8));
 	strcpy(to, (const char*)txtTo->GetValue().mb_str(wxConvUTF8));
 	strcpy(body, (const char*)txtText->GetValue().mb_str(wxConvUTF8));
 	strcpy(attachment, (const char*)filePicker->GetPath().mb_str(wxConvUTF8));
+	strcpy(attachment2, (const char*)filePicker2->GetPath().mb_str(wxConvUTF8));
 
-	if (sendMail(subject, body, to, attachment) == true) {
+	if (sendMail(subject, body, to, attachment, attachment2) == true) {
 		wxMessageBox(labels.mailSuccess);
 		this->Close();
 	}
@@ -126,11 +162,28 @@ void FrmMailSending::btnCancelMailClick(wxCommandEvent& event){
 	this->Close();
 }
 
-bool FrmMailSending::sendMail(char* subject, char* body, char* to, char* attachment){
-
+bool FrmMailSending::sendMail(char* subject, char* body, char* to, char* attachment, char* attachment2){
+	struct serverdata
+	{
+		char smtpservertxt[100];
+		char serverporttxt[6];
+		char username[100];
+		char password[100];
+		char protocol[100];
+	} serversettings;
+	int protocolint;
 	bool success;
 
 	CkMailMan mailman;
+	FILE *config = fopen("..\\bin\\conf\\email.txt", "r");
+	fscanf(config, "%s", &serversettings.smtpservertxt);
+	fscanf(config, "%s", &serversettings.serverporttxt);
+	fscanf(config, "%s", &serversettings.username);
+	fscanf(config, "%s", &serversettings.password);
+	fscanf(config, "%s", &serversettings.protocol);
+	fclose(config);
+	protocolint = atoi(serversettings.serverporttxt);
+	char source[100];
 
 	//  Any string argument automatically begins the 30-day trial.
 
@@ -139,14 +192,15 @@ bool FrmMailSending::sendMail(char* subject, char* body, char* to, char* attachm
 		return false;
 
 	//  Set the SMTP server.
-	mailman.put_SmtpHost("smtp.gmail.com");
-	mailman.put_SmtpSsl(true);
-	mailman.put_SmtpPort(465);
+	mailman.put_SmtpHost(serversettings.smtpservertxt);
+	if (strcmp(serversettings.protocol, "true") == 0){ mailman.put_SmtpSsl(true); }
+	else { mailman.put_SmtpSsl(false); }
+	mailman.put_SmtpPort(protocolint);
 
 	// Set the SMTP login/password (if required)
 	// sender data
-	mailman.put_SmtpUsername("proguniversita@gmail.com");
-	mailman.put_SmtpPassword("teamtranslate");
+	mailman.put_SmtpUsername(serversettings.username);
+	mailman.put_SmtpPassword(serversettings.password);
 
 	success = mailman.VerifySmtpConnection();
 	if (success != true)
@@ -158,11 +212,14 @@ bool FrmMailSending::sendMail(char* subject, char* body, char* to, char* attachm
 
 	//  Create a new email object
 	CkEmail email;
-
-	email.put_From("TeamTranslate <proguniversita@gmail.com>");
+	strcpy(source, "TeamTranslate <");
+	strcat(source, serversettings.username);
+	strcat(source, ">");
+	email.put_From(source);
 	email.put_Subject(subject);
 	email.put_Body(body);
 	email.addFileAttachment(attachment);
+	email.addFileAttachment(attachment2);
 
 	// add all recipient (they must be separated by ;
 	char * pch;

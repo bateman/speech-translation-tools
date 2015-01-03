@@ -32,4 +32,11 @@
     <dirSelect>Seleziona la directory</dirSelect>
     <mailSuccess>E-mail inviata con successo!</mailSuccess>
     <mailError>E-mail non inviata! Si è verificato un errore durante l'invio!</mailError>
+    <emailSetting>Impostazioni E-mail</emailSetting>
+    <serverName>SMTP Server</serverName>
+    <serverPort>Porta</serverPort>
+    <messageSecure>Usa connessione protetta</messageSecure>
+    <noSecure>No</noSecure>
+    <messageEmailSetting>Configurazione Salvata</messageEmailSetting>
+    <noSave>Niente da salvare</noSave>	
 </language>

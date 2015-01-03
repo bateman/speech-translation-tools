@@ -65,6 +65,7 @@ void TranslateController::readXmlLangDoc(char* filename){
 		else if (strcmp(etichetta, "saveIn") == 0) labels.saveIn = valFiglio;
 		else if (strcmp(etichetta, "saveSuccess") == 0) labels.saveSuccess = valFiglio;
 		else if (strcmp(etichetta, "saveError") == 0) labels.saveError = valFiglio;
+		else if (strcmp(etichetta, "noSave") == 0) labels.noSave = valFiglio;
 
 		// frame Mail
 		else if (strcmp(etichetta, "mailTo") == 0) labels.mailTo = valFiglio;
@@ -74,6 +75,14 @@ void TranslateController::readXmlLangDoc(char* filename){
 		else if (strcmp(etichetta, "fileSelect") == 0) labels.fileSelect = valFiglio;
 		else if (strcmp(etichetta, "mailSuccess") == 0) labels.mailSuccess = valFiglio;
 		else if (strcmp(etichetta, "mailError") == 0) labels.mailError = valFiglio;
+
+		// frame Settings
+		else if (strcmp(etichetta, "emailSetting") == 0) labels.emailSetting = valFiglio;
+		else if (strcmp(etichetta, "serverName") == 0) labels.serverName = valFiglio;
+		else if (strcmp(etichetta, "serverPort") == 0) labels.serverPort = valFiglio;
+		else if (strcmp(etichetta, "messageSecure") == 0) labels.messageSecure = valFiglio;
+		else if (strcmp(etichetta, "noSecure") == 0) labels.noSecure = valFiglio;
+		else if (strcmp(etichetta, "messageEmailSetting") == 0) labels.messageEmailSetting = valFiglio;
 
 		pFratello = pFratello->NextSibling();
 

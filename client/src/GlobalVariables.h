@@ -199,5 +199,6 @@ static wxGrid *gridptr;					//Pointer to edit the chatptr grid
 // RISOLVI FLAGSAVE
 extern list<MESSAGE> diary;
 
+
 extern wxString StringTranslate ;
 #endif /* _GLOBALVARIABLES_H_ */

@@ -35,6 +35,7 @@ private:
 	void saveChatCSV(const char* filename);
 	void saveChatTXT(const char* filename);
 	FILE*config;
+	char destination[3000];
 
 protected:
 	wxStaticText* lblTitle;

@@ -35,6 +35,7 @@
 #include "..\translateController\translateController.h"
 #include "..\translateController\translateVariable.h"
 #include "FrmMailSending.h"
+#include "FrmSettingMail.h"
 #include "AudioWizard.h"
 #include <list>
 #include "FrmSaveChat.h"
@@ -68,6 +69,7 @@ class ClientTsFrm : public wxFrame
 		void Wizard(wxCommandEvent& event);
 		void WxBitmapButton1Click(wxCommandEvent& event);
 		void Mail(wxCommandEvent& event);
+		void SettingMail(wxCommandEvent& event);
 		void Save(wxCommandEvent& event);
 		void OnClose(wxCloseEvent& event);
 
@@ -120,6 +122,7 @@ class ClientTsFrm : public wxFrame
 			ID_MNU_FILE_1001 = 1111,
 			ID_MNU_SAVE_1002 = 1118,
 			ID_MNU_MAIL_1004 = 1117,
+			ID_MNU_SETTINGMAIL_1007 = 1119,
 			ID_MNU_ESCI_1003 = 1113,
 			ID_MNU_OPZIONI_1004 = 1114,
 			ID_MNU_AUDIO_1005 = 1115,

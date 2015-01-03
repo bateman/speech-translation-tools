@@ -1450,6 +1450,7 @@ EVT_BUTTON(ID_WXBUTTON2, ClientTsFrm::btnsendClick)
 EVT_TEXT_ENTER(ID_WXEDIT3, ClientTsFrm::txtmsgEnter)
 EVT_BUTTON(ID_WXBUTTON1, ClientTsFrm::WxButton1Click)
 EVT_MENU(ID_MNU_MAIL_1004, ClientTsFrm::Mail)
+EVT_MENU(ID_MNU_SETTINGMAIL_1007, ClientTsFrm::SettingMail)
 EVT_MENU(ID_MNU_SAVE_1002, ClientTsFrm::Save)
 EVT_MENU(ID_MNU_ESCI_1003, ClientTsFrm::Debug)
 EVT_MENU(ID_MNU_AUDIO_1005, ClientTsFrm::Wizard)
@@ -1531,16 +1532,17 @@ ClientTsFrm::ClientTsFrm(wxWindow *parent, wxWindowID id, const wxString &title,
 
 	WxMenuBar1 = new wxMenuBar();
 	ID_MNU_FILE_1001_Mnu_Obj = new wxMenu();
-	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_SAVE_1002, _(wxString::FromUTF8(labels.saveMenu.c_str())), _(""), wxITEM_NORMAL);
-	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_MAIL_1004, _(wxString::FromUTF8(labels.mailMenu.c_str())), _(""), wxITEM_NORMAL);
-	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_ESCI_1003, _(wxString::FromUTF8(labels.exitMenu.c_str())), _(""), wxITEM_NORMAL);
+	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_SAVE_1002, labels.saveMenu, _(""), wxITEM_NORMAL);
+	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_MAIL_1004,labels.mailMenu, _(""), wxITEM_NORMAL);
+	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_ESCI_1003,labels.exitMenu, _(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, _("File"));
 
 	ID_MNU_OPZIONI_1004_Mnu_Obj = new wxMenu();
-	ID_MNU_OPZIONI_1004_Mnu_Obj->Append(ID_MNU_AUDIO_1005, _(wxString::FromUTF8(labels.audioMenu.c_str())), _(""), wxITEM_NORMAL);
+	ID_MNU_OPZIONI_1004_Mnu_Obj->Append(ID_MNU_SETTINGMAIL_1007, labels.emailSetting, _(""), wxITEM_NORMAL);
+	ID_MNU_OPZIONI_1004_Mnu_Obj->Append(ID_MNU_AUDIO_1005, labels.audioMenu, _(""), wxITEM_NORMAL);
 
 	ID_MNU_OPZIONI_1004_Mnu_Obj->AppendCheckItem(ID_MNU_SPEECH_1006, _(enableSTTService), _(""));
-	WxMenuBar1->Append(ID_MNU_OPZIONI_1004_Mnu_Obj, _(wxString::FromUTF8(labels.options.c_str())));
+	WxMenuBar1->Append(ID_MNU_OPZIONI_1004_Mnu_Obj, labels.options);
 	SetMenuBar(WxMenuBar1);
 
 	SetTitle(_("TeamTranslate"));
@@ -1858,6 +1860,11 @@ void ClientTsFrm::Mail(wxCommandEvent& event)
 	frame->ShowModal();
 }
 
+void ClientTsFrm::SettingMail(wxCommandEvent& event)
+{
+	MyPanel2 *frame2 = new MyPanel2(NULL);
+	frame2->ShowModal();
+}
 void ClientTsFrm::Save(wxCommandEvent& event)
 {
 	askForSaving();
@@ -1883,6 +1890,6 @@ void ClientTsFrm::askForSaving(){
 			flagSave = false; // chat not saved
 	}
 	else
-		wxMessageBox("Sessione di chat già salvata."); // ELIMINARE E DISATTIVARE LA VOCE SALVA NEL MENU*********************************************************************
+		wxMessageBox(labels.noSave);
 
 }

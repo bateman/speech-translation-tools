@@ -60,6 +60,7 @@ FrmSaveChat::FrmSaveChat(wxWindow* parent, wxWindowID id, const wxString &title,
 	fpkBrowse = new wxDirPickerCtrl(this, wxID_ANY, wxEmptyString, labels.dirSelect, wxDefaultPosition, wxDefaultSize, wxDIRP_DEFAULT_STYLE, wxDefaultValidator, wxDirPickerCtrlNameStr);
 	bSizer9->Add(fpkBrowse, 1, wxALL, 5);
 
+
 	bSizer8->Add(bSizer9, 1, wxEXPAND, 5);
 	bSizer7->Add(bSizer8, 1, wxEXPAND, 5);
 	bSizer6->Add(bSizer7, 1, wxEXPAND, 5);
@@ -120,9 +121,11 @@ void FrmSaveChat::checkBoxSelection(wxCommandEvent& event){
 void FrmSaveChat::btnConfirmClick(wxCommandEvent& event)
 {
 	// to get timestamp
+	FILE *config = fopen("..\\bin\\conf\\directory.txt", "w");
 	char timestamp[100];
 	time_t rawtime;
 	struct tm * timeinfo;
+	char temp[3000];
 	time(&rawtime);
 	timeinfo = localtime(&rawtime);
 	strftime(timestamp, 100, "%d-%m-%Y_%H-%M-%S", timeinfo);
@@ -130,12 +133,27 @@ void FrmSaveChat::btnConfirmClick(wxCommandEvent& event)
 	// end timestamp
 	
 	wxString path = fpkBrowse->GetPath() + "\\chatLog_" + timestamp;
-
-	if (chkCSV->GetValue())
-		saveChatCSV(path + ".csv");
-	if (chkTXT->GetValue())
-		saveChatTXT(path + ".txt");
 	
+	
+	if (chkCSV->GetValue()){
+		saveChatCSV(path + ".csv");
+		strcpy(destination, fpkBrowse->GetPath() + "\\chatLog_" + timestamp + ".csv");
+		fprintf(config, "%s\n", destination);
+	}
+	else{
+		strcpy(destination, "NoFile");
+		fprintf(config, "%s\n", destination);
+	}
+	if (chkTXT->GetValue()){
+		saveChatTXT(path + ".txt");
+		strcpy(destination, fpkBrowse->GetPath() + "\\chatLog_" + timestamp + ".txt");
+		fprintf(config, "%s\n", destination);
+	}
+	else{
+		strcpy(destination, "NoFile");
+		fprintf(config, "%s\n", destination);
+	}
+	fclose(config);
 	this->EndModal(wxID_YES); // chat saved
 }
 

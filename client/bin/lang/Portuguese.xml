@@ -31,5 +31,12 @@
     <fileSelect>Selecione ligação</fileSelect>
     <dirSelect>Selecione diretório</dirSelect>
     <mailSuccess>E-mail enviado com sucesso</mailSuccess>
-    <mailError>E-mail não foi enviado! Ocorreu um erro durante o envio!</mailError>  
+    <mailError>E-mail não foi enviado! Ocorreu um erro durante o envio!</mailError>
+    <emailSetting>Configurações de e-mail</emailSetting>
+    <serverName>SMTP Server</serverName>
+    <serverPort>Porto</serverPort>
+    <messageSecure>Usar conexão segura</messageSecure>
+    <noSecure>Não</noSecure> 
+    <messageEmailSetting>Configuração salvada</messageEmailSetting>
+    <noSave>Nada a salvar</noSave>
 </language>

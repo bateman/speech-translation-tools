@@ -35,7 +35,7 @@ class FrmMailSending : public wxDialog
 private:
 	void btnSendMailClick(wxCommandEvent& event);
 	void btnCancelMailClick(wxCommandEvent& event);
-	bool sendMail(char* subject, char* body, char* to, char*attachment);
+	bool sendMail(char* subject, char* body, char* to, char*attachment, char* attachment2);
 	void readXmlLangDoc(char* filename);
 
 protected:
@@ -48,6 +48,7 @@ protected:
 	wxStaticText* lblText;
 	wxTextCtrl* txtText;
 	wxFilePickerCtrl* filePicker;
+	wxFilePickerCtrl* filePicker2;
 	wxStaticText* lblAttachment;
 	wxButton* btnCancel;
 	wxButton* btnSend;

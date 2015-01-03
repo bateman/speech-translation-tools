@@ -41,6 +41,7 @@ typedef struct Labels{
 	string saveIn = "";
 	string saveSuccess = "";
 	string saveError = "";
+	string noSave = "";
 
 	// frame Mail
 	string mailTo = "";
@@ -51,6 +52,16 @@ typedef struct Labels{
 	string dirSelect = "";
 	string mailSuccess = "";
 	string mailError = "";
+
+	// frame Setting
+	string emailSetting = "";
+	string serverName = "";
+	string serverPort = "";
+	string messageSecure = "";
+	string noSecure = "";
+	string messageEmailSetting = "";
+	
+
 };
 
 extern Labels labels;
