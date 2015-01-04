@@ -101,7 +101,7 @@ FrmMailSending::FrmMailSending(wxWindow* parent, wxWindowID id, const wxString& 
 	char directorycurrent[3000];
 	char directorycurrent2[3000];
 	FILE *config;
-	if ((config=fopen("..\\bin\\conf\\directory.txt", "r")) != NULL){
+	if ((config=fopen("conf\\directory.txt", "r")) != NULL){
 		fscanf(config, "%s", directorycurrent);
 		fscanf(config, "%s", directorycurrent2);
 		
@@ -120,9 +120,7 @@ FrmMailSending::FrmMailSending(wxWindow* parent, wxWindowID id, const wxString& 
 		filePicker->SetPath("C:\\");
 		
 	}
-	
-
-	
+		
 	// Connect Events
 	btnCancel->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FrmMailSending::btnCancelMailClick), NULL, this);
 	btnSend->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FrmMailSending::btnSendMailClick), NULL, this);
@@ -175,7 +173,14 @@ bool FrmMailSending::sendMail(char* subject, char* body, char* to, char* attachm
 	bool success;
 
 	CkMailMan mailman;
-	FILE *config = fopen("..\\bin\\conf\\email.txt", "r");
+	FILE *config = fopen("conf\\email.txt", "r");
+
+	if (config == NULL)
+	{
+		wxMessageBox("Impostazioni email non trovate.");
+		return false;
+	}
+
 	fscanf(config, "%s", &serversettings.smtpservertxt);
 	fscanf(config, "%s", &serversettings.serverporttxt);
 	fscanf(config, "%s", &serversettings.username);
