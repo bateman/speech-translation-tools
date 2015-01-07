@@ -66,12 +66,15 @@ void TranslateController::readXmlLangDoc(char* filename){
 		else if (strcmp(etichetta, "saveSuccess") == 0) labels.saveSuccess = valFiglio;
 		else if (strcmp(etichetta, "saveError") == 0) labels.saveError = valFiglio;
 		else if (strcmp(etichetta, "noSave") == 0) labels.noSave = valFiglio;
+		else if (strcmp(etichetta, "btnBrowse") == 0) labels.btnBrowse = valFiglio;
+		else if (strcmp(etichetta, "btnCancel") == 0) labels.btnCancel = valFiglio;
 
 		// frame Mail
 		else if (strcmp(etichetta, "mailTo") == 0) labels.mailTo = valFiglio;
 		else if (strcmp(etichetta, "mailSubject") == 0) labels.mailSubject = valFiglio;
 		else if (strcmp(etichetta, "mailBody") == 0) labels.mailBody = valFiglio;
-		else if (strcmp(etichetta, "mailAttachment") == 0) labels.mailAttachment = valFiglio;
+		else if (strcmp(etichetta, "mailAttachmentTxt") == 0) labels.mailAttachmentTxt = valFiglio;
+		else if (strcmp(etichetta, "mailAttachmentCsv") == 0) labels.mailAttachmentCsv = valFiglio;
 		else if (strcmp(etichetta, "fileSelect") == 0) labels.fileSelect = valFiglio;
 		else if (strcmp(etichetta, "mailSuccess") == 0) labels.mailSuccess = valFiglio;
 		else if (strcmp(etichetta, "mailError") == 0) labels.mailError = valFiglio;

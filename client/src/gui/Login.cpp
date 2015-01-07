@@ -213,10 +213,10 @@ void Login::cmblingua_SelectionChange(wxCommandEvent& event)
 }
 
 void Login::SetLabel(){
-	lblNameHost->SetLabel(wxString::FromUTF8(labels.nameHostServer.append("/host server:").c_str()));
-	lblLanguage->SetLabel(wxString::FromUTF8(labels.language.append(":").c_str()));
-	lblService->SetLabel(wxString::FromUTF8(labels.service.append(":").c_str()));
-	cmdConfirm->SetLabel(wxString::FromUTF8(labels.confirm.c_str()));
+	lblNameHost->SetLabel(labels.nameHostServer.append("/host server:").c_str());
+	lblLanguage->SetLabel(labels.language.append(":").c_str());
+	lblService->SetLabel(labels.service.append(":").c_str());
+	cmdConfirm->SetLabel(labels.confirm.c_str());
 }
 
 void Login::btnloginClick(wxCommandEvent& event)

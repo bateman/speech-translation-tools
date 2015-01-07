@@ -50,6 +50,7 @@ protected:
 	wxFilePickerCtrl* filePicker;
 	wxFilePickerCtrl* filePicker2;
 	wxStaticText* lblAttachment;
+	wxStaticText* lblAttachment2;
 	wxButton* btnCancel;
 	wxButton* btnSend;
 

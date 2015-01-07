@@ -137,10 +137,10 @@ MyPanel2::MyPanel2(wxWindow* parent, wxWindowID id, const wxString& title, const
 	
 	bSizer14->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	frmOptionsMail_cmdOK = new wxButton( this, wxID_ANY, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	frmOptionsMail_cmdOK = new wxButton(this, wxID_ANY, labels.confirm, wxDefaultPosition, wxDefaultSize, 0);
 	bSizer14->Add( frmOptionsMail_cmdOK, 0, wxALL, 5 );
 	
-	frmOptionsMail_cmdCancel = new wxButton( this, wxID_ANY, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	frmOptionsMail_cmdCancel = new wxButton( this, wxID_ANY, labels.btnCancel, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer14->Add( frmOptionsMail_cmdCancel, 0, wxALL, 5 );
 	
 	

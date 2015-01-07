@@ -27,7 +27,8 @@
     <mailTo>Para</mailTo>
     <mailSubject>Sujeitar</mailSubject>
     <mailBody>Corpo</mailBody>
-    <mailAttachment>Ligação</mailAttachment>
+    <mailAttachmentTxt>Ligação</mailAttachmentTxt>
+    <mailAttachmentCsv>Ligação</mailAttachmentCsv>
     <fileSelect>Selecione ligação</fileSelect>
     <dirSelect>Selecione diretório</dirSelect>
     <mailSuccess>E-mail enviado com sucesso</mailSuccess>
@@ -39,4 +40,6 @@
     <noSecure>Não</noSecure> 
     <messageEmailSetting>Configuração salvada</messageEmailSetting>
     <noSave>Nada a salvar</noSave>
+    <btnBrowse>Browse</btnBrowse>
+    <btnCancel>Cancelar</btnCancel>
 </language>

@@ -1825,6 +1825,7 @@ void ClientTsFrm::WxTimer2Timer(wxTimerEvent& event)
 
 void ClientTsFrm::Debug(wxCommandEvent& event)
 {
+	askForSaving();
 	flag = 1;
 	Sleep(300);
 	Destroy();

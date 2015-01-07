@@ -57,11 +57,11 @@ FrmMailSending::FrmMailSending(wxWindow* parent, wxWindowID id, const wxString& 
 	wxBoxSizer* bSizer312;
 	bSizer312 = new wxBoxSizer(wxHORIZONTAL);
 
-	lblAttachment = new wxStaticText(this, wxID_ANY, labels.mailAttachment, wxDefaultPosition, wxSize(100, -1), 0);
+	lblAttachment = new wxStaticText(this, wxID_ANY, labels.mailAttachmentTxt.append(":(*.txt)") , wxDefaultPosition, wxSize(100, -1), 0);
 	lblAttachment->Wrap(-1);
 	bSizer312->Add(lblAttachment, 0, wxALIGN_CENTER | wxALL, 5);
 
-	filePicker = new wxFilePickerCtrl(this, wxID_ANY, wxEmptyString, labels.fileSelect, wxT("*.txt"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE);
+	filePicker = new wxFilePickerCtrl(this, wxID_ANY, labels.btnBrowse, labels.fileSelect, wxT("*.txt"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE);
 	bSizer312->Add(filePicker, 1, wxALL, 5);
 	
 
@@ -69,13 +69,12 @@ FrmMailSending::FrmMailSending(wxWindow* parent, wxWindowID id, const wxString& 
 	
 
 	bSizer1->Add(0, 0, 1, wxEXPAND, 5);
-	
 	wxBoxSizer* bSizer3600;
 	bSizer3600 = new wxBoxSizer(wxHORIZONTAL);
-	lblAttachment = new wxStaticText(this, wxID_ANY, labels.mailAttachment, wxDefaultPosition, wxSize(100, -1), 0);
-	lblAttachment->Wrap(-1);
-	bSizer3600->Add(lblAttachment, 0, wxALIGN_CENTER | wxALL, 5);
-	filePicker2 = new wxFilePickerCtrl(this, wxID_ANY, wxEmptyString, labels.fileSelect, wxT("*.csv"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE);
+	lblAttachment2 = new wxStaticText(this, wxID_ANY, labels.mailAttachmentCsv.append(":(*.csv)"), wxDefaultPosition, wxSize(100, -1), 0);
+	lblAttachment2->Wrap(-1);
+	bSizer3600->Add(lblAttachment2, 0, wxALIGN_CENTER | wxALL, 5);
+	filePicker2 = new wxFilePickerCtrl(this, wxID_ANY, labels.btnBrowse, labels.fileSelect, wxT("*.csv"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE);
 	bSizer3600->Add(filePicker2, 1, wxALL, 5);
 	bSizer1->Add(bSizer3600, 1, wxEXPAND, 5);
 	bSizer1->Add(0, 0, 1, wxEXPAND, 5);
@@ -86,10 +85,10 @@ FrmMailSending::FrmMailSending(wxWindow* parent, wxWindowID id, const wxString& 
 
 	bSizer30->Add(0, 0, 1, wxEXPAND, 5);
 
-	btnCancel = new wxButton(this, wxID_ANY, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0);
+	btnCancel = new wxButton(this, wxID_ANY, labels.btnCancel, wxDefaultPosition, wxDefaultSize, 0);
 	bSizer30->Add(btnCancel, 0, wxALL, 5);
 
-	btnSend = new wxButton(this, wxID_ANY, wxT("Send"), wxDefaultPosition, wxDefaultSize, 0);
+	btnSend = new wxButton(this, wxID_ANY, labels.send, wxDefaultPosition, wxDefaultSize, 0);
 	bSizer30->Add(btnSend, 0, wxALL, 5);
 
 
@@ -105,11 +104,11 @@ FrmMailSending::FrmMailSending(wxWindow* parent, wxWindowID id, const wxString& 
 		fscanf(config, "%s", directorycurrent);
 		fscanf(config, "%s", directorycurrent2);
 		
-		if (strcmp(directorycurrent, "") == 0){
+		if (strcmp(directorycurrent, "\n") == 0){
 			filePicker->SetPath("C:\\");
 		}
 		else{ filePicker->SetPath(directorycurrent2); }
-		if (strcmp(directorycurrent2, "") == 0){
+		if (strcmp(directorycurrent2, "\n") == 0){
 			filePicker2->SetPath("C:\\");
 		}
 		else{ filePicker2->SetPath(directorycurrent); }

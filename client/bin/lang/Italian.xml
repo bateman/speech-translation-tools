@@ -27,7 +27,8 @@
     <mailTo>A</mailTo>
     <mailSubject>Oggetto</mailSubject>
     <mailBody>Testo</mailBody>
-    <mailAttachment>Allegato</mailAttachment>
+    <mailAttachmentTxt>Allegato</mailAttachmentTxt>
+    <mailAttachmentCsv>Allegato</mailAttachmentCsv>
     <fileSelect>Seleziona il file</fileSelect>
     <dirSelect>Seleziona la directory</dirSelect>
     <mailSuccess>E-mail inviata con successo!</mailSuccess>
@@ -38,5 +39,7 @@
     <messageSecure>Usa connessione protetta</messageSecure>
     <noSecure>No</noSecure>
     <messageEmailSetting>Configurazione Salvata</messageEmailSetting>
-    <noSave>Niente da salvare</noSave>	
+    <noSave>Niente da salvare</noSave>
+    <btnBrowse>Sfoglia</btnBrowse>
+    <btnCancel>Annulla</btnCancel>	
 </language>

@@ -27,7 +27,8 @@
     <mailTo>To</mailTo>
     <mailSubject>Subject</mailSubject>
     <mailBody>Body</mailBody>
-    <mailAttachment>Attachment</mailAttachment>
+    <mailAttachmentTxt>Attachment</mailAttachmentTxt>
+    <mailAttachmentCsv>Attachment</mailAttachmentCsv>
     <fileSelect>Select attachment</fileSelect>
     <dirSelect>Select directory</dirSelect>
     <mailSuccess>E-mail sent succesfully</mailSuccess>
@@ -38,5 +39,7 @@
     <messageSecure>Use secure connection</messageSecure>
     <noSecure>No</noSecure>
     <messageEmailSetting>Configuration Saved</messageEmailSetting>
-    <noSave>Nothing to save</noSave>	
+    <noSave>Nothing to save</noSave>
+    <btnBrowse>Browse</btnBrowse>
+    <btnCancel>Cancel</btnCancel>	
 </language>

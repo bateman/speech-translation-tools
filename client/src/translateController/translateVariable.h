@@ -42,12 +42,15 @@ typedef struct Labels{
 	string saveSuccess = "";
 	string saveError = "";
 	string noSave = "";
+	string btnBrowse = "";
+	string btnCancel = "";
 
 	// frame Mail
 	string mailTo = "";
 	string mailSubject = "";
 	string mailBody = "";
-	string mailAttachment = "";
+	string mailAttachmentTxt = "";
+	string mailAttachmentCsv = "";
 	string fileSelect = "";
 	string dirSelect = "";
 	string mailSuccess = "";
