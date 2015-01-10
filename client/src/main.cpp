@@ -19,10 +19,18 @@
 
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
+<<<<<<< HEAD
 #include "gui\Login.h"
 #include "gui\ClientTsFrm.h"
 #include "gui\AudioWizard.h"
 
+=======
+#include "Login.h"
+#include "ClientTsFrm.h"
+#include "AudioWizard.h"
+#include "SplashScreen.h"
+#include "../res/Splash.xpm"
+>>>>>>> br-teamB
 
 #ifdef __BORLANDC__
     #pragma hdrstop
@@ -127,9 +135,18 @@ bool MyApp::OnInit()
     // few common command-line options but it could be do more in the future
     if ( !wxApp::OnInit() )
         return false;
+<<<<<<< HEAD
 	Login * dialog = new Login(NULL);
 	SetTopWindow(dialog);
 	//frame->Show();
+=======
+
+	SplashScreen::GetSplashScreen(wxBitmap(Splash), 3000);
+
+	Login * dialog = new Login(NULL);
+	SetTopWindow(dialog);
+	//frame->Show(); 
+>>>>>>> br-teamB
 	dialog->Show();
 	/*AudioWizard* frame = new AudioWizard(NULL);
 	frame->Show();*/

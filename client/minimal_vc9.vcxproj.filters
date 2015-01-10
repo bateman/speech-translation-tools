@@ -9,6 +9,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="Source Files\connectionController">
       <UniqueIdentifier>{3abff4cf-c017-482b-8a36-1955b87892a8}</UniqueIdentifier>
     </Filter>
@@ -90,6 +91,63 @@
     <ClInclude Include="src\gui\FrmSettingMail.h">
       <Filter>Source Files\gui</Filter>
     </ClInclude>
+=======
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ClientTsFrm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Login.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioWizard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NationInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NationList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LoginWarnings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ArchiveLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SplashScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ClientTsFrm.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Login.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioWizard.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GlobalVariables.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NationInfo.h" />
+    <ClInclude Include="src\NationList.h" />
+    <ClInclude Include="src\LoginWarnings.h" />
+    <ClInclude Include="src\ArchiveLog.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SplashScreen.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\sample.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+>>>>>>> br-teamB
   </ItemGroup>
   <ItemGroup>
     <None Include="res\keyboard.xpm">
@@ -116,6 +174,7 @@
     <None Include="res\ledverde.xpm">
       <Filter>Resource Files</Filter>
     </None>
+<<<<<<< HEAD
     <None Include="res\connect.xpm">
       <Filter>Resource Files</Filter>
     </None>
@@ -131,6 +190,95 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="bitmap1.bmp">
+=======
+    <None Include="bin\ASR.jar" />
+    <None Include="bin\audiere.dll" />
+    <None Include="bin\ikpFlac.dll" />
+    <None Include="bin\ikpMP3.dll" />
+    <None Include="bin\irrKlang.dll" />
+    <None Include="bin\libcurl.dll" />
+    <None Include="bin\libeay32.dll" />
+    <None Include="bin\libidn-11.dll" />
+    <None Include="bin\librtmp.dll" />
+    <None Include="bin\libssh2.dll" />
+    <None Include="bin\ssleay32.dll" />
+    <None Include="bin\TeamTranslate.exe" />
+    <None Include="bin\ts3client_win32.dll" />
+    <None Include="bin\ts3client_win64.dll" />
+    <None Include="bin\ts3server_win32.dll" />
+    <None Include="bin\ts3server_win64.dll" />
+    <None Include="bin\zlib1.dll" />
+    <None Include="dll\audiere.dll" />
+    <None Include="dll\ikpFlac.dll" />
+    <None Include="dll\ikpMP3.dll" />
+    <None Include="dll\irrKlang.dll" />
+    <None Include="dll\libcurl.dll" />
+    <None Include="dll\libeay32.dll" />
+    <None Include="dll\libidn-11.dll" />
+    <None Include="dll\librtmp.dll" />
+    <None Include="dll\libssh2.dll" />
+    <None Include="dll\ssleay32.dll" />
+    <None Include="dll\ts3client_win32.dll" />
+    <None Include="dll\ts3client_win64.dll" />
+    <None Include="dll\ts3server_win32.dll" />
+    <None Include="dll\ts3server_win64.dll" />
+    <None Include="dll\zlib1.dll" />
+    <None Include="lib\irrKlang.exp" />
+    <None Include="lib\libcrypto.a" />
+    <None Include="lib\libcrypto.dll.a" />
+    <None Include="lib\libcurl.a" />
+    <None Include="lib\libcurl.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="lib\libcurldll.a" />
+    <None Include="lib\libidn.a" />
+    <None Include="lib\libidn.dll.a" />
+    <None Include="lib\librtmp.a" />
+    <None Include="lib\libssh2.a" />
+    <None Include="lib\libssh2.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="lib\libssh2dll.a" />
+    <None Include="lib\libssl.a" />
+    <None Include="lib\libssl.dll.a" />
+    <None Include="lib\libz.a" />
+    <None Include="lib\libz.dll.a" />
+    <None Include="lib\libzdll.a" />
+    <None Include="bin\res\Splash.xpm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="conf\BING.txt" />
+    <Text Include="bin\TeamTranslate.Build.CppClean.log" />
+    <Text Include="conf\locales_code.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="bin\recorded.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\audiere.lib" />
+    <Library Include="lib\irrKlang.lib" />
+    <Library Include="lib\ts3client_win32.lib" />
+    <Library Include="lib\ts3client_win64.lib" />
+    <Library Include="lib\ts3server_win32.lib" />
+    <Library Include="lib\ts3server_win64.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\brasil.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\brasil.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sample.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Splash.bmp">
+>>>>>>> br-teamB
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
